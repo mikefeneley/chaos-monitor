@@ -1,11 +1,11 @@
 from daemon import runner
 import sqlite3
 import hashlib
+import os
 
 class Monitor:
     def __init__(self):
         self.connect_db()
-        self.add_file('other.py')
 
     def __del__(self):
     	self.conn.close()
@@ -30,6 +30,8 @@ class Monitor:
         """
         Adds filename/hex_hash as a hash pair to the checksum table.
 
+        NOTE DON"T ALLOW DUPLICATES
+    
         :param filename: filename we want the checksum of
         :type filename: string
         :returns: string -- md5 hash of file filename
@@ -69,16 +71,52 @@ class Monitor:
 
         :param filename: filename of the file we want to add
         :type filename: string
-        :returns: string -- True if added succesfuly, False otherwise
+        :returns: bool -- True if added. False otherwise
         """
+
+        # Add check for file existance.
+
         hex_hash = self.calculate_hash(filename)
-        self.add_hash_pair(filename, hex_hash)
-        self.print_db()
+        abspath = self.get_abspath(filename)
+
+        if abspath != None:
+            self.add_hash_pair(abspath, hex_hash)
+            self.print_db()
+
+    def remove_file(self, filename):
+        """
+        Remove the file with file filename if it is contained in the checksum db.
+        
+        :param filename: filename of the file we want to delete
+        :type filename: string
+        :returns: bool -- True if deleted. False otherwise
+        """
+        abspath = self.get_abspath(filename)
+        delete = "DELETE FROM CHECKSUM_TABLE where FILE=?"
+        self.conn.executemany(delete, [(abspath,)])
+        self.conn.commit()
+        return True
 
 
+    def get_abspath(self, filename):
+        """
+        Returns the absolute path of filename
 
+        :param filename: filename of the file whose path we want to find
+        :returns: string -- Absolute path if succssful. None otherwise
+        """
+
+        if os.path.exists(filename):
+            return os.path.abspath(filename)
+        else:
+            return  None
 
     def monitor(self):
+        """
+        Main daemon loop that recalculates all checksums of files in the db
+        and compares them to the stored checksum pair to verify there have
+        been no alterations.
+        """
         pass
 
 if __name__ == '__main__':
