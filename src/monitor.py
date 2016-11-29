@@ -1,54 +1,21 @@
-from daemon import runner
-import sqlite3
+from time import sleep
+from db_manager import DB_Manager
+from logger import Logger
 import hashlib
 import os
+import logging
+
+
 
 class Monitor:
     def __init__(self):
-        self.connect_db()
+        self.db_manager = DB_Manager()
+        self.log = Logger()
+        self.monitor()
+        self.log.incorrect_checksum_errmsg("First", "Second", "Third")
 
     def __del__(self):
-    	self.conn.close()
-
-
-    def connect_db(self):
-        """
-        Connect to the database containing the filename/checksum pairs of all
-        files we want to track.
-        """
-        self.conn = sqlite3.connect('checksum_db')
-        self.c = self.conn.cursor()
-        tb_exists = "SELECT name FROM sqlite_master WHERE type='table' AND name='CHECKSUM_TABLE'"
-        result = self.conn.execute(tb_exists).fetchone()
-        if result == None:
-            tb_create = '''CREATE TABLE CHECKSUM_TABLE (FILE text, CHECKSUM text)'''
-            self.conn.execute(tb_create)
-        self.conn.commit()
-
-
-    def add_hash_pair(self, filename, hex_hash):
-        """
-        Adds filename/hex_hash as a hash pair to the checksum table.
-
-        NOTE DON"T ALLOW DUPLICATES
-    
-        :param filename: filename we want the checksum of
-        :type filename: string
-        :returns: string -- md5 hash of file filename
-        """
-        add = "INSERT INTO CHECKSUM_TABLE VALUES ('?', '?')"
-        hash_pair = [(filename, hex_hash)]
-        self.conn.executemany("INSERT INTO CHECKSUM_TABLE VALUES (?, ?)", hash_pair)
-        self.conn.commit()
-        return True
-
-    def print_db(self):
-        """
-        Print all the filename/checksum pairs in the database.
-        """
-        select_all = "SELECT * FROM CHECKSUM_TABLE"
-        result = self.conn.execute(select_all)
-        print(result.fetchall())
+        pass
 
     def calculate_hash(self, filename):
         """
@@ -80,22 +47,8 @@ class Monitor:
         abspath = self.get_abspath(filename)
 
         if abspath != None:
-            self.add_hash_pair(abspath, hex_hash)
-            self.print_db()
-
-    def remove_file(self, filename):
-        """
-        Remove the file with file filename if it is contained in the checksum db.
-        
-        :param filename: filename of the file we want to delete
-        :type filename: string
-        :returns: bool -- True if deleted. False otherwise
-        """
-        abspath = self.get_abspath(filename)
-        delete = "DELETE FROM CHECKSUM_TABLE where FILE=?"
-        self.conn.executemany(delete, [(abspath,)])
-        self.conn.commit()
-        return True
+            self.db_manager.add_hash_pair(abspath, hex_hash)
+         #   self.db_manager.print_db()
 
 
     def get_abspath(self, filename):
@@ -117,8 +70,20 @@ class Monitor:
         and compares them to the stored checksum pair to verify there have
         been no alterations.
         """
-        pass
+        self.add_file('other.py')
+
+        while(1):
+
+            pairs = self.db_manager.get_hash_pairs()
+
+            for pair in pairs:
+
+                filename = pair[0]
+                new_checksum = self.calculate_hash(filename)
+                checksum = pair[1]
+                self.log.incorrect_checksum_errmsg(filename, checksum, new_checksum)
+
+            sleep(10)
 
 if __name__ == '__main__':
     monitor = Monitor()
-    monitor.monitor()
