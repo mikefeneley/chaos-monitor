@@ -10,11 +10,17 @@ class Monitor(Daemon):
     def setup(self):
         self.db_manager = DB_Manager()
         self.log = Logger()
-        self.checksum_duration = 3600
-    
+        self.get_conf()
+
     def run(self):
         self.monitor()
 
+
+    def get_conf(self):
+        if os.path.isfile("/etc/chaosmonitor.conf"):
+            conf = open("/etc/chaosmonitor.conf", 'r')
+        else:
+            self.checksum_duration = 3600
 
     def calculate_hash(self, filename):
         """
