@@ -30,26 +30,6 @@ class Monitor(Daemon):
                 hash_md5.update(chunk)
         return hash_md5.hexdigest()
 
-
-    def add_file(self, filename):
-        """
-        Add the checksum/file pair of file with name filename to the database.
-
-        :param filename: filename of the file we want to add
-        :type filename: string
-        :returns: bool -- True if added. False otherwise
-        """
-
-        # Add check for file existance.
-
-        hex_hash = self.calculate_hash(filename)
-        abspath = self.get_abspath(filename)
-
-        if abspath != None:
-            self.db_manager.add_hash_pair(abspath, hex_hash)
-         #   self.db_manager.print_db()
-
-
     def get_abspath(self, filename):
         """
         Returns the absolute path of filename
