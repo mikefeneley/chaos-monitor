@@ -5,6 +5,9 @@ class Logger:
 		self.filename = filename
 		self.file = open(filename, 'w')
 
+	def __del__(self):
+		self.file.close()
+
 	def incorrect_checksum_errmsg(self, filename, db_checksum, new_checksum):
 		self.file.write(asctime() + "\n")
 		self.file.write("Checksum does not match\n")

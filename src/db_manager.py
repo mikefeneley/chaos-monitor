@@ -1,4 +1,7 @@
 import sqlite3
+import sys
+import hashlib
+import os
 
 class DB_Manager:
     def __init__(self):
@@ -17,6 +20,54 @@ class DB_Manager:
             tb_create = '''CREATE TABLE CHECKSUM_TABLE (FILE text, CHECKSUM text)'''
             self.conn.execute(tb_create)
         self.conn.commit()
+
+    def calculate_hash(self, filename):
+        """
+        Calculate and return the md5 hash of the file named filename.
+
+        :param filename: filename we want the checksum of
+        :type conf_filename: string
+        :returns: string -- md5 hash of file filename
+        """
+        hash_md5 = hashlib.md5()
+        with open(filename, "rb") as f:
+            for chunk in iter(lambda: f.read(4096), b""):
+                hash_md5.update(chunk)
+        return hash_md5.hexdigest()
+
+
+    def add_file(self, filename):
+        """
+        Add the checksum/file pair of file with name filename to the database.
+
+        :param filename: filename of the file we want to add
+        :type filename: string
+        :returns: bool -- True if added. False otherwise
+        """
+
+        # Add check for file existance.
+
+        hex_hash = self.calculate_hash(filename)
+        abspath = self.get_abspath(filename)
+
+        if abspath != None:
+            self.db_manager.add_hash_pair(abspath, hex_hash)
+            self.db_manager.print_db()
+
+
+    def get_abspath(self, filename):
+        """
+        Returns the absolute path of filename
+
+        :param filename: filename of the file whose path we want to find
+        :returns: string -- Absolute path if succssful. None otherwise
+        """
+
+        if os.path.exists(filename):
+            return os.path.abspath(filename)
+        else:
+            return  None
+
 
 
     def add_hash_pair(self, filename, hex_hash):
@@ -68,3 +119,17 @@ class DB_Manager:
         checksum_pairs = result.fetchall()
         print(checksum_pairs)
         return checksum_pairs
+
+if __name__ == '__main__':
+	
+    manager = DB_Manager()
+    print("Start")
+    if(len(sys.argv) < 3):
+        sys.exit()
+
+    cmd = sys.argv[1]
+    val = sys.argv[2]
+
+    if(cmd == 'add'):
+        manager.add_file(val)
+    

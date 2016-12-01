@@ -1,21 +1,20 @@
 from time import sleep
+from pydaemon import Daemon
 from db_manager import DB_Manager
 from logger import Logger
 import hashlib
 import os
-import logging
 
 
-
-class Monitor:
-    def __init__(self):
+class Monitor(Daemon):
+    def setup(self):
         self.db_manager = DB_Manager()
         self.log = Logger()
+        self.checksum_duration = 3600
+    
+    def run(self):
         self.monitor()
-        self.log.incorrect_checksum_errmsg("First", "Second", "Third")
 
-    def __del__(self):
-        pass
 
     def calculate_hash(self, filename):
         """
@@ -70,20 +69,21 @@ class Monitor:
         and compares them to the stored checksum pair to verify there have
         been no alterations.
         """
-        self.add_file('other.py')
-
         while(1):
-
             pairs = self.db_manager.get_hash_pairs()
-
             for pair in pairs:
-
                 filename = pair[0]
                 new_checksum = self.calculate_hash(filename)
                 checksum = pair[1]
-                self.log.incorrect_checksum_errmsg(filename, checksum, new_checksum)
 
-            sleep(10)
+                if(checksum != new_checksum):
+                    self.log.incorrect_checksum_errmsg(filename, checksum, new_checksum)
+
+            sleep(self.checksum_duration)
+
 
 if __name__ == '__main__':
-    monitor = Monitor()
+    monitor = Monitor(pidfile="/tmp/chaosmonitor.pid", name="FooDaemon", 
+        working_dir='/', stdin='/dev/null', stdout='/dev/null', 
+        stderr='/dev/null', uid=None)
+    monitor.main()
