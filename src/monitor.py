@@ -7,6 +7,7 @@ import os
 
 
 class Monitor(Daemon):
+
     def setup(self):
         self.db_manager = DB_Manager()
         self.log = Logger()
@@ -14,13 +15,6 @@ class Monitor(Daemon):
 
     def run(self):
         self.monitor()
-
-
-    def get_conf(self):
-        if os.path.isfile("/etc/chaosmonitor.conf"):
-            conf = open("/etc/chaosmonitor.conf", 'r')
-        else:
-            self.checksum_duration = 3600
 
     def calculate_hash(self, filename):
         """
@@ -51,7 +45,11 @@ class Monitor(Daemon):
 
     def monitor(self):
         """
-        Main daemon loop that recalculates all checksums of files in the db
+        Main daemon loop. Verify system integrity and log and problems.
+        
+        
+	
+
         and compares them to the stored checksum pair to verify there have
         been no alterations.
         """
