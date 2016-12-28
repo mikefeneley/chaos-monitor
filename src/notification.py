@@ -61,10 +61,21 @@ class Notification:
         server.sendmail(gmail_user, [TO], BODY)
         print ('email sent')
 
+    def notify_all(self, message):
+        """
+        To notify each eamil address mention in the recipient list.
+
+        """
+        with open("recipients.txt") as f:
+            content = f.readlines()
+        for r in content:
+            recipient = r[:-1]
+            self.send_notification(message,recipient)
 
 if __name__ == "__main__":
     notification_sender = Notification()
     message = "Message I want to send"
     source = "Who I want to send the message to. Most likely an email address??"
-    notification_sender.send_notification("Hi",'anshul.dbgt@gmail.com')
+    notification_sender.notify_all(message)
+    #notification_sender.send_notification("Hi",'anshul.dbgt@gmail.com')
     
