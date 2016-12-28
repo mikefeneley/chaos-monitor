@@ -6,6 +6,12 @@ import smtplib
 gmail_user = ""  #enter the email id to send from
 gmail_pwd = ""   #enter the password of that account
 
+"""
+To use the send_notification function, user has to allow his gmail account to be used by less secure
+apps, which can be done from https://myaccount.google.com/security , option is available at the last
+section of the page.
+"""
+
 
 class Notification:
     """
@@ -29,13 +35,13 @@ class Notification:
         An email address will be added to the existing list.
 
         """
-        recipients = open("recipients.txt","a")
+        recipients = open("recipients.txt","a") #: text file to append
         recipients.write(recipient + os.linesep)
         recipients.close()
 
     def send_notification(self, message, recipient):
         """
-        An email address will be sent to the email address provided as recipient.
+        A message(written in "message") will be sent to the email address provided as recipient.
 
         """
         print(message, recipient)
@@ -46,7 +52,7 @@ class Notification:
 
         server.starttls()
         server.ehlo()
-        server.login(gmail_user, gmail_pwd)
+        server.login(gmail_user, gmail_pwd) #: a login attemt by server
         BODY = '\r\n'.join(['To: %s' % TO,
                 'From: %s' % gmail_user,
                 'Subject: %s' % SUBJECT,
@@ -61,4 +67,4 @@ if __name__ == "__main__":
     message = "Message I want to send"
     source = "Who I want to send the message to. Most likely an email address??"
     notification_sender.send_notification("Hi",'anshul.dbgt@gmail.com')
-    #notification_sender.send_notification("This is the message I want to send")
+    
