@@ -47,7 +47,7 @@ class Notification:
         :type source: string
         :param destination: Email address to send message to.
         :type destination: string
-        :returns: bool -- Constructed Mime
+        :returns: MIMEText -- Constructed MIMETextobject with email information
         """
         pass
 
