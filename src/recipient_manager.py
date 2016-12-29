@@ -1,22 +1,43 @@
+import mysql.connector
+
 
 class RecipientManager:
-	"""
-	RecipientManager provides an interface that allows the user to manage 
-	the list of individuals who are notified when notifications are sent
-	out. Recipient manager lets the user add or remove recipients from the
-	list as well as list all current recipients.
+    """
+    RecipientManager provides an interface that allows the user to manage 
+    the list of individuals who are notified when notifications are sent
+    out. Recipient manager lets the user add or remove recipients from the
+    list as well as list all current recipients.
 
-	The list/database managed by RecipientManager SHOULD be remote because
-	the purpose of this tool is to verify system integrity. Relying on a 
-	local list means that the integrity of the tool could be compromised
-	in the same manner as the files whose interity it is trying to verify.
+    The list/database managed by RecipientManager SHOULD be remote because
+    the purpose of this tool is to verify system integrity. Relying on a 
+    local list means that the integrity of the tool could be compromised
+    in the same manner as the files whose interity it is trying to verify.
 
-	The list/database CAN be kept on the same server as the checksum database
-	because the integrity of that server is assumed to be intact for the
-	purposes of verification.
-	"""
-    def __init__(self):
-    	pass
+    The list/database CAN be kept on the same server as the checksum database
+    because the integrity of that server is assumed to be intact for the
+    purposes of verification.
+    """
+
+    def __init__(self, DB_NAME='recipients'):
+        pass
+        cnx = mysql.connector.connect(user='root', password='jingoism', host='127.0.0.1', database='employees')
+
+    def recipient_table_exists(self):
+        """
+        Check to see if a database table has been created to hold the 
+        recipients
+        
+        :return: bool -- True if the table exists. False otherwise.
+        """
+        pass
+
+    def create_recipient_table(self):
+        """
+        Creates a table in database to hold recipients.
+
+        """
+        pass
+        
 
     def add_recipient(self,recipient):
         """
@@ -33,22 +54,22 @@ class RecipientManager:
 
     def remove_recipient(self, recipient):
         """
-		Removes emails from the list of recipients that matches the
-		string 'recipient'
+        Removes emails from the list of recipients that matches the
+        string 'recipient'
 
- 		:param recipient: Email to be removed from the recipient list
+        :param recipient: Email to be removed from the recipient list
         :type subject: string
         :returns: bool -- True if remove was successful, False otherwise
         """
         return False
 
     def get_recipients(self):
-    	"""
-		Get a list of emails contained in the recipient list.
+        """
+        Get a list of emails contained in the recipient list.
 
-		returns: list -- String list containing recpient emails.
-    	"""
-    	return False
+        returns: list -- String list containing recpient emails.
+        """
+        return False
 
     def valid_email(self, email):
         """
@@ -66,3 +87,6 @@ class RecipientManager:
         :returns: bool -- True if the email is valid. False otherwise.
         """
         return False
+
+R = RecipientInterface()
+R.add_recipient()
