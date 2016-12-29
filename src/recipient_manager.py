@@ -17,6 +17,12 @@ class RecipientManager:
     The list/database CAN be kept on the same server as the checksum database
     because the integrity of that server is assumed to be intact for the
     purposes of verification.
+
+    +---------+-------------+------+-----+---------+-------+
+    | Field   | Type        | Null | Key | Default | Extra |
+    +---------+-------------+------+-----+---------+-------+
+    | email   | varchar(254)| YES  |     | NULL    |       |
+    +---------+-------------+------+-----+---------+-------+
     """
 
     def __init__(self):
@@ -32,7 +38,6 @@ class RecipientManager:
         :return: bool -- True if the table exists. False otherwise.
         """
         pass
-
 
     def create_recipient_table(self):
         """

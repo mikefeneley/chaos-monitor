@@ -3,22 +3,18 @@ from mysql.connector import errorcode
 
 class DBConnector:
 
-    def get_connection(self, DB_NAME="INTEGRITY_DB"):
+    def get_connection(self, DB_NAME="INTEGRITY_DB", host="localhost", port=3306):
         """
-        NOTE: Database connection should be moved to its own class as both
-        the recipient interface and checksum file interface both rely on 
-        the database connect!
-
         NOTE: NEED TO FIGURE OUT A WAY TO PREDEPLOY AND CONFIGURE MYSQL
 
-        Connects to the dtabase with name DB_NAME. 
+        Connects to the database with name DB_NAME. 
 
         :param DB_NAME: The name of the database we are connection to.
         :type DB_NAME: string
         :return: mysql.connector -- Connection to the database if successful.
                                     False if the connection was not made.
         """
-        self.connection = mysql.connector.connect(user='root', password='')
+        self.connection = mysql.connector.connect(user='root', password='', host, port)
         try:
             self.connection.database = DB_NAME 
         except mysql.connector.Error as err:
