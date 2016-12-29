@@ -16,33 +16,6 @@ class Monitor(Daemon):
     def run(self):
         self.monitor()
 
-    def calculate_hash(self, filename):
-        """
-        Calculate and return the md5 hash of the file named filename.
-
-        :param filename: filename we want the checksum of
-        :type conf_filename: string
-        :returns: string -- md5 hash of file filename
-        """
-        hash_md5 = hashlib.md5()
-        with open(filename, "rb") as f:
-            for chunk in iter(lambda: f.read(4096), b""):
-                hash_md5.update(chunk)
-        return hash_md5.hexdigest()
-
-    def get_abspath(self, filename):
-        """
-        Returns the absolute path of filename
-
-        :param filename: filename of the file whose path we want to find
-        :returns: string -- Absolute path if succssful. None otherwise
-        """
-
-        if os.path.exists(filename):
-            return os.path.abspath(filename)
-        else:
-            return  None
-
     def monitor(self):
         """
         Main daemon loop. Verify system integrity and log and problems.

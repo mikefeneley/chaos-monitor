@@ -61,3 +61,16 @@ class ChecksumManager:
         :return: list -- List of string tuples
         """
         pass
+    
+    def get_abspath(self, filename):
+        """
+        Returns the absolute path of filename
+
+        :param filename: filename of the file whose path we want to find
+        :returns: string -- Absolute path if succssful. None otherwise
+        """
+
+        if os.path.exists(filename):
+            return os.path.abspath(filename)
+        else:
+            return  None
