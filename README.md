@@ -9,8 +9,10 @@ This repo will be used to create an integrity checking tool. We want to verify t
 
 Install dependencies:
 
-pip install pydaemon
+MySQLDB
+Pydaemon
 
+pip install pydaemon
 
 <br>
 <br>
