@@ -6,7 +6,9 @@ import os
 class DB_Manager:
     def __init__(self):
         self.connect_db()
-
+        self.recipient_table = None
+        self.checksum_table = None
+    
     def connect_db(self):
         """
         Connect to the database containing the filename/checksum pairs of all

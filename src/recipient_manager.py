@@ -1,5 +1,6 @@
 import mysql.connector
-
+from mysql.connector import errorcode
+from db_connector import DBConnector
 
 class RecipientManager:
     """
@@ -18,26 +19,37 @@ class RecipientManager:
     purposes of verification.
     """
 
-    def __init__(self, DB_NAME='recipients'):
+    def __init__(self):
         pass
-        cnx = mysql.connector.connect(user='root', password='jingoism', host='127.0.0.1', database='employees')
 
-    def recipient_table_exists(self):
+    def recipient_table_exists(self, DB_NAME):
         """
         Check to see if a database table has been created to hold the 
         recipients
-        
+       
+        :param DB_NAME: Name of the database we are checking exists.
+        :type DB_NAME: string
         :return: bool -- True if the table exists. False otherwise.
         """
         pass
+
 
     def create_recipient_table(self):
         """
         Creates a table in database to hold recipients.
 
+        :return: bool -- True if the table was created. False otherwise.
         """
         pass
         
+    def delete_reipient_table(self):
+        """
+        Deletes the database table containing all recipient information.
+
+        :return: bool -- True if the table is deleted or does not exist, 
+                         False otherwise
+        """
+
 
     def add_recipient(self,recipient):
         """
@@ -88,5 +100,4 @@ class RecipientManager:
         """
         return False
 
-R = RecipientInterface()
-R.add_recipient()
+R = RecipientManager()
