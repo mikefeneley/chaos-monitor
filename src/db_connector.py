@@ -14,7 +14,7 @@ class DBConnector:
         :return: mysql.connector -- Connection to the database if successful.
                                     False if the connection was not made.
         """
-        self.connection = mysql.connector.connect(user='root', password='', host=host, port=ports)
+        self.connection = mysql.connector.connect(user='root', password='Ansh27/6', host=host)
         try:
             self.connection.database = DB_NAME 
         except mysql.connector.Error as err:
@@ -23,16 +23,20 @@ class DBConnector:
             else:
                 print(err)
                 return False
+        return True
 
-    def create_database(self, DB_NAME="INTEGRITY_DB", cursor=None):
+    def create_database(self, DB_NAME="INTEGRITY_DB"):
         """
         Creates the database with name DB_NAME.
 
         :return: bool -- True if the database was created. False otherwise.
         """
+        cursor=self.connection.cursor()
         try:
             cursor.execute("CREATE DATABASE {} DEFAULT CHARACTER SET 'utf8'".format(DB_NAME))
             return True
         except  mysql.connector.Error as err:
             print("Failed creating database: {}".format(err))
             return False
+
+

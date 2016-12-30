@@ -28,28 +28,29 @@ class RecipientManager:
     def __init__(self, DB_NAME="INTEGRITY_DB"):
         """
         Connects to the database that stores the recipient table.
-
+        Also, creates the database if it has not been created.
         """
-        pass
-
-    def recipient_table_exists(self, TABLE_NAME):
-        """
-        Check to see if a database table has been created to hold the 
-        recipients
-       
-        :param TABLE_NAME: Name of the database we are checking exists.
-        :type TABLE_NAME: string
-        :return: bool -- True if the table exists. False otherwise.
-        """
-        pass
+        self.connector = DBConnector()
+        if self.connector.get_connection():
+            print "Connected Successfuly"
+            if self.connector.create_database(DB_NAME):
+                print "Database %s created successfully" %DB_NAME
+        else:
+            print "Connection unsuccessful"
+        
 
     def create_recipient_table(self, TABLE_NAME):
         """
-        Creates a table in database to hold recipients.
+        Creates a table if it doesn't exits in database to hold recipients.
 
-        :return: bool -- True if the table was created. False otherwise.
         """
-        pass
+        cursor = self.connector.connection.cursor()
+
+        # Create table as per requirement
+        sql = """CREATE TABLE IF NOT EXISTS """ + TABLE_NAME + """  (
+                 EMAIL  VARCHAR(250) NOT NULL PRIMARY KEY)"""
+        cursor.execute(sql)
+        
         
     def delete_reipient_table(self, TABLE_NAME):
         """
@@ -111,3 +112,4 @@ class RecipientManager:
 
 if __name__ == '__main__':
     R = RecipientManager()
+    R.create_recipient_table("blue")
