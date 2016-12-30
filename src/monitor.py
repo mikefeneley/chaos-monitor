@@ -19,11 +19,7 @@ class Monitor(Daemon):
     def monitor(self):
         """
         Main daemon loop. Verify system integrity and log and problems.
-        
-        
-	
-
-        and compares them to the stored checksum pair to verify there have
+        Compares them to the stored checksum pair to verify there have
         been no alterations.
         """
         while(1):

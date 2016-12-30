@@ -25,21 +25,25 @@ class RecipientManager:
     +---------+-------------+------+-----+---------+-------+
     """
 
-    def __init__(self):
+    def __init__(self, DB_NAME="INTEGRITY_DB"):
+        """
+        Connects to the database that stores the recipient table.
+
+        """
         pass
 
-    def recipient_table_exists(self, DB_NAME):
+    def recipient_table_exists(self, TABLE_NAME):
         """
         Check to see if a database table has been created to hold the 
         recipients
        
-        :param DB_NAME: Name of the database we are checking exists.
-        :type DB_NAME: string
+        :param TABLE_NAME: Name of the database we are checking exists.
+        :type TABLE_NAME: string
         :return: bool -- True if the table exists. False otherwise.
         """
         pass
 
-    def create_recipient_table(self):
+    def create_recipient_table(self, TABLE_NAME):
         """
         Creates a table in database to hold recipients.
 
@@ -47,7 +51,7 @@ class RecipientManager:
         """
         pass
         
-    def delete_reipient_table(self):
+    def delete_reipient_table(self, TABLE_NAME):
         """
         Deletes the database table containing all recipient information.
 
@@ -105,4 +109,5 @@ class RecipientManager:
         """
         return False
 
-R = RecipientManager()
+if __name__ == '__main__':
+    R = RecipientManager()

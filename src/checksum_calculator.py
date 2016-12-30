@@ -1,3 +1,4 @@
+import hashlib
 
 class ChecksumCalculator:
     """
@@ -17,7 +18,7 @@ class ChecksumCalculator:
         :return: string -- The checksum if successful.
                            Empty string otherwise.
         """
-        pass
+        return self.calcuulate_md5(filename)
 
     def calculate_md5(self, filename):
         """

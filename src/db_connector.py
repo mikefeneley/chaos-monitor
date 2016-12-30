@@ -14,7 +14,7 @@ class DBConnector:
         :return: mysql.connector -- Connection to the database if successful.
                                     False if the connection was not made.
         """
-        self.connection = mysql.connector.connect(user='root', password='', host, port)
+        self.connection = mysql.connector.connect(user='root', password='', host=host, port=ports)
         try:
             self.connection.database = DB_NAME 
         except mysql.connector.Error as err:
