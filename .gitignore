@@ -1,5 +1,5 @@
-#Database
-checksum_db
+# Vim
+*.swp
 
 #Logs
 *.txt
