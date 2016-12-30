@@ -1,7 +1,7 @@
 import mysql.connector
 from mysql.connector import errorcode
 from db_connector import DBConnector
-
+from validate_email import validate_email
 class RecipientManager:
     """
     RecipientManager provides an interface that allows the user to manage 
@@ -78,38 +78,38 @@ class RecipientManager:
 
         :returns: bool -- True if add was successful, False otherwise
         """
+        if not self.valid_email(recipient):
+            print "Email address not valid"
+            return False
         cursor = self.connector.connection.cursor()
         # Prepare SQL query to INSERT a record into the database.
         sql = "INSERT INTO "+self.table+"(EMAIL) VALUES ('%s')"%recipient
         print sql
-        error = 0
         try:
             cursor.execute(sql)
             self.connector.connection.commit()
+            return True
     
         except mysql.connector.Error as err:
             # Rollback in case there is any error
             print err
             error = 1
             self.connector.connection.rollback()
-
-        if error == 0:
-            print "Insertion successful"
-            return True
-        return False
+            return False
 
     def print_table(self, TABLE_NAME):
         """
         For Debugging purposes, a print of table.
         """
 
-        sql = """SELECT * FROM %s;"""%TABLE_NAME
+        sql = "SELECT * FROM %s"%TABLE_NAME
+        cursor = self.connector.connection.cursor()
         cursor.execute(sql)
         results=cursor.fetchall()
         for row in results:
             print row[0]
 
-    def remove_recipient(self, recipient):
+    def remove_recipient(self, recipient):#TODO: It also returns true if recipient is not in table
         """
         Removes emails from the list of recipients that matches the
         string 'recipient'
@@ -118,13 +118,23 @@ class RecipientManager:
         :type subject: string
         :returns: bool -- True if remove was successful, False otherwise
         """
-        return False
+        cursor = self.connector.connection.cursor()
+        sql = "DELETE FROM "+self.table+" WHERE EMAIL = '%s'"%recipient
+        try:
+            cursor.execute(sql)
+            self.connector.connection.commit()
+            print "Removal successful"
+            return True
+        except mysql.connector.Error as err:
+            print err
+            self.connector.connection.rollback()
+            return False
 
     def get_recipients(self):
         """
         Get a list of emails contained in the recipient list.
 
-        returns: list -- String list containing recpient emails.
+        returns: list -- String list containing recipient emails.
         """
         return False
 
@@ -142,10 +152,21 @@ class RecipientManager:
         :param email: Email to be added to the list
         :type email: string
         :returns: bool -- True if the email is valid. False otherwise.
+        Checks if the email provided is in correct format.
+        Dependencies: pip install validate_email
+                 : sudo pip install pydns==2.3.6 
+
+        It'll also check if email exits or not.
         """
+
+        is_valid = validate_email(email,verify=True)#: if email does not exist, is_valid may as well be None
+        if(is_valid==True):
+            return True
         return False
 
 if __name__ == '__main__':
     R = RecipientManager()
     R.create_recipient_table('blue')
-    R.add_recipient('anshul.dbgt@gmail.com')
+    #R.add_recipient('anshul.dbgt@gmail.com')
+    #R.remove_recipient('abb')
+    R.print_table('blue')
