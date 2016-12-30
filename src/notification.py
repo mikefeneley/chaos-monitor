@@ -1,5 +1,6 @@
 import os
 import smtplib
+from validate_email import validate_email
 
 """
 To use the send_notification function, user has to allow his gmail account to be used by less secure
@@ -33,6 +34,21 @@ class Notification:
         self.email_server = email_server 
         self.gmail_user = email_username 
         self.gmail_pwd = email_pwd
+
+    def valid_email(self,email):
+        """
+        Checks if the email provided is in correct format.
+        Dependencies: pip install validate_email
+                 : sudo pip install pydns==2.3.6 
+
+        It'll also check if emails exits or not.
+        """
+
+        is_valid = validate_email(email,verify=True)#: if email does not exist, is_valid may as well be None
+        if(is_valid==True):
+            return True
+        return False
+
 
     def build_email(self, subject="Notification from Vulnerability", message="", source="", destination=""):
         """
@@ -116,11 +132,11 @@ if __name__ == "__main__":
     notification_sender = Notification(email_server='localhost', email_port = 587, email_username="", email_pwd="")
     message = "Message I want to send"
     source = "Who I want to send the message to. Most likely an email address??"
-    notification_sender.send_notification("Hi", 'michael@sample.com')
+    #notification_sender.send_notification("Hi", 'michael@sample.com')
 
     recipients = []
     recipients.append("sample1@gmail.com")
     recipients.append("sample2@gmail.com")
 
-    notification_sender.notify_all(message, recipients)
-
+    #notification_sender.notify_all(message, recipients)
+    print notification_sender.valid_email('anshul.dbgt@gmail.com')
