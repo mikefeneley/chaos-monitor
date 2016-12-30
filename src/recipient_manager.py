@@ -42,15 +42,21 @@ class RecipientManager:
     def create_recipient_table(self, TABLE_NAME):
         """
         Creates a table if it doesn't exits in database to hold recipients.
-
+        :return: bool -- True if the table is created, 
+                         False otherwise
         """
         cursor = self.connector.connection.cursor()
-
+        self.table = TABLE_NAME
         # Create table as per requirement
-        sql = """CREATE TABLE IF NOT EXISTS """ + TABLE_NAME + """  (
+        sql = """CREATE TABLE """ + TABLE_NAME + """  (
                  EMAIL  VARCHAR(250) NOT NULL PRIMARY KEY)"""
-        cursor.execute(sql)
-        
+
+        try:
+            cursor.execute(sql)
+            return True
+        except mysql.connector.Error as err:
+            print err
+            return False
         
     def delete_reipient_table(self, TABLE_NAME):
         """
@@ -72,7 +78,36 @@ class RecipientManager:
 
         :returns: bool -- True if add was successful, False otherwise
         """
+        cursor = self.connector.connection.cursor()
+        # Prepare SQL query to INSERT a record into the database.
+        sql = "INSERT INTO "+self.table+"(EMAIL) VALUES ('%s')"%recipient
+        print sql
+        error = 0
+        try:
+            cursor.execute(sql)
+            self.connector.connection.commit()
+    
+        except mysql.connector.Error as err:
+            # Rollback in case there is any error
+            print err
+            error = 1
+            self.connector.connection.rollback()
+
+        if error == 0:
+            print "Insertion successful"
+            return True
         return False
+
+    def print_table(self, TABLE_NAME):
+        """
+        For Debugging purposes, a print of table.
+        """
+
+        sql = """SELECT * FROM %s;"""%TABLE_NAME
+        cursor.execute(sql)
+        results=cursor.fetchall()
+        for row in results:
+            print row[0]
 
     def remove_recipient(self, recipient):
         """
@@ -112,4 +147,5 @@ class RecipientManager:
 
 if __name__ == '__main__':
     R = RecipientManager()
-    R.create_recipient_table("blue")
+    R.create_recipient_table('blue')
+    R.add_recipient('anshul.dbgt@gmail.com')
