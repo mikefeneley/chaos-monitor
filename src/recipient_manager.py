@@ -65,6 +65,14 @@ class RecipientManager:
         :return: bool -- True if the table is deleted or does not exist, 
                          False otherwise
         """
+        cursor = self.connector.connection.cursor()
+        sql = "DROP TABLE %s"%TABLE_NAME
+        try:
+            cursor.execute(sql)
+            return True
+        except mysql.connector.Error as err:
+            print err
+            return False
 
 
     def add_recipient(self,recipient):
@@ -104,10 +112,14 @@ class RecipientManager:
 
         sql = "SELECT * FROM %s"%TABLE_NAME
         cursor = self.connector.connection.cursor()
-        cursor.execute(sql)
-        results=cursor.fetchall()
-        for row in results:
-            print row[0]
+        try:
+            cursor.execute(sql)
+            results=cursor.fetchall()
+            for row in results:
+                print row[0]
+        except mysql.connector.Error as err:
+            # Rollback in case there is any error
+            print err      
 
     def remove_recipient(self, recipient):#TODO: It also returns true if recipient is not in table
         """
@@ -167,6 +179,8 @@ class RecipientManager:
 if __name__ == '__main__':
     R = RecipientManager()
     R.create_recipient_table('blue')
-    #R.add_recipient('anshul.dbgt@gmail.com')
+    R.add_recipient('anshul.dbgt@gmail.com')
     #R.remove_recipient('abb')
+    R.print_table('blue')
+    R.delete_reipient_table('blue')
     R.print_table('blue')
