@@ -14,9 +14,12 @@ MySQL Database
 Pydaemon
 
 pip install pydaemon
+pip install validate_email
+sudo pip install pydns==2.3.6
 
 <br>
 <br>
 <b>Contact:</b>
 
 Michael Feneley: mfeneley(at)vt.edu
+Anshul Basia: anshul7(at)vt.edu
