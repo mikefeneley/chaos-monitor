@@ -38,7 +38,7 @@ class Notification:
     def valid_email(self,email):
         """
         Checks if the email provided is in correct format.
-        Dependies: pip install validate_email
+        Dependencies: pip install validate_email
                  : sudo pip install pydns==2.3.6 
 
         It'll also check if emails exits or not.
