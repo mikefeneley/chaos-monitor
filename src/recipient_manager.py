@@ -148,7 +148,18 @@ class RecipientManager:
 
         returns: list -- String list containing recipient emails.
         """
-        return False
+        recipient_emails = []
+        sql = "SELECT * FROM %s"%self.table
+        cursor = self.connector.connection.cursor()
+        try:
+            cursor.execute(sql)
+            results=cursor.fetchall()
+            for row in results:
+                recipient_emails.append(row[0])
+            return recipient_emails
+        except mysql.connector.Error as err:
+            # Rollback in case there is any error
+            print err  
 
     def valid_email(self, email):
         """
@@ -182,5 +193,6 @@ if __name__ == '__main__':
     R.add_recipient('anshul.dbgt@gmail.com')
     #R.remove_recipient('abb')
     R.print_table('blue')
-    R.delete_reipient_table('blue')
-    R.print_table('blue')
+    #R.delete_reipient_table('blue')
+    #R.print_table('blue')
+    print R.get_recipients()
