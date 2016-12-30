@@ -41,7 +41,7 @@ class Notification:
         Dependencies: pip install validate_email
                  : sudo pip install pydns==2.3.6 
 
-        It'll also check if emails exits or not.
+        It'll also check if email exits or not.
         """
 
         is_valid = validate_email(email,verify=True)#: if email does not exist, is_valid may as well be None
