@@ -29,7 +29,8 @@ class ChecksumManager:
         Creates a new checksum table in the database with the same properties
         as described in the class documentation
 
-        :return: bool -- True if the table 
+        :return: bool -- True if the table was created or already existed.
+                         False otherwise.
         """
         pass
 
