@@ -1,3 +1,4 @@
+"""
 # Import smtplib for the actual sending function
 import smtplib
 
@@ -19,3 +20,4 @@ msg['To'] = you
 s = smtplib.SMTP('localhost')
 s.sendmail(me, [you], msg.as_string())
 s.quit()
+"""
