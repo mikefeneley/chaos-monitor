@@ -13,10 +13,53 @@ class TestRecipientManager(unittest.TestCase):
         self.other_test = "OTHER_TEST_TABLE"
         self.cleanup()
         self.manager = ChecksumManager(table_name=self.test_table)
+            
+        self.create = """CREATE TABLE IF NOT EXISTS """ + self.test_table + """ (
+                             TEST VARCHAR(254) NOT NULL PRIMARY KEY)"""
+        self.delete = "DROP TABLE IF EXISTS %s" % self.test_table 
+
+        self.empty_file = "EmptyFile.txt"
+        self.checksum_test1 = "ChecksumTest1"
+        self.checksum_test2 = "ChecksumTest2"
+
+    
+        if os.path.isfile(self.empty_file):
+            os.remove(self.empty_file)
+        if os.path.isfile(self.checksum_test1):
+            os.remove(self.checksum_test1)
+        if os.path.isfile(self.checksum_test2):
+            os.remove(self.checksum_test2)
+
+        self.sha1_empty_correct = "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+        self.sha1_test1_correct = "8d4d1b2e6d5771fc648fcd7cafd84efa44f8f744"
+        self.sha1_test2_correct = "9a7dcfd9029de86dc088ee6ebbef48df90e7c6cd"
+
+        checksum_empty = open(self.empty_file, 'w')
+        checksum_empty.close()
+
+        checksum_test1 = open(self.checksum_test1, 'w')
+        checksum_test1.write("Basic Text File")
+        checksum_test1.close()
+
+        checksum_test2 = open(self.checksum_test2, 'w')
+        long_string = 'A' * int(math.pow(2, 20))
+        checksum_test2.write(long_string)
+        checksum_test2.close()
+
 
     def tearDown(self):
+        
         self.cleanup()
-   
+     
+        if os.path.isfile(self.empty_file):
+            os.remove(self.empty_file)
+        if os.path.isfile(self.checksum_test1):
+            os.remove(self.checksum_test1)
+        if os.path.isfile(self.checksum_test2):
+            os.remove(self.checksum_test2)
+
+
+  
     def cleanup(self):
         connector = DBConnector(db_name=self.test_table)
         connection = connector.get_connection()
@@ -33,13 +76,47 @@ class TestRecipientManager(unittest.TestCase):
 
 
     def test_checksum_table_exists1(self):
-        pass
+        # Initially no table
+        response = self.manager.checksum_table_exists()
+        self.assertFalse(response)
+        
+        try:
+            connector = DBConnector(db_name=self.test_table)
+            connection = connector.get_connection()
+            cursor = connection.cursor()
+            cursor.execute(self.create)
+        except Exception as err:
+            pass
+        response = self.manager.checksum_table_exists()
+        self.assertTrue(response)
+
+        try:
+            cursor.execute(self.delete)
+        except Exception as err:
+            pass
+        response = self.manager.checksum_table_exists()
+        self.assertFalse(response)
+
 
     def test_create_checksum_table1(self):
-        pass
+        # Verify table does not initially exist.
+        response = self.manager.checksum_table_exists()
+        self.assertFalse(response)
+
+        # Verify table exists afer creation.
+        response = self.manager.create_checksum_table()
+        self.assertTrue(response)
+        response = self.manager.checksum_table_exists()
+        self.assertTrue(response)
+
 
     def test_add_checksum_pair1(self):
-        pass
+        response = self.manager.checksum_table_exists()
+        self.assertFalse(response)
+
+
+
+
 
     def test_remove_checksum_pair1(self):
         pass
@@ -52,140 +129,6 @@ class TestRecipientManager(unittest.TestCase):
         # Is dependent upon where files are installed on the users computer.
         pass
 
-
-    def test_checksum_table_exists(self):
-        pass
-
-
-"""
-    def test_create_recipient_table(self):
-        response = self.manager.table_exists()
-        self.assertFalse(response)
-        response = self.manager.create_recipient_table()
-        self.assertTrue(response)
-        response = self.manager.table_exists()
-        self.assertTrue(response)
-        response = self.manager.create_recipient_table()
-        self.assertTrue(response)
-        response = self.manager.table_exists()
-        self.assertTrue(response)
-        
-    def test_delete_recipient_table(self):
-        # Verify default table does not exist before starting.
-        response = self.manager.table_exists()
-        self.assertFalse(response)
-        
-        # Deleting a table which does not exist should return True.
-        response = self.manager.delete_recipient_table()
-        self.assertTrue(response)
-        response = self.manager.table_exists()
-        self.assertFalse(response)
-
-        # A second call to delete table for a nonexistant table
-        # should still return True..
-        response = self.manager.delete_recipient_table()
-        self.assertTrue(response)
-        response = self.manager.table_exists()
-        self.assertFalse(response)
-        
-        # After creating and then deleting the table, the table
-        # should not exist in the database.
-        response = self.manager.create_recipient_table()
-        self.assertTrue(response)
-        response = self.manager.table_exists()
-        self.assertTrue(response)
-        response = self.manager.delete_recipient_table()
-        self.assertTrue(response)
-        response = self.manager.table_exists()
-        self.assertFalse(response)
-
-        # After two calls to create table, a single call to delete should
-        # delete the only table and return true.
-        response = self.manager.table_exists()
-        self.assertFalse(response)
-        response = self.manager.create_recipient_table()
-        self.assertTrue(response)
-        response = self.manager.table_exists()
-        self.assertTrue(response)
-        response = self.manager.create_recipient_table()
-        self.assertTrue(response)
-        response = self.manager.delete_recipient_table()
-        self.assertTrue(response)
-
-        # At this point, not sure how to handle empty table. 
-        # Format errors could indicate sql injections.
-        self.manager.table_name = self.empty_table         
-        response = self.manager.delete_recipient_table()
-    
-    
-    def test_add_user1(self):
-        # Adding invalid emails should return False.
-        response = self.manager.add_recipient(self.invalid_email1)
-        self.assertFalse(response)
-        response = self.manager.add_recipient(self.invalid_email2)
-        self.assertFalse(response)
-    
-        # Inserting a properly formated email should return True.
-        response = self.manager.add_recipient(self.valid_email1)
-        self.assertTrue(response)
-       
-        # Adding emails that are too long to fit in database should
-        # return False.
-        response = self.manager.add_recipient(self.long_email)
-        self.assertFalse(response)
-        
-        # Adding a user with a broken connection should return False.
-        self.manager.connection = None
-        response = self.manager.add_recipient(self.valid_email1)
-        self.assertFalse(response)
-    
-    def test_remove_recipient1(self):
-        # Removing a user that does not exist should return False.
-        response = self.manager.remove_recipient(self.invalid_email1)
-        self.assertTrue(response)
-        response = self.manager.remove_recipient(self.valid_email1)
-        self.assertTrue(response)
-
-        response = self.manager.add_recipient(self.valid_email1)
-        self.assertTrue(response)
-        response = self.manager.remove_recipient(self.valid_email1)
-    
-    def test_get_recipients1(self):
-        response = self.manager.get_recipients()
-        self.assertEqual(response, [])
-
-        self.manager.add_recipient(self.valid_email1)
-        response = self.manager.get_recipients()
-        check = self.valid_email1 in response
-        self.assertTrue(check)
-        check = self.valid_email2 not in response
-        self.assertTrue(check)
-          
-        response = self.manager.add_recipient(self.valid_email2)
-        self.assertTrue(response)
-        response = self.manager.get_recipients()
-        check = self.valid_email1 in response
-        self.assertTrue(check)
-        check = self.valid_email2 in response
-        self.assertTrue(check)
-   
-        response = self.manager.remove_recipient(self.valid_email1)
-        self.assertTrue(response)
-        response = self.manager.get_recipients()
-        check = self.valid_email1 not in response
-        self.assertTrue(check)
-        check = self.valid_email2 in response 
-        self.assertTrue(check)
-        
-        response = self.manager.remove_recipient(self.valid_email2)
-        self.assertTrue(response)
-        response = self.manager.get_recipients()
-        check = self.valid_email1 not in response
-        self.assertTrue(check)
-        check = self.valid_email2 not in response
-        self.assertTrue(check)
-        self.assertEqual(response, [])
-"""
 
 if __name__ == '__main__':
     unittest.main()
