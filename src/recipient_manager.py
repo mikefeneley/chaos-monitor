@@ -48,7 +48,8 @@ class RecipientManager:
         self.connector = DBConnector()
         self.connection = self.connector.get_connection()
         self.table_name = table_name
-    
+        self.email_field_length = 254 
+
     def create_recipient_table(self):
         """
         Creates a table if it doesn't exits in database to hold recipients.

@@ -12,8 +12,6 @@ class ChecksumManager:
     | hash    | varchar(32) | YES  |     | NULL    |       |
     +---------+-------------+------+-----+---------+-------+
     """
-
-
     def __init__(self):
         pass
 
