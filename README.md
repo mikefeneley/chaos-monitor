@@ -13,9 +13,9 @@ MySQL Database
 
 Pydaemon
 
-pip install pydaemon
-pip install validate_email
-sudo pip install pydns==2.3.6
+pip install pydaemon <br>
+pip install validate_email<br>
+sudo pip install pydns==2.3.6<br>
 
 <br>
 <br>
