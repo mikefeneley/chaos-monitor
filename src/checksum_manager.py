@@ -9,11 +9,12 @@ class ChecksumManager:
     | Field   | Type        | Null | Key | Default | Extra |
     +---------+-------------+------+-----+---------+-------+
     | filename| varchar(255)| YES  |     | NULL    |       |
-    | hash    | varchar(32) | YES  |     | NULL    |       |
+    | checksum| varchar(32) | YES  |     | NULL    |       |
     +---------+-------------+------+-----+---------+-------+
     """
-    def __init__(self):
-        pass
+    def __init__(self, table_name="CHECKSUMS"):
+        self.filename_field_length = 255
+        self.checksum_field_length = 64 
 
     def checksum_table_exists(self):
         """
