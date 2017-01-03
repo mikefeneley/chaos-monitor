@@ -6,9 +6,14 @@ clean:
 stop:
 	python monitor.py stop
 
-mon:
+start:
 	python monitor.py start
 
+status:
+	python monitor.py status
+
+restart:
+	python monitor.py restart
 
 notify:
 	python notification.py

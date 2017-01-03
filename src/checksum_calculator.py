@@ -52,7 +52,7 @@ class ChecksumCalculator:
                                    None otherwise.
          """
         if not os.path.isfile(filename):
-            return None
+            return ""
 
         hash_sha1 = hashlib.sha1()
         with open(filename, 'rb') as f:
