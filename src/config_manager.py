@@ -1,5 +1,7 @@
 
 import argparse
+from checksum_manager import ChecksumManager
+from recipient_manager import RecipientManager
 
 
 class ConfigManager:
@@ -23,12 +25,21 @@ class ConfigManager:
         self.help_ar = ""
         self.help_rr = ""
         self.help_lr = ""
+        self.checksum_manager = ChecksumManager()
+        self.recipient_manager = RecipientManager()
+        self.checksum_manager.create_checksum_table()
+        self.recipient_manager.create_recipient_table()
 
-    def execute(self):
+    def execute(self,arg="",case=0):
         """
         Use the output from parse_config to execute the appropriate command.
         """
-        pass    
+        if case == 1:
+            #Addition of file
+            print self.checksum_manager.add_checksum_pair(arg)
+        if case == 2:
+            #Removal of file
+            print self.checksum_manager.remove_checksum_pair(arg)
 
     def parse_config(self):
         """
@@ -67,9 +78,11 @@ class ConfigManager:
         
         if args.file_add:
             print args.file_add
+            self.execute(args.file_add,1)
 
         if args.file_remove:
             print args.file_remove
+            self.execute(args.file_remove,2)
 
         if args.list_files:
             print "listing files"
