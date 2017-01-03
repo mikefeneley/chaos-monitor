@@ -107,7 +107,20 @@ class ChecksumManager:
         :type filename: string
         :return: bool -- True if removed successfuly. False otherwise.
         """
-        pass
+        if not self.table_exists():
+            return True
+
+        try:
+            cursor = self.connector.connection.cursor()
+            sql = "DELETE FROM %s WHERE filename = '%s'" % (
+                self.table_name, filename)
+            cursor.execute(sql)
+            self.connector.connection.commit()
+            return True
+        except Exception as err:
+            print(err)
+            self.connector.connection.rollback()
+            return False
 
     def get_checksum_pairs(self):
         """
@@ -136,4 +149,5 @@ if __name__ == '__main__':
     c = ChecksumManager()
     print c.create_checksum_table()
     print c.add_checksum_pair('monitor.py')
+    print c.remove_checksum_pair('monitot.py')
 
