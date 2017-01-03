@@ -1,4 +1,9 @@
 
+import mysql.connector
+from mysql.connector import errorcode
+from db_connector import DBConnector
+from validate_email import validate_email
+
 class ChecksumManager:
     """
     Provides an interface to control checksum/filename pair table.
@@ -22,6 +27,9 @@ class ChecksumManager:
     def __init__(self, table_name="CHECKSUMS"):
         self.filename_field_length = 255
         self.checksum_field_length = 64 
+        self.connector = DBConnector()
+        self.connection = self.connector.get_connection()
+        self.table_name = table_name
 
     def checksum_table_exists(self):
         """

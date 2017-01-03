@@ -20,7 +20,6 @@ sudo pip install pydns==2.3.6<br>
 <br>
 <br>
 <b>Contact:</b>
-<h4> Contributors </h4>
 <ul>
 <li>Michael Feneley: mfeneley(at)vt.edu</li>
 <li>Anshul Basia: anshul7(at)vt.edu</li>
