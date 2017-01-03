@@ -13,7 +13,7 @@ class ConfigManager:
     Config_Manager first calls parse_config and then calls execute which
     uses the different table managers to run the desired commands.
     """
-    
+
     def __init__(self):
         """
         Initialisation of Parser
@@ -30,30 +30,34 @@ class ConfigManager:
         self.checksum_manager.create_checksum_table()
         self.recipient_manager.create_recipient_table()
 
-    def execute(self,arg="",case=0):
+    def execute(self, arg="", case=0):
         """
         Use the output from parse_config to execute the appropriate command.
         """
         if case == 1:
-            #Addition of file
+            # Addition of file
             print self.checksum_manager.add_checksum_pair(arg)
         if case == 2:
-            #Removal of file
+            # Removal of file
             print self.checksum_manager.remove_checksum_pair(arg)
         if case == 3:
-            #listing of checksum pairs
+            # listing of checksum pairs
             print self.checksum_manager.get_checksum_pairs()
         if case == 4:
-            #addition of email
+            # addition of email
             print self.recipient_manager.add_recipient(arg)
         if case == 5:
-            #removal of email
+            # removal of email
             print self.recipient_manager.remove_recipient(arg)
+        if case == 6:
+            # listing of emails
+            print self.recipient_manager.get_recipients()
+
     def parse_config(self):
         """
-        Parse the configuartion arguments to determine which command to 
+        Parse the configuartion arguments to determine which command to
         execute.
-    
+
         Supported commands:
 
         # Adds the file file.txt and its checksum to the checksum database.
@@ -64,50 +68,76 @@ class ConfigManager:
 
         # Print a list of all the files and their checksums stores in the database.
         python config_manager -lf
-    
+
         # Add the email to the recipient database.
         python config_manager -ar user@domain.com
-        
+
         # Remove the email from the recipient database.
         python config_manager -rr user@domain.com
 
         # Print all the emails in the recipient database.
         python config_manager -lr
-        
+
         """
 
-        self.parser.add_argument("-af",action='store',dest='file_add',help=self.help_af)
-        self.parser.add_argument("-rf",action='store',dest='file_remove',help=self.help_rf)
-        self.parser.add_argument("-lf",action='store_true',default=False,dest='list_files',help=self.help_lf)
-        self.parser.add_argument("-ar",action='store',dest='add_email',help=self.help_ar)
-        self.parser.add_argument("-rr",action='store',dest='remove_email',help=self.help_rr)
-        self.parser.add_argument("-lr",action='store_true',default=False,dest='list_emails',help=self.help_lr)
+        self.parser.add_argument(
+            "-af",
+            action='store',
+            dest='file_add',
+            help=self.help_af)
+        self.parser.add_argument(
+            "-rf",
+            action='store',
+            dest='file_remove',
+            help=self.help_rf)
+        self.parser.add_argument(
+            "-lf",
+            action='store_true',
+            default=False,
+            dest='list_files',
+            help=self.help_lf)
+        self.parser.add_argument(
+            "-ar",
+            action='store',
+            dest='add_email',
+            help=self.help_ar)
+        self.parser.add_argument(
+            "-rr",
+            action='store',
+            dest='remove_email',
+            help=self.help_rr)
+        self.parser.add_argument(
+            "-lr",
+            action='store_true',
+            default=False,
+            dest='list_emails',
+            help=self.help_lr)
         args = self.parser.parse_args()
-        
+
         if args.file_add:
             print args.file_add
-            self.execute(args.file_add,1)
+            self.execute(args.file_add, 1)
 
         if args.file_remove:
             print args.file_remove
-            self.execute(args.file_remove,2)
+            self.execute(args.file_remove, 2)
 
         if args.list_files:
             print "listing files"
-            self.execute(None,3)
+            self.execute(None, 3)
 
         if args.add_email:
             print args.add_email
-            self.execute(args.add_email,4)
+            self.execute(args.add_email, 4)
 
         if args.remove_email:
             print args.remove_email
-            self.execute(args.remove_email,5)
+            self.execute(args.remove_email, 5)
 
         if args.list_emails:
             print "listing emails"
+            self.execute(None, 6)
 
 if __name__ == '__main__':
     manager = ConfigManager()
     manager.parse_config()
-
