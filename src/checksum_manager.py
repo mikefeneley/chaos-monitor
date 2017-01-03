@@ -5,9 +5,6 @@ from db_connector import DBConnector
 from checksum_calculator import ChecksumCalculator
 import logging
 
-logger = logging.getLogger('checksum/filename database')
-logging.basicConfig(level=logging.DEBUG)
-
 
 class ChecksumManager:
     """
@@ -37,6 +34,8 @@ class ChecksumManager:
         self.connection = self.connector.get_connection()
         self.table_name = table_name
         self.checksum_calculator = ChecksumCalculator()
+        logging.basicConfig(filename='checksum_manager.log', level=logging.DEBUG)
+        self.logger  = logging.getLogger(__name__)
 
     def checksum_table_exists(self):
         """
@@ -70,7 +69,7 @@ class ChecksumManager:
             sql = """CREATE TABLE IF NOT EXISTS %s (filename VARCHAR(%d) NOT
             NULL PRIMARY KEY, checksum VARCHAR(%d) NOT NULL)""" % (self.table_name, self.filename_field_length, self.checksum_field_length)
             cursor.execute(sql)
-            logger.debug("Table created: {}".format(self.table_name))
+            self.logger.debug("Table created: {}".format(self.table_name))
             return True
         except Exception as err:
             print(err)
@@ -102,7 +101,7 @@ class ChecksumManager:
                 filename,checksum) VALUES ('%s','%s')""" % (self.table_name, filename, checksum)
                 cursor.execute(sql)
                 self.connection.commit()
-                logger.debug("Pair added: {}({})".format(filename, checksum))
+                self.logger .debug("Pair added: {}({})".format(filename, checksum))
                 return True
             except Exception as err:
                 print(err)
@@ -131,7 +130,7 @@ class ChecksumManager:
                 self.table_name, filename)
             cursor.execute(sql)
             self.connector.connection.commit()
-            logger.debug("file removed: {}".format(filename))
+            self.logger.debug("file removed: {}".format(filename))
             return True
         except Exception as err:
             print(err)

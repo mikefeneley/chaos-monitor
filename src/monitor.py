@@ -1,9 +1,10 @@
 import time
 from pydaemon import Daemon
-#from checksum_manager import ChecksumManager
-#from db_connector import DBConnector
-#import hashlib
-#import os
+#Issue with sharing the same log class
+from checksum_manager import ChecksumManager
+from db_connector import DBConnector
+import hashlib
+import os
 import logging
 
 
@@ -11,8 +12,11 @@ class Monitor(Daemon):
 
   def run(self):
     while True:
-      logging.debug("2I'm here...")
-      time.sleep(1)
+            
+        logger = logging.getLogger(__name__)
+        logger.debug("Message")
+        
+        time.sleep(1)
   def bar(self):
     logging.debug("bar")
 
@@ -20,6 +24,6 @@ class Monitor(Daemon):
 
 
 if __name__ == '__main__':
-    logging.basicConfig(filename="monitor.log",level=logging.DEBUG)
+    logging.basicConfig(filename="test.log",level=logging.DEBUG)
     mon = Monitor("/tmp/chaosmonitor.pid", "Monitor")
     mon.main()
