@@ -15,11 +15,11 @@ class Monitor(Daemon):
 
     """
 
-
     def setup(self):
         self.db_manager = DB_Manager()
         self.log = Logger()
         self.checksum_duration = 5
+
     def run(self):
         self.setup()
         self.monitor()
@@ -33,7 +33,7 @@ class Monitor(Daemon):
         while(1):
             manager = ChecksumManager()
             checksum_pairs = manager.get_checksum_pairs()
-            
+
             if checksum_pairs is not None:
                 for pair in checksum_pairs:
                     pass
@@ -43,6 +43,6 @@ class Monitor(Daemon):
 
 if __name__ == '__main__':
     mon = Monitor(pidfile="/tmp/chaosmonitor.pid",
-        stdin='/dev/null', stdout='/dev/null', 
-        stderr='/dev/null') 
+                  stdin='/dev/null', stdout='/dev/null',
+                  stderr='/dev/null')
     mon.main()

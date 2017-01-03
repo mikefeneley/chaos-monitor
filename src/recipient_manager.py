@@ -7,6 +7,7 @@ import logging
 logger = logging.getLogger('checksum/filename database')
 logging.basicConfig(level=logging.DEBUG)
 
+
 class RecipientManager:
 
     """
@@ -211,4 +212,3 @@ class RecipientManager:
 
 if __name__ == '__main__':
     R = RecipientManager()
-

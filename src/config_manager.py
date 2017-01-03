@@ -5,7 +5,7 @@ import os
 
 
 class ConfigManager:
-    
+
     def __init__(self):
         pass
 
@@ -23,7 +23,7 @@ class ConfigManager:
         if os.path.exists(filename):
             return os.path.abspath(filename)
         else:
-            return  None
+            return None
 
     def calculate_hash(self, filename):
         """
@@ -50,7 +50,7 @@ class ConfigManager:
         hex_hash = self.calculate_hash(filename)
         abspath = self.get_abspath(filename)
 
-        if abspath != None:
+        if abspath is not None:
             db_manager = DB_Manager()
             db_manager.add_hash_pair(abspath, hex_hash)
             db_manager.print_db()
@@ -62,7 +62,7 @@ class ConfigManager:
         db_manager.print_db()
 
 
-if __name__ == '__main__':	
+if __name__ == '__main__':
     manager = ConfigManager()
     print("Start")
     if(len(sys.argv) < 3):
@@ -75,7 +75,6 @@ if __name__ == '__main__':
         manager.add_file(val)
     if(cmd == 'del'):
         manager.delete_file(val)
-
 
 
 """

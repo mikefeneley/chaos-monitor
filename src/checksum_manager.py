@@ -102,7 +102,7 @@ class ChecksumManager:
                 filename,checksum) VALUES ('%s','%s')""" % (self.table_name, filename, checksum)
                 cursor.execute(sql)
                 self.connection.commit()
-                logger.debug("Pair added: {}({})".format(filename,checksum))
+                logger.debug("Pair added: {}({})".format(filename, checksum))
                 return True
             except Exception as err:
                 print(err)
