@@ -40,7 +40,15 @@ class ConfigManager:
         if case == 2:
             #Removal of file
             print self.checksum_manager.remove_checksum_pair(arg)
-
+        if case == 3:
+            #listing of checksum pairs
+            print self.checksum_manager.get_checksum_pairs()
+        if case == 4:
+            #addition of email
+            print self.recipient_manager.add_recipient(arg)
+        if case == 5:
+            #removal of email
+            print self.recipient_manager.remove_recipient(arg)
     def parse_config(self):
         """
         Parse the configuartion arguments to determine which command to 
@@ -86,12 +94,15 @@ class ConfigManager:
 
         if args.list_files:
             print "listing files"
+            self.execute(None,3)
 
         if args.add_email:
             print args.add_email
+            self.execute(args.add_email,4)
 
         if args.remove_email:
             print args.remove_email
+            self.execute(args.remove_email,5)
 
         if args.list_emails:
             print "listing emails"
