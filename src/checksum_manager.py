@@ -2,7 +2,7 @@
 import mysql.connector
 from mysql.connector import errorcode
 from db_connector import DBConnector
-from validate_email import validate_email
+#from validate_email import validate_email
 
 class ChecksumManager:
     """
@@ -47,7 +47,16 @@ class ChecksumManager:
         :return: bool -- True if the table was created or already existed.
                          False otherwise.
         """
-        pass
+        try:
+            cursor = self.connection.cursor()
+            sql = """CREATE TABLE IF NOT EXISTS %s (filename VARCHAR(%d) NOT
+            NULL PRIMARY KEY, checksum VARCHAR(%d) NOT NULL)""" % (self.table_name, self.filename_field_length,self.checksum_field_length)
+            print(sql, "HERE")
+            cursor.execute(sql)
+            return True
+        except Exception as err:
+            print(err)
+            return False
 
     def add_checksum_pair(self, filename):
         """
@@ -96,3 +105,8 @@ class ChecksumManager:
             return os.path.abspath(filename)
         else:
             return  None
+
+if __name__ == '__main__':
+    c = ChecksumManager()
+    print c.create_checksum_table()
+
