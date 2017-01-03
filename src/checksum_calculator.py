@@ -1,6 +1,7 @@
 import os
 import hashlib
 
+
 class ChecksumCalculator:
     """
     Provides an interface to calculate the checksum of files
@@ -8,7 +9,7 @@ class ChecksumCalculator:
 
     Note: Consider making functions static.
     """
-    
+
     def __init__(self):
         pass
 
@@ -27,9 +28,9 @@ class ChecksumCalculator:
         """
         Calculate the md5 checksum of the file filename.
 
-        :param filename: The file to calculate the checksum 
+        :param filename: The file to calculate the checksum
         :type filename: string
-        :return: string -- The md5 checksum if successful. 
+        :return: string -- The md5 checksum if successful.
                            None otherwise.
         """
         if not os.path.isfile(filename):
@@ -45,14 +46,14 @@ class ChecksumCalculator:
         """
         Calculate the sha1 checksum of the file filename.
 
-        :param filename: The file to calculate the checksum 
+        :param filename: The file to calculate the checksum
         :type filename: string
-                :return: string -- The md5 checksum if successful. 
+                :return: string -- The md5 checksum if successful.
                                    None otherwise.
          """
         if not os.path.isfile(filename):
             return None
-        
+
         hash_sha1 = hashlib.sha1()
         with open(filename, 'rb') as f:
             for chunk in iter(lambda: f.read(4096), b""):

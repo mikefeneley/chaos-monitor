@@ -14,11 +14,11 @@ class Notification:
     Interface which allows user to send notifications using email protocols.
 
     """
-   
-    def __init__(self, email_server="127.0.0.1", email_port = 587, 
-        email_username="", email_pwd=""):
+
+    def __init__(self, email_server="127.0.0.1", email_port=587,
+                 email_username="", email_pwd=""):
         """
-        Set up connection information and authentication tokens to allow user to 
+        Set up connection information and authentication tokens to allow user to
         access smtp server.
 
         :param email_server: IP Address of SMTP server for sending mail.
@@ -31,26 +31,31 @@ class Notification:
         :type email_pwd: string
         """
         self.email_port = email_port
-        self.email_server = email_server 
-        self.gmail_user = email_username 
+        self.email_server = email_server
+        self.gmail_user = email_username
         self.gmail_pwd = email_pwd
 
-    def valid_email(self,email):
+    def valid_email(self, email):
         """
         Checks if the email provided is in correct format.
         Dependencies: pip install validate_email
-                 : sudo pip install pydns==2.3.6 
+                 : sudo pip install pydns==2.3.6
 
         It'll also check if email exits or not.
         """
 
-        is_valid = validate_email(email,verify=True)#: if email does not exist, is_valid may as well be None
-        if(is_valid==True):
+        # : if email does not exist, is_valid may as well be None
+        is_valid = validate_email(email, verify=True)
+        if(is_valid):
             return True
         return False
 
-
-    def build_email(self, subject="Notification from Vulnerability", message="", source="", destination=""):
+    def build_email(
+            self,
+            subject="Notification from Vulnerability",
+            message="",
+            source="",
+            destination=""):
         """
         Creates an email notification object from arguments. The email is
         constructed using python MIME object types.
@@ -66,7 +71,6 @@ class Notification:
         :returns: MIMEText -- Constructed MIMETextobject with email information
         """
         pass
-
 
     def send_notification(self, message="", recipient=""):
         """
@@ -89,11 +93,12 @@ class Notification:
         # Verify that these things are necessary.
         server.starttls()
         server.ehlo()
-        server.login(self.gmail_user, self.gmail_pwd) #: a login attemt by server
+        # : a login attemt by server
+        server.login(self.gmail_user, self.gmail_pwd)
         BODY = '\r\n'.join(['To: %s' % TO,
-                'From: %s' % self.gmail_user,
-                'Subject: %s' % SUBJECT,
-                '', TEXT])
+                            'From: %s' % self.gmail_user,
+                            'Subject: %s' % SUBJECT,
+                            '', TEXT])
         server.sendmail(self.gmail_user, [TO], BODY)
 
         # NEW IMPLEMENTATION
@@ -104,7 +109,6 @@ class Notification:
         server.close()
         return True
 
-
     def notify_all(self, message, recipients):
         """
         Sends the message to every email address on the recipient list.
@@ -112,24 +116,26 @@ class Notification:
         :type message: string
         :param recipients: List of emails to send notification message
         :type recipients: List of strings
-        :returns: bool -- True if the message was successfuly sent to all 
+        :returns: bool -- True if the message was successfuly sent to all
                           recipients. Otherwise False
 
 
         """
-        success  = True
+        success = True
         for recipient in recipients:
-            if not self.send_notification(message,recipient):
+            if not self.send_notification(message, recipient):
                 success = False
         return success
-
-
 
 
 if __name__ == "__main__":
 
     gmail = "smtp.gmail.com"
-    notification_sender = Notification(email_server='localhost', email_port = 587, email_username="", email_pwd="")
+    notification_sender = Notification(
+        email_server='localhost',
+        email_port=587,
+        email_username="",
+        email_pwd="")
     message = "Message I want to send"
     source = "Who I want to send the message to. Most likely an email address??"
     #notification_sender.send_notification("Hi", 'michael@sample.com')
