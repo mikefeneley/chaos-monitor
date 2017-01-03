@@ -39,7 +39,18 @@ class ChecksumManager:
         
         :return: bool -- True if the table exists. False otherwise.
         """
-        pass
+        try:
+            cursor = self.connection.cursor()
+            sql = "SHOW TABLES LIKE '%s'" % self.table_name
+            cursor.execute(sql)
+            result = cursor.fetchone()
+            if result:
+                return True
+            else:
+                return False
+        except Exception as err:
+            print(err)
+            return False
 
     def create_checksum_table(self):
         """
@@ -78,7 +89,7 @@ class ChecksumManager:
             return False
 
         checksum = self.checksum_calculator.calculate_checksum(filename)
-        print checksum
+        
         if checksum:
             try:
                 cursor = self.connection.cursor()
@@ -107,7 +118,7 @@ class ChecksumManager:
         :type filename: string
         :return: bool -- True if removed successfuly. False otherwise.
         """
-        if not self.table_exists():
+        if not self.checksum_table_exists():
             return True
 
         try:
@@ -149,5 +160,5 @@ if __name__ == '__main__':
     c = ChecksumManager()
     print c.create_checksum_table()
     print c.add_checksum_pair('monitor.py')
-    print c.remove_checksum_pair('monitot.py')
+    print c.remove_checksum_pair('monitor.py')
 
