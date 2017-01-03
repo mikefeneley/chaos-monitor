@@ -2,6 +2,7 @@
 import mysql.connector
 from mysql.connector import errorcode
 from db_connector import DBConnector
+from checksum_calculator import ChecksumCalculator
 #from validate_email import validate_email
 
 class ChecksumManager:
@@ -30,6 +31,7 @@ class ChecksumManager:
         self.connector = DBConnector()
         self.connection = self.connector.get_connection()
         self.table_name = table_name
+        self.checksum_calculator = ChecksumCalculator()
 
     def checksum_table_exists(self):
         """
@@ -60,7 +62,7 @@ class ChecksumManager:
 
     def add_checksum_pair(self, filename):
         """
-        Calculates the checksum of file filenamd and then add the new
+        Calculates the checksum of file filename and then add the new
         checksum/filename entry to the database. If the table does
         not yet exist, then the table is first created and then the checksum
         pair is added. 
@@ -69,7 +71,31 @@ class ChecksumManager:
         :type filename: string
         :return: bool -- True if added successfuly. False otherwise.
         """
-        pass
+        if not self. create_checksum_table():
+            return False
+        
+        if len(filename) > self.filename_field_length:
+            return False
+
+        checksum = self.checksum_calculator.calculate_checksum(filename)
+        print checksum
+        if checksum:
+            try:
+                cursor = self.connection.cursor()
+                sql = """INSERT INTO %s (
+                filename,checksum) VALUES ('%s','%s')""" % (self.table_name, filename, checksum)
+                cursor.execute(sql)
+                self.connection.commit()
+                return True
+            except Exception as err:
+                print(err)
+                self.connection.rollback()
+                return False
+
+        else:
+            return False
+
+        
 
     def remove_checksum_pair(self, filename):
         """
@@ -109,4 +135,5 @@ class ChecksumManager:
 if __name__ == '__main__':
     c = ChecksumManager()
     print c.create_checksum_table()
+    print c.add_checksum_pair('monitor.py')
 
