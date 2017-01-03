@@ -2,7 +2,10 @@ import mysql.connector
 from mysql.connector import errorcode
 from db_connector import DBConnector
 from validate_email import validate_email
+import logging
 
+logger = logging.getLogger('checksum/filename database')
+logging.basicConfig(level=logging.DEBUG)
 
 class RecipientManager:
 
@@ -65,8 +68,8 @@ class RecipientManager:
             cursor = self.connection.cursor()
             sql = """CREATE TABLE IF NOT EXISTS %s (EMAIL VARCHAR(%d) NOT
             NULL PRIMARY KEY)""" % (self.table_name, self.email_field_length)
-            print(sql, "HERE")
             cursor.execute(sql)
+            logger.debug("Table created: {}".format(self.table_name))
             return True
         except Exception as err:
             print(err)
@@ -83,6 +86,7 @@ class RecipientManager:
             cursor = self.connection.cursor()
             sql = "DROP TABLE IF EXISTS %s" % self.table_name
             cursor.execute(sql)
+            logger.debug("Table deleted: {}".format(self.table_name))
             return True
         except Exception as err:
             print(err)
@@ -134,6 +138,7 @@ class RecipientManager:
             EMAIL) VALUES ('%s')""" % (self.table_name, recipient)
             cursor.execute(sql)
             self.connection.commit()
+            logger.debug("Recipient added: {}".format(recipient))
             return True
         except Exception as err:
             print(err)
@@ -174,6 +179,7 @@ class RecipientManager:
                 self.table_name, recipient)
             cursor.execute(sql)
             self.connector.connection.commit()
+            logger.debug("Recipient removed: {}".format(recipient))
             return True
         except Exception as err:
             print(err)
@@ -205,3 +211,4 @@ class RecipientManager:
 
 if __name__ == '__main__':
     R = RecipientManager()
+
