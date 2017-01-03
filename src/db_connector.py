@@ -1,6 +1,7 @@
 import mysql.connector
 from mysql.connector import errorcode
 
+
 class DBConnector:
 
     def __init__(self, db_name='INTEGRITY_DB', host='localhost', port='3306'):
@@ -22,29 +23,29 @@ class DBConnector:
         """
         Creates a connection to the database with the configs.
 
-        :return: 
+        :return:
         """
-        if self.connection == None:
+        if self.connection is None:
             self.connection = self.make_connection(user=user, passwd=passwd)
             return self.connection
         else:
             return self.connection
-    
+
     def make_connection(self, user='root', passwd=''):
         """
-        Connects to the database with name DB_NAME. 
+        Connects to the database with name DB_NAME.
 
         :return: mysql.connector -- Connection to the database if successful.
                                     None if the connection was not made.
         """
         try:
-            connection = mysql.connector.connect(user=user, passwd=passwd, host=self.host, port=self.port)
+            connection = mysql.connector.connect(
+                user=user, passwd=passwd, host=self.host, port=self.port)
             self.create_database(connection=connection)
             connection.database = self.db_name
         except mysql.connector.Error as err:
-            connection = None 
+            connection = None
         return connection
-
 
     def create_database(self, connection=None):
         """
@@ -54,12 +55,14 @@ class DBConnector:
         """
         try:
             cursor = connection.cursor()
-            cursor.execute("CREATE DATABASE IF NOT EXISTS {} DEFAULT CHARACTER SET 'utf8'".format(self.db_name))
+            cursor.execute(
+                "CREATE DATABASE IF NOT EXISTS {} DEFAULT CHARACTER SET 'utf8'".format(
+                    self.db_name))
             return True
-        except  mysql.connector.Error as err:
+        except mysql.connector.Error as err:
             print("Failed creating database: {}".format(err))
             return False
-        
+
     def delete_database(self):
         """
         Delete the database with name db_name.
