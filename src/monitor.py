@@ -2,18 +2,26 @@ from time import sleep
 from pydaemon import Daemon
 from db_manager import DB_Manager
 from logger import Logger
+from checksum_manager import ChecksumManager
 import hashlib
 import os
 
 
 class Monitor(Daemon):
+    """
+    Daemon class that periodically wakes up and checks if the checksum
+    of files stored in the remote database matches the checksum of the files
+    on the system.
+
+    """
+
 
     def setup(self):
         self.db_manager = DB_Manager()
         self.log = Logger()
-        self.get_conf()
-
+        self.checksum_duration = 5
     def run(self):
+        self.setup()
         self.monitor()
 
     def monitor(self):
@@ -23,20 +31,18 @@ class Monitor(Daemon):
         been no alterations.
         """
         while(1):
-            pairs = self.db_manager.get_hash_pairs()
-            for pair in pairs:
-                filename = pair[0]
-                new_checksum = self.calculate_hash(filename)
-                checksum = pair[1]
-
-                if(checksum != new_checksum):
-                    self.log.incorrect_checksum_errmsg(filename, checksum, new_checksum)
-
+            manager = ChecksumManager()
+            checksum_pairs = manager.get_checksum_pairs()
+            
+            if checksum_pairs is not None:
+                for pair in checksum_pairs:
+                    pass
+            print("HERE")
             sleep(self.checksum_duration)
 
 
 if __name__ == '__main__':
-    monitor = Monitor(pidfile="/tmp/chaosmonitor.pid", name="FooDaemon", 
-        working_dir='/', stdin='/dev/null', stdout='/dev/null', 
-        stderr='/dev/null', uid=None)
-    monitor.main()
+    mon = Monitor(pidfile="/tmp/chaosmonitor.pid",
+        stdin='/dev/null', stdout='/dev/null', 
+        stderr='/dev/null') 
+    mon.main()
