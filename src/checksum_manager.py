@@ -3,6 +3,10 @@ import mysql.connector
 from mysql.connector import errorcode
 from db_connector import DBConnector
 from checksum_calculator import ChecksumCalculator
+import logging
+
+logger = logging.getLogger('checksum/filename database')
+logging.basicConfig(level=logging.DEBUG)
 
 
 class ChecksumManager:
@@ -65,8 +69,8 @@ class ChecksumManager:
             cursor = self.connection.cursor()
             sql = """CREATE TABLE IF NOT EXISTS %s (filename VARCHAR(%d) NOT
             NULL PRIMARY KEY, checksum VARCHAR(%d) NOT NULL)""" % (self.table_name, self.filename_field_length, self.checksum_field_length)
-            print(sql, "HERE")
             cursor.execute(sql)
+            logger.debug("Table created: {}".format(self.table_name))
             return True
         except Exception as err:
             print(err)
@@ -98,6 +102,7 @@ class ChecksumManager:
                 filename,checksum) VALUES ('%s','%s')""" % (self.table_name, filename, checksum)
                 cursor.execute(sql)
                 self.connection.commit()
+                logger.debug("Pair added: {}({})".format(filename,checksum))
                 return True
             except Exception as err:
                 print(err)
@@ -126,6 +131,7 @@ class ChecksumManager:
                 self.table_name, filename)
             cursor.execute(sql)
             self.connector.connection.commit()
+            logger.debug("file removed: {}".format(filename))
             return True
         except Exception as err:
             print(err)
@@ -174,6 +180,7 @@ class ChecksumManager:
 
 if __name__ == '__main__':
     c = ChecksumManager()
-    print c.create_checksum_table()
-    print c.add_checksum_pair('monitor.py')
-    print c.get_checksum_pairs()
+    c.create_checksum_table()
+    c.remove_checksum_pair('monitor.py')
+    c.add_checksum_pair('monitor.py')
+    c.get_checksum_pairs()
