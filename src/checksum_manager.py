@@ -141,7 +141,24 @@ class ChecksumManager:
                          Return an empty list if no checksum pairs exist
                          or the table/database does not exist.
         """
-        pass
+        if not self.checksum_table_exists():
+            return []
+
+        try:
+            checksum_pairs = []
+            sql = "SELECT * FROM %s" % self.table_name
+            cursor = self.connector.connection.cursor()
+            cursor.execute(sql)
+            results = cursor.fetchall()
+            for row in results:
+                pair = []
+                pair.append(row[0])
+                pair.append(row[1])
+                checksum_pairs.append(pair)
+            return checksum_pairs
+        except Exception as err:
+            print(err)
+            return []
     
     def get_abspath(self, filename):
         """
@@ -160,5 +177,5 @@ if __name__ == '__main__':
     c = ChecksumManager()
     print c.create_checksum_table()
     print c.add_checksum_pair('monitor.py')
-    print c.remove_checksum_pair('monitor.py')
+    print c.get_checksum_pairs()
 
