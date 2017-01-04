@@ -1,10 +1,10 @@
-
+import sys
 import argparse
 from checksum_manager import ChecksumManager
 from recipient_manager import RecipientManager
 
 
-class ConfigManager:
+class MonitorCli:
     """
     This class provides the command line interface to control
     the database entries.
@@ -25,6 +25,8 @@ class ConfigManager:
         self.help_ar = ""
         self.help_rr = ""
         self.help_lr = ""
+        self.parse_args()
+
 
     def execute(self, arg="", case=0):
         """
@@ -55,7 +57,7 @@ class ConfigManager:
             recipient_manager = RecipientManager()
             print recipient_manager.get_recipients()
 
-    def parse_config(self):
+    def parse_args(self):
         """
         Parse the configuartion arguments to determine which command to
         execute.
@@ -80,7 +82,6 @@ class ConfigManager:
         # Print all the emails in the recipient database.
         python config_manager -lr
         """
-
         self.parser.add_argument(
             "-af",
             action='store',
@@ -115,6 +116,7 @@ class ConfigManager:
             help=self.help_lr)
         args = self.parser.parse_args()
 
+
         if args.file_add:
             print args.file_add
             self.execute(args.file_add, 1)
@@ -139,6 +141,13 @@ class ConfigManager:
             print "listing emails"
             self.execute(None, 6)
 
+def main(args):
+    cli = MonitorCli()
+
+def cli_entrypoint():
+    print("this")
+    main(sys.argv[1:])
+
+
 if __name__ == '__main__':
-    manager = ConfigManager()
-    manager.parse_config()
+    cli_entrypoint()

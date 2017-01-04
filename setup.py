@@ -2,7 +2,6 @@ import os
 import sys
 from setuptools import setup
 from setuptools import find_packages
-print(find_packages())
 
 setup()
 
@@ -20,12 +19,13 @@ if "install" in sys.argv:
             sys.stderr.write("  sudo rm %s" % p2)
         sys.exit()
 
-setup(name='chaos-monitor',
+setup(name='Chaos-Monitor',
         version='0.1',
         description='System integrity verification program',
         url='https://github.com/mikefeneley/chaos-monitor.git',
         author='Michael Feneley',
         author_email='michael.j.feneley@gmail.com',
         license='MIT',
-        )
+        packages=find_packages(),
+        entry_points={'console_scripts': ['cmon=src.monitor_cli:cli_entrypoint']})
 
