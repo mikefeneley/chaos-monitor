@@ -25,10 +25,6 @@ class ConfigManager:
         self.help_ar = ""
         self.help_rr = ""
         self.help_lr = ""
-        self.checksum_manager = ChecksumManager()
-        self.recipient_manager = RecipientManager()
-        self.checksum_manager.create_checksum_table()
-        self.recipient_manager.create_recipient_table()
 
     def execute(self, arg="", case=0):
         """
@@ -36,22 +32,28 @@ class ConfigManager:
         """
         if case == 1:
             # Addition of file
-            print self.checksum_manager.add_checksum_pair(arg)
+            checksum_manager = ChecksumManager()
+            print checksum_manager.add_checksum_pair(arg)
         if case == 2:
             # Removal of file
-            print self.checksum_manager.remove_checksum_pair(arg)
+            checksum_manager = ChecksumManager()
+            print checksum_manager.remove_checksum_pair(arg)
         if case == 3:
             # listing of checksum pairs
-            print self.checksum_manager.get_checksum_pairs()
+            checksum_manager = ChecksumManager()
+            print checksum_manager.get_checksum_pairs()
         if case == 4:
             # addition of email
-            print self.recipient_manager.add_recipient(arg)
+            recipient_manager= RecipientManager()
+            print recipient_manager.add_recipient(arg)
         if case == 5:
             # removal of email
-            print self.recipient_manager.remove_recipient(arg)
+            recipient_manager = RecipientManager()
+            print recipient_manager.remove_recipient(arg)
         if case == 6:
             # listing of emails
-            print self.recipient_manager.get_recipients()
+            recipient_manager = RecipientManager()
+            print recipient_manager.get_recipients()
 
     def parse_config(self):
         """
@@ -77,7 +79,6 @@ class ConfigManager:
 
         # Print all the emails in the recipient database.
         python config_manager -lr
-
         """
 
         self.parser.add_argument(

@@ -1,7 +1,8 @@
 import unittest
 import sys
+import os
+import math
 sys.path.append('../src')
-
 from checksum_manager import ChecksumManager
 from db_connector import DBConnector
 
@@ -14,7 +15,7 @@ class TestRecipientManager(unittest.TestCase):
         self.cleanup()
         self.manager = ChecksumManager(table_name=self.test_table)
             
-        self.create = """CREATE TABLE IF NOT EXISTS """ + self.test_table + """ (
+        self.create = """CREATE TABLE """ + self.test_table + """ (
                              TEST VARCHAR(254) NOT NULL PRIMARY KEY)"""
         self.delete = "DROP TABLE IF EXISTS %s" % self.test_table 
 
@@ -61,16 +62,16 @@ class TestRecipientManager(unittest.TestCase):
 
   
     def cleanup(self):
-        connector = DBConnector(db_name=self.test_table)
+        connector = DBConnector()
         connection = connector.get_connection()
         cursor = connection.cursor()
         
         try:
-            cursor.execute("DROP TABLE IF NOT EXISTS {}".format(self.test_table))
+            cursor.execute("DROP TABLE {}".format(self.test_table))
         except Exception as err:
             pass
         try:
-            cursor.execute("DROP TABLE IF NOT EXISTS {}".format(self.other_test))
+            cursor.execute("DROP TABLE EXISTS {}".format(self.other_test))
         except Exception as err:
             pass
 
@@ -81,12 +82,14 @@ class TestRecipientManager(unittest.TestCase):
         self.assertFalse(response)
         
         try:
-            connector = DBConnector(db_name=self.test_table)
+            connector = DBConnector()
             connection = connector.get_connection()
             cursor = connection.cursor()
             cursor.execute(self.create)
         except Exception as err:
+            print("HERE?", err)
             pass
+
         response = self.manager.checksum_table_exists()
         self.assertTrue(response)
 
@@ -97,7 +100,7 @@ class TestRecipientManager(unittest.TestCase):
         response = self.manager.checksum_table_exists()
         self.assertFalse(response)
 
-
+   
     def test_create_checksum_table1(self):
         # Verify table does not initially exist.
         response = self.manager.checksum_table_exists()
@@ -108,7 +111,6 @@ class TestRecipientManager(unittest.TestCase):
         self.assertTrue(response)
         response = self.manager.checksum_table_exists()
         self.assertTrue(response)
-
 
     def test_add_checksum_pair1(self):
         response = self.manager.checksum_table_exists()
