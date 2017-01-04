@@ -1,6 +1,6 @@
 import mysql.connector
 from mysql.connector import errorcode
-
+from logger import Logger
 
 class DBConnector:
 
@@ -12,7 +12,7 @@ class DBConnector:
         self.host = host
         self.port = port
         self.connection = None
-
+        self.logger = Logger()
     def __del__(self):
         try:
             self.connection.close()
@@ -60,7 +60,7 @@ class DBConnector:
                     self.db_name))
             return True
         except mysql.connector.Error as err:
-            print("Failed creating database: {}".format(err))
+            self.logger.log_generic_message("Failed creating database: {}".format(err))
             return False
 
     def delete_database(self):
@@ -74,7 +74,7 @@ class DBConnector:
             cursor.execute("DROP DATABASE {}".format(db_name))
             return True
         except Exception as err:
-            print(err)
+            self.logger.log_generic_message(err)
             return False
 
 if __name__ == '__main__':

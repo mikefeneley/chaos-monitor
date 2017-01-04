@@ -1,7 +1,7 @@
 import os
 import smtplib
 from validate_email import validate_email
-
+from logger import Logger
 """
 To use the send_notification function, user has to allow his gmail account to be used by less secure
 apps, which can be done from https://myaccount.google.com/security , option is available at the last
@@ -34,7 +34,7 @@ class Notification:
         self.email_server = email_server
         self.gmail_user = email_username
         self.gmail_pwd = email_pwd
-
+        self.logger = Logger()
     def valid_email(self, email):
         """
         Checks if the email provided is in correct format.
@@ -82,7 +82,6 @@ class Notification:
         :type recipient: string
         :returns: bool -- True if the message was successfuly sent. False otherwise.
         """
-        print(self.email_server, self.email_port, message, recipient)
         TO = recipient
 
         SUBJECT = "Notification from Vulnerability"
@@ -143,6 +142,3 @@ if __name__ == "__main__":
     recipients = []
     recipients.append("sample1@gmail.com")
     recipients.append("sample2@gmail.com")
-
-    #notification_sender.notify_all(message, recipients)
-    print notification_sender.valid_email('anshul.dbgt@gmail.com')

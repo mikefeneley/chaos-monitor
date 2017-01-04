@@ -2,11 +2,7 @@ import mysql.connector
 from mysql.connector import errorcode
 from db_connector import DBConnector
 from validate_email import validate_email
-import logging
-
-logger = logging.getLogger('checksum/filename database')
-logging.basicConfig(level=logging.DEBUG)
-
+from logger import Logger
 
 class RecipientManager:
 
@@ -57,6 +53,7 @@ class RecipientManager:
         self.connection = self.connector.get_connection()
         self.table_name = table_name
         self.email_field_length = 254
+        self.logger = Logger()
 
     def create_recipient_table(self):
         """
@@ -70,10 +67,10 @@ class RecipientManager:
             sql = """CREATE TABLE IF NOT EXISTS %s (EMAIL VARCHAR(%d) NOT
             NULL PRIMARY KEY)""" % (self.table_name, self.email_field_length)
             cursor.execute(sql)
-            logger.debug("Table created: {}".format(self.table_name))
+            self.logger.log_generic_message("Table created: {}".format(self.table_name))
             return True
         except Exception as err:
-            print(err)
+            self.logger.log_generic_message(err)
             return False
 
     def delete_recipient_table(self):
@@ -87,10 +84,10 @@ class RecipientManager:
             cursor = self.connection.cursor()
             sql = "DROP TABLE IF EXISTS %s" % self.table_name
             cursor.execute(sql)
-            logger.debug("Table deleted: {}".format(self.table_name))
+            self.logger.log_generic_message("Table deleted: {}".format(self.table_name))
             return True
         except Exception as err:
-            print(err)
+            self.logger.log_generic_message(err)
             return False
 
     def table_exists(self):
@@ -110,7 +107,7 @@ class RecipientManager:
             else:
                 return False
         except Exception as err:
-            print(err)
+            self.logger.log_generic_message(err)
             return False
 
     def add_recipient(self, recipient):
@@ -139,10 +136,10 @@ class RecipientManager:
             EMAIL) VALUES ('%s')""" % (self.table_name, recipient)
             cursor.execute(sql)
             self.connection.commit()
-            logger.debug("Recipient added: {}".format(recipient))
+            self.logger.log_generic_message("Recipient added: {}".format(recipient))
             return True
         except Exception as err:
-            print(err)
+            self.logger.log_generic_message(err)
             self.connection.rollback()
             return False
 
@@ -180,10 +177,10 @@ class RecipientManager:
                 self.table_name, recipient)
             cursor.execute(sql)
             self.connector.connection.commit()
-            logger.debug("Recipient removed: {}".format(recipient))
+            self.logger.log_generic_message("Recipient removed: {}".format(recipient))
             return True
         except Exception as err:
-            print(err)
+            self.logger.log_generic_message(err)
             self.connector.connection.rollback()
             return False
 
@@ -207,7 +204,7 @@ class RecipientManager:
                 recipient_emails.append(row[0])
             return recipient_emails
         except Exception as err:
-            print(err)
+            self.logger.log_generic_message(err)
             return []
 
 if __name__ == '__main__':

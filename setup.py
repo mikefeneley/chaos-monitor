@@ -19,7 +19,7 @@ if "install" in sys.argv:
         sys.exit()
 
 setup(name='Chaos-Monitor',
-        version='0.1',
+        version='0.0.1',
         description='System integrity verification program',
         url='https://github.com/mikefeneley/chaos-monitor.git',
         author='Michael Feneley',

@@ -87,7 +87,6 @@ class TestRecipientManager(unittest.TestCase):
             cursor = connection.cursor()
             cursor.execute(self.create)
         except Exception as err:
-            print("HERE?", err)
             pass
 
         response = self.manager.checksum_table_exists()

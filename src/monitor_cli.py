@@ -2,7 +2,7 @@ import sys
 import argparse
 from checksum_manager import ChecksumManager
 from recipient_manager import RecipientManager
-
+from logger import Logger
 
 class MonitorCli:
     """
@@ -26,7 +26,7 @@ class MonitorCli:
         self.help_rr = ""
         self.help_lr = ""
         self.parse_args()
-
+        self.logger = Logger()
 
     def execute(self, arg="", case=0):
         """

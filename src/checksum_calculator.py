@@ -63,4 +63,3 @@ class ChecksumCalculator:
 
 if __name__ == '__main__':
     check = ChecksumCalculator()
-    print(check.calculate_sha1('empty.py'))

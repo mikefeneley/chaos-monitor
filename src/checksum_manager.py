@@ -3,8 +3,7 @@ import mysql.connector
 from mysql.connector import errorcode
 from db_connector import DBConnector
 from checksum_calculator import ChecksumCalculator
-import logging
-
+from logger import Logger
 
 class ChecksumManager:
     """
@@ -34,9 +33,7 @@ class ChecksumManager:
         self.connection = self.connector.get_connection()
         self.table_name = table_name
         self.checksum_calculator = ChecksumCalculator()
-        logging.basicConfig(filename='checksum_manager.log', level=logging.DEBUG)
-        self.logger  = logging.getLogger(__name__)
-
+        self.logger = Logger()
     def checksum_table_exists(self):
         """
         Check to see if the checksum table exists in the database.
@@ -53,7 +50,7 @@ class ChecksumManager:
             else:
                 return False
         except Exception as err:
-            print(err)
+            logger.log_generic_message(err)
             return False
 
     def create_checksum_table(self):
@@ -69,10 +66,10 @@ class ChecksumManager:
             sql = """CREATE TABLE IF NOT EXISTS %s (filename VARCHAR(%d) NOT
             NULL PRIMARY KEY, checksum VARCHAR(%d) NOT NULL)""" % (self.table_name, self.filename_field_length, self.checksum_field_length)
             cursor.execute(sql)
-            self.logger.debug("Table created: {}".format(self.table_name))
+            self.logger.log_generic_messsage("Table created: {}".format(self.table_name))
             return True
         except Exception as err:
-            print(err)
+            self.logger.log_generic_message(err)
             return False
 
     def add_checksum_pair(self, filename):
@@ -101,10 +98,10 @@ class ChecksumManager:
                 filename,checksum) VALUES ('%s','%s')""" % (self.table_name, filename, checksum)
                 cursor.execute(sql)
                 self.connection.commit()
-                self.logger .debug("Pair added: {}({})".format(filename, checksum))
+                self.logger.debug("Pair added: {}({})".format(filename, checksum))
                 return True
             except Exception as err:
-                print(err)
+                self.logger.log_generic_message(err)
                 self.connection.rollback()
                 return False
 
@@ -130,10 +127,10 @@ class ChecksumManager:
                 self.table_name, filename)
             cursor.execute(sql)
             self.connector.connection.commit()
-            self.logger.debug("file removed: {}".format(filename))
+            self.logger.log_generic_message("file removed: {}".format(filename))
             return True
         except Exception as err:
-            print(err)
+            self.logger.log_generic_message(err)
             self.connector.connection.rollback()
             return False
 
@@ -161,7 +158,7 @@ class ChecksumManager:
                 checksum_pairs.append(pair)
             return checksum_pairs
         except Exception as err:
-            print(err)
+            self.logger.log_generic_message(err)
             return []
 
     def get_abspath(self, filename):
