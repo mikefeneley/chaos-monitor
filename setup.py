@@ -5,7 +5,6 @@ from setuptools import find_packages
 
 setup()
 
-
 if "install" in sys.argv:
     # Check if old version of chaos-monitor is installed.
     p1 = "/usr/local/bin/monitor.py"
@@ -28,4 +27,8 @@ setup(name='Chaos-Monitor',
         license='MIT',
         packages=find_packages(),
         entry_points={'console_scripts': ['cmon=src.monitor_cli:cli_entrypoint']})
+
+
+
+
 

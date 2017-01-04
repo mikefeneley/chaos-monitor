@@ -1,11 +1,9 @@
 import time
 from pydaemon import Daemon
-# Issue with sharing the same log class
 from checksum_manager import ChecksumManager
 from checksum_calculator import ChecksumCalculator
 import hashlib
 import os
-import logging
 
 
 class Monitor(Daemon):
