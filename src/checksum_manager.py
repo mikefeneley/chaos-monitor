@@ -1,4 +1,4 @@
-
+import os
 import mysql.connector
 from mysql.connector import errorcode
 from db_connector import DBConnector
@@ -16,19 +16,23 @@ class ChecksumManager:
     +---------+-------------+------+-----+---------+-------+
     | filename| varchar(255)| YES  |     | NULL    |       |
     | checksum| varchar(32) | YES  |     | NULL    |       |
+    | filepath| varchar(255)| YES  |     | NULL    |       |
     +---------+-------------+------+-----+---------+-------+
 
-    The filename in the table is stored as the absolute filename.
+    The filepath in the table is stored as the absolute filename.
 
     For example a file in the home directory would be stored as:
 
     /home/user/file.txt
+    
+    filename is just the name of the file.
 
     """
 
-    def __init__(self, table_name="CHECKSUMS"):
+    def __init__(self, table_name="CHECKSUM"):
         self.filename_field_length = 255
         self.checksum_field_length = 64
+        self.filepath_field_length = 255
         self.connector = DBConnector()
         self.connection = self.connector.get_connection()
         self.table_name = table_name
@@ -64,9 +68,9 @@ class ChecksumManager:
         try:
             cursor = self.connection.cursor()
             sql = """CREATE TABLE IF NOT EXISTS %s (filename VARCHAR(%d) NOT
-            NULL PRIMARY KEY, checksum VARCHAR(%d) NOT NULL)""" % (self.table_name, self.filename_field_length, self.checksum_field_length)
+            NULL PRIMARY KEY, checksum VARCHAR(%d) NOT NULL, filepath VARCHAR(%d) NOT NULL)""" % (self.table_name, self.filename_field_length, self.checksum_field_length,self.filepath_field_length)
             cursor.execute(sql)
-            self.logger.log_generic_messsage("Table created: {}".format(self.table_name))
+            #self.logger.log_generic_messsage("Table created: {}".format(self.table_name))
             return True
         except Exception as err:
             self.logger.log_generic_message(err)
@@ -83,24 +87,27 @@ class ChecksumManager:
         :type filename: string
         :return: bool -- True if added successfuly. False otherwise.
         """
-        if not self. create_checksum_table():
+        if not self.create_checksum_table():
             return False
 
         if len(filename) > self.filename_field_length:
             return False
 
+        
         checksum = self.checksum_calculator.calculate_checksum(filename)
+        filepath = self.get_abspath(filename)
 
         if checksum:
             try:
                 cursor = self.connection.cursor()
                 sql = """INSERT INTO %s (
-                filename,checksum) VALUES ('%s','%s')""" % (self.table_name, filename, checksum)
+                filename,checksum,filepath) VALUES ('%s','%s','%s')""" % (self.table_name, filename, checksum, filepath)
                 cursor.execute(sql)
                 self.connection.commit()
-                self.logger.debug("Pair added: {}({})".format(filename, checksum))
+                #self.logger.debug("Pair added: {}({})".format(filename, checksum))
                 return True
             except Exception as err:
+                print err
                 self.logger.log_generic_message(err)
                 self.connection.rollback()
                 return False
@@ -146,16 +153,18 @@ class ChecksumManager:
             return []
 
         try:
+            
             checksum_pairs = []
             sql = "SELECT * FROM %s" % self.table_name
             cursor = self.connector.connection.cursor()
             cursor.execute(sql)
             results = cursor.fetchall()
             for row in results:
-                pair = []
-                pair.append(row[0])
-                pair.append(row[1])
-                checksum_pairs.append(pair)
+                entry = []
+                entry.append(row[0])
+                entry.append(row[1])
+                entry.append(row[2])
+                checksum_pairs.append(entry)
             return checksum_pairs
         except Exception as err:
             self.logger.log_generic_message(err)
@@ -176,7 +185,8 @@ class ChecksumManager:
 
 if __name__ == '__main__':
     c = ChecksumManager()
-    c.create_checksum_table()
-    c.remove_checksum_pair('monitor.py')
-    c.add_checksum_pair('monitor.py')
-    c.get_checksum_pairs()
+    print c.create_checksum_table()
+    print c.remove_checksum_pair('monitor.py')
+    print c.add_checksum_pair('monitor.py')
+    print c.get_checksum_pairs()
+    
