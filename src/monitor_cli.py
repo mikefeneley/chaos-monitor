@@ -20,7 +20,6 @@ class MonitorCli:
         """
         Initialisation of Parser
         """
-        print("HERE")
         self.parser = argparse.ArgumentParser()
         self.help_af = ""
         self.help_rf = ""
@@ -141,11 +140,9 @@ class MonitorCli:
         self.parser.add_argument("--restart", action="store_true", dest="restart_daemon", default=False, help=self.restart)
         self.parser.add_argument("--status", action="store_true", dest="status_daemon", default=False,  help=self.status)
             
-        pritn("HERE") 
         
         args = self.parser.parse_args()
         
-        print("After here"
         if args.file_add:
             print args.file_add
             self.execute(args.file_add, 1)

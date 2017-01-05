@@ -29,11 +29,11 @@ class Monitor(Daemon):
         """
         self.setup() 
         while True:
-        
-            pairs = self.checksum_manager.get_checksum_pairs()
+	    pairs = self.checksum_manager.get_checksum_pairs()
+            
             for pair in pairs:
                 
-                filename = pair[0]
+                filename = pair[2]
                 checksum = pair[1]
 
                 current_checksum = self.calculator.calculate_checksum(filename)
@@ -42,7 +42,7 @@ class Monitor(Daemon):
                     self.logger.log_checksum_mismatch(filename, current_checksum, checksum)
                 else:
                     self.logger.log_checksum_match(filename, current_checksum, checksum)
-            
+           
             time.sleep(self.wakeup_time)
 
 

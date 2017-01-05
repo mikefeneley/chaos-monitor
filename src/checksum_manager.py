@@ -1,5 +1,6 @@
 import os
 import mysql.connector
+import sys
 from mysql.connector import errorcode
 from db_connector import DBConnector
 from checksum_calculator import ChecksumCalculator
@@ -37,7 +38,7 @@ class ChecksumManager:
         self.connection = self.connector.get_connection()
         self.table_name = table_name
         self.checksum_calculator = ChecksumCalculator()
-        self.logger = Logger()
+        self.logger = Logger(__name__)
     def checksum_table_exists(self):
         """
         Check to see if the checksum table exists in the database.
@@ -169,7 +170,8 @@ class ChecksumManager:
                 checksum_pairs.append(entry)
             return checksum_pairs
         except Exception as err:
-            self.logger.log_generic_message(err + "HERE")
+	    print(err)
+            self.logger.log_generic_message(err)
             return []
 
     def get_abspath(self, filename):
@@ -204,9 +206,7 @@ class ChecksumManager:
 
 if __name__ == '__main__':
     c = ChecksumManager()
-    print c.delete_checksum_table()
-    print c.create_checksum_table()
-    print c.remove_checksum_pair('monitor.py')
-    print c.add_checksum_pair('monitor.py')
-    print c.get_checksum_pairs()
-    
+    if "get" in sys.argv:
+	print c.get_checksum_pairs()
+    if "add" in sys.argv:
+	c.add_checksum_pair(sys.argv[len(sys.argv) -1])

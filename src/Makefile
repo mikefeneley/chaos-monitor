@@ -4,16 +4,13 @@ clean:
 	-rm *.log
 	-rm -r _pycache_
 stop:
-	python monitor.py stop
+	python monitor_cli.py --stop
 
 start:
-	python monitor.py start
+	python monitor_cli.py --start
 
 status:
-	python monitor.py status
+	python monitor_cli.py --status
 
 restart:
-	python monitor.py restart
-
-notify:
-	python notification.py
+	python monitor_cli.py --restart
