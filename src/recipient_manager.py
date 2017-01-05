@@ -4,6 +4,7 @@ from db_connector import DBConnector
 from validate_email import validate_email
 from logger import Logger
 
+
 class RecipientManager:
 
     """
@@ -67,7 +68,8 @@ class RecipientManager:
             sql = """CREATE TABLE IF NOT EXISTS %s (EMAIL VARCHAR(%d) NOT
             NULL PRIMARY KEY)""" % (self.table_name, self.email_field_length)
             cursor.execute(sql)
-            self.logger.log_generic_message("Table created: {}".format(self.table_name))
+            self.logger.log_generic_message(
+                "Table created: {}".format(self.table_name))
             return True
         except Exception as err:
             self.logger.log_generic_message(err)
@@ -84,7 +86,8 @@ class RecipientManager:
             cursor = self.connection.cursor()
             sql = "DROP TABLE IF EXISTS %s" % self.table_name
             cursor.execute(sql)
-            self.logger.log_generic_message("Table deleted: {}".format(self.table_name))
+            self.logger.log_generic_message(
+                "Table deleted: {}".format(self.table_name))
             return True
         except Exception as err:
             self.logger.log_generic_message(err)
@@ -136,7 +139,8 @@ class RecipientManager:
             EMAIL) VALUES ('%s')""" % (self.table_name, recipient)
             cursor.execute(sql)
             self.connection.commit()
-            self.logger.log_generic_message("Recipient added: {}".format(recipient))
+            self.logger.log_generic_message(
+                "Recipient added: {}".format(recipient))
             return True
         except Exception as err:
             print err
@@ -178,7 +182,8 @@ class RecipientManager:
                 self.table_name, recipient)
             cursor.execute(sql)
             self.connector.connection.commit()
-            self.logger.log_generic_message("Recipient removed: {}".format(recipient))
+            self.logger.log_generic_message(
+                "Recipient removed: {}".format(recipient))
             return True
         except Exception as err:
             self.logger.log_generic_message(err)

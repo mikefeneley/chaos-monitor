@@ -2,28 +2,38 @@ import mysql.connector
 from mysql.connector import errorcode
 from logger import Logger
 
+
 class DBConnector:
+
+    """
+    Provides a way for table managers to connect to the parent mysql database.
+    """
 
     def __init__(self, db_name='INTEGRITY_DB', host='localhost', port='3306'):
         """
-        READ FROM FILE???
+        Set up database connection configuartion settings.
         """
         self.db_name = db_name
         self.host = host
         self.port = port
         self.connection = None
         self.logger = Logger()
+
     def __del__(self):
         try:
             self.connection.close()
         except Exception as err:
-            pass
+            self.logger.log_generic_message(err)
 
     def get_connection(self, user='root', passwd=''):
         """
-        Creates a connection to the database with the configs.
+        Returns a valid connection to mysql database.
 
-        :return:
+        :param user: Login user for mysql database.
+        :type user: string
+        :param passwd: Login password for mysql database
+        :type passwd: string
+        :return: mysql.connector -- Connection to the database.
         """
         if self.connection is None:
             self.connection = self.make_connection(user=user, passwd=passwd)
@@ -33,24 +43,31 @@ class DBConnector:
 
     def make_connection(self, user='root', passwd=''):
         """
-        Connects to the database with name DB_NAME.
+        Creates a new connection to the mysql database
+        with the user credentials passed as arguments.
 
-        :return: mysql.connector -- Connection to the database if successful.
-                                    None if the connection was not made.
+        :param user: Login user for mysql database.
+        :type user: string
+        :param passwd: Login password for mysql database
+        :type passwd: string
+        :return: mysql.connector -- Connection to the database.
         """
         try:
             connection = mysql.connector.connect(
                 user=user, passwd=passwd, host=self.host, port=self.port)
             self.create_database(connection=connection)
             connection.database = self.db_name
-        except mysql.connector.Error as err:
+        except Exception as err:
+            self.logger.log_generic_message(err)
             connection = None
         return connection
 
     def create_database(self, connection=None):
         """
-        Creates the database with name db_name.
+        Creates a new mysql database with name equal to value of db_name
 
+        :param connection: Connection to the mysql server that will host the database.
+        :type connection: mysql.connector
         :return: bool -- True if the database was created or exists. False otherwise.
         """
         try:
@@ -59,8 +76,10 @@ class DBConnector:
                 "CREATE DATABASE IF NOT EXISTS {} DEFAULT CHARACTER SET 'utf8'".format(
                     self.db_name))
             return True
-        except mysql.connector.Error as err:
-            self.logger.log_generic_message("Failed creating database: {}".format(err))
+        except Exception as err:
+            self.logger.log_generic_message(err)
+            self.logger.log_generic_message(
+                "Failed creating database: {}".format(err))
             return False
 
     def delete_database(self):

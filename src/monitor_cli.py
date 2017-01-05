@@ -6,7 +6,9 @@ from logger import Logger
 
 import monitor
 
+
 class MonitorCli:
+
     """
     This class provides the command line interface to control
     the database entries.
@@ -52,7 +54,7 @@ class MonitorCli:
             print checksum_manager.get_checksum_pairs()
         if case == 4:
             # addition of email
-            recipient_manager= RecipientManager()
+            recipient_manager = RecipientManager()
             print recipient_manager.add_recipient(arg)
         if case == 5:
             # removal of email
@@ -101,7 +103,7 @@ class MonitorCli:
 
         # Get the status
         cmon status
-        
+
         """
         self.parser.add_argument(
             "-af",
@@ -135,14 +137,33 @@ class MonitorCli:
             default=False,
             dest='list_emails',
             help=self.help_lr)
-        self.parser.add_argument("--start", action="store_true", dest="start_daemon", default=False, help=self.start)
-        self.parser.add_argument("--stop", action="store_true", dest="stop_daemon", default=False, help=self.stop)
-        self.parser.add_argument("--restart", action="store_true", dest="restart_daemon", default=False, help=self.restart)
-        self.parser.add_argument("--status", action="store_true", dest="status_daemon", default=False,  help=self.status)
-            
-        
+        self.parser.add_argument(
+            "--start",
+            action="store_true",
+            dest="start_daemon",
+            default=False,
+            help=self.start)
+        self.parser.add_argument(
+            "--stop",
+            action="store_true",
+            dest="stop_daemon",
+            default=False,
+            help=self.stop)
+        self.parser.add_argument(
+            "--restart",
+            action="store_true",
+            dest="restart_daemon",
+            default=False,
+            help=self.restart)
+        self.parser.add_argument(
+            "--status",
+            action="store_true",
+            dest="status_daemon",
+            default=False,
+            help=self.status)
+
         args = self.parser.parse_args()
-        
+
         if args.file_add:
             print args.file_add
             self.execute(args.file_add, 1)
@@ -166,7 +187,7 @@ class MonitorCli:
         if args.list_emails:
             print "listing emails"
             self.execute(None, 6)
-        
+
         if args.start_daemon:
             self.execute(None, 7)
         if args.stop_daemon:
@@ -179,6 +200,7 @@ class MonitorCli:
 
 def main(args):
     cli = MonitorCli()
+
 
 def cli_entrypoint():
     main(sys.argv[1:])

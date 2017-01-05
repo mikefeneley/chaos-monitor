@@ -2,9 +2,9 @@ import os
 import mysql.connector
 import sys
 from mysql.connector import errorcode
-from .db_connector import DBConnector
-from .checksum_calculator import ChecksumCalculator
-from .logger import Logger
+from db_connector import DBConnector
+from checksum_calculator import ChecksumCalculator
+from logger import Logger
 
 
 class ChecksumManager:
@@ -83,8 +83,8 @@ class ChecksumManager:
 
         TODO: If the user supplies an absolute path at the filename, the name
         of the file has to be stripped of the path to be used as the key.
-	
-	TODO: Check the robustness of connection rollback.
+
+        TODO: Check the robustness of connection rollback.
 
         :param filename: The name of the file whose filename/checksum is added
         :type filename: string

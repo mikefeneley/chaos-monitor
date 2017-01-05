@@ -3,7 +3,9 @@ import smtplib
 from validate_email import validate_email
 from logger import Logger
 
+
 class Notification:
+
     """
     Interface that allows user to send notifications using email protocols.
 
@@ -29,8 +31,13 @@ class Notification:
         self.gmail_user = email_username
         self.gmail_pwd = email_pwd
         self.logger = Logger()
-    
-    def build_email(self, subject="Notification from Vulnerability", message="", source="", destination=""):
+
+    def build_email(
+        self,
+        subject="Notification from Vulnerability",
+     message="",
+     source="",
+     destination=""):
         """
         Creates an email notification object from arguments. The email is
         constructed using python MIME object types.
@@ -45,10 +52,8 @@ class Notification:
         :type destination: string
         :returns: MIMEText -- Constructed MIMETextobject with email information
         """
-        email = MIMEText(text=messgae)    
+        email = MIMEText(text=messgae)
         print(email)
-
-
 
     def send_notification(self, message="", recipient=""):
         """
@@ -106,7 +111,7 @@ class Notification:
 
 
 if __name__ == "__main__":
-    
+
     notify = Notifier()
     """
     gmail = "smtp.gmail.com"

@@ -3,11 +3,11 @@ import hashlib
 import os
 import sys
 from pydaemon import Daemon
-from .checksum_manager import ChecksumManager
-from .checksum_calculator import ChecksumCalculator
-from .logger import Logger
-from .notification import Notification
-from .recipient_manager import RecipientManager
+from checksum_manager import ChecksumManager
+from checksum_calculator import ChecksumCalculator
+from logger import Logger
+from notification import Notification
+from recipient_manager import RecipientManager
 
 
 class Monitor(Daemon):
