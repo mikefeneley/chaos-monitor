@@ -162,9 +162,10 @@ class ChecksumManager:
             results = cursor.fetchall()
             for row in results:
                 entry = []
-                entry.append(row[0])
-                entry.append(row[1])
-                entry.append(row[2])
+                entry.append(str(row[0]))
+                entry.append(str(row[1]))
+                entry.append(str(row[2]))
+                print entry
                 checksum_pairs.append(entry)
             return checksum_pairs
         except Exception as err:
