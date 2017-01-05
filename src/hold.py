@@ -2,13 +2,11 @@ import os
 import mysql.connector
 import sys
 from mysql.connector import errorcode
-from .db_connector import DBConnector
-from .checksum_calculator import ChecksumCalculator
-from .logger import Logger
-
+from db_connector import DBConnector
+from checksum_calculator import ChecksumCalculator
+from logger import Logger
 
 class ChecksumManager:
-
     """
     Provides an interface to control checksum/filename pair table.
 
@@ -34,7 +32,7 @@ class ChecksumManager:
         self.table_name = table_name
         self.checksum_calculator = ChecksumCalculator()
         self.logger = Logger(__name__)
-
+    
     def checksum_table_exists(self):
         """
         Check to see if the checksum table exists in the database.
@@ -65,10 +63,9 @@ class ChecksumManager:
         try:
             cursor = self.connection.cursor()
             sql = """CREATE TABLE IF NOT EXISTS %s (filename VARCHAR(%d) NOT
-            NULL PRIMARY KEY, checksum VARCHAR(%d) NOT NULL, filepath VARCHAR(%d) NOT NULL)""" % (self.table_name, self.filename_field_length, self.checksum_field_length, self.filepath_field_length)
+            NULL PRIMARY KEY, checksum VARCHAR(%d) NOT NULL, filepath VARCHAR(%d) NOT NULL)""" % (self.table_name, self.filename_field_length, self.checksum_field_length,self.filepath_field_length)
             cursor.execute(sql)
-            self.logger.log_generic_message(
-                "Table created: {}".format(self.table_name))
+            self.logger.log_generic_message("Table created: {}".format(self.table_name))
             return True
         except Exception as err:
             self.logger.log_generic_message(err)
@@ -80,11 +77,10 @@ class ChecksumManager:
         checksum/filename entry to the database. If the table does
         not yet exist, then the table is first created and then the checksum
         pair is added.
+		
+	TODO: If the user supplies an absolute path at the filename, the name
+	of the file has to be stripped of the path to be used as the key.
 
-        TODO: If the user supplies an absolute path at the filename, the name
-        of the file has to be stripped of the path to be used as the key.
-	
-	TODO: Check the robustness of connection rollback.
 
         :param filename: The name of the file whose filename/checksum is added
         :type filename: string
@@ -96,6 +92,7 @@ class ChecksumManager:
         if len(filename) > self.filename_field_length:
             return False
 
+        
         checksum = self.checksum_calculator.calculate_checksum(filename)
         filepath = self.get_abspath(filename)
 
@@ -106,8 +103,7 @@ class ChecksumManager:
                 filename,checksum,filepath) VALUES ('%s','%s','%s')""" % (self.table_name, filename, checksum, filepath)
                 cursor.execute(sql)
                 self.connection.commit()
-                self.logger.log_generic_message(
-                    "Pair added: {}({})".format(filename, checksum))
+                self.logger.log_generic_message("Pair added: {}({})".format(filename, checksum))
                 return True
             except Exception as err:
                 self.logger.log_generic_message(err)
@@ -136,8 +132,7 @@ class ChecksumManager:
                 self.table_name, filename)
             cursor.execute(sql)
             self.connector.connection.commit()
-            self.logger.log_generic_message(
-                "file removed: {}".format(filename))
+            self.logger.log_generic_message("file removed: {}".format(filename))
             return True
         except Exception as err:
             self.logger.log_generic_message(err)
@@ -156,7 +151,7 @@ class ChecksumManager:
             return []
 
         try:
-
+            
             checksum_pairs = []
             sql = "SELECT * FROM %s" % self.table_name
             cursor = self.connector.connection.cursor()
@@ -197,8 +192,7 @@ class ChecksumManager:
             cursor = self.connection.cursor()
             sql = "DROP TABLE IF EXISTS %s" % self.table_name
             cursor.execute(sql)
-            self.logger.log_generic_message(
-                "Table deleted: {}".format(self.table_name))
+            self.logger.log_generic_message("Table deleted: {}".format(self.table_name))
             return True
         except Exception as err:
             self.logger.log_generic_message(err)
@@ -207,8 +201,8 @@ class ChecksumManager:
 if __name__ == '__main__':
     c = ChecksumManager()
     if "get" in sys.argv:
-        print(c.get_checksum_pairs())
+	print(c.get_checksum_pairs())
     if "add" in sys.argv:
-        print(c.add_checksum_pair(sys.argv[len(sys.argv) - 1]))
+	print(c.add_checksum_pair(sys.argv[len(sys.argv) - 1]))
     if "remove" in sys.argv:
-        print(c.remove_checksum_pair(sys.argv[len(sys.argv) - 1]))
+	print(c.remove_checksum_pair(sys.argv[len(sys.argv) - 1]))
