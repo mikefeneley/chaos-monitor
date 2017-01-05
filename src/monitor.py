@@ -5,7 +5,7 @@ from checksum_calculator import ChecksumCalculator
 from logger import Logger
 import hashlib
 import os
-
+import sys
 
 class Monitor(Daemon):
 
@@ -34,7 +34,12 @@ class Monitor(Daemon):
             time.sleep(1)
 
 
-if __name__ == '__main__':
-    log = Logger()
-    mon = Monitor("/tmp/chaosmonitor.pid", "Monitor")
+def control_monitor():
+    if '--' in sys.argv[len(sys.argv) - 1]:
+        sys.argv[len(sys.argv) - 1] = sys.argv[len(sys.argv) - 1].replace("--", "")
+    mon = Monitor("/tmp/chaosmonitor.pid", "Montitor")
     mon.main()
+    
+
+if __name__ == '__main__':
+    control_monitor()

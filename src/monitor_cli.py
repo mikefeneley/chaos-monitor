@@ -4,6 +4,8 @@ from checksum_manager import ChecksumManager
 from recipient_manager import RecipientManager
 from logger import Logger
 
+import monitor
+
 class MonitorCli:
     """
     This class provides the command line interface to control
@@ -19,12 +21,16 @@ class MonitorCli:
         Initialisation of Parser
         """
         self.parser = argparse.ArgumentParser()
-        self.help_af = "To add a file to checksum tuple database, type: '-af <filename>'"
-        self.help_rf = "To remove a file from checksum tuple database, type: '-rf <filename>'"
-        self.help_lf = "To get all tuples from checksum tuple database, type: '-lf'"
-        self.help_ar = "To add an email to recipient database, type: '-ar <email>'"
-        self.help_rr = "To remove an email from recipient database, type: 'rr <email>'"
-        self.help_lr = "To get list of recipients from recipient database, type: 'lr'"
+        self.help_af = ""
+        self.help_rf = ""
+        self.help_lf = ""
+        self.help_ar = ""
+        self.help_rr = ""
+        self.help_lr = ""
+        self.start = ""
+        self.stop = ""
+        self.status = ""
+        self.restart = ""
         self.parse_args()
         self.logger = Logger()
 
@@ -56,6 +62,8 @@ class MonitorCli:
             # listing of emails
             recipient_manager = RecipientManager()
             print recipient_manager.get_recipients()
+        if case == 7:
+            monitor.control_monitor()
 
     def parse_args(self):
         """
@@ -65,22 +73,35 @@ class MonitorCli:
         Supported commands:
 
         # Adds the file file.txt and its checksum to the checksum database.
-        python config_manager -af file.txt
+        cmon -af file.txt
 
         # Remove the entry with filename file.txt from the checksum database.
-        python config_manager -rf file.txt
+        cmon -rf file.txt
 
         # Print a list of all the files and their checksums stores in the database.
-        python config_manager -lf
+        cmon -lf
 
         # Add the email to the recipient database.
-        python config_manager -ar user@domain.com
+        cmon -ar user@domain.com
 
         # Remove the email from the recipient database.
-        python config_manager -rr user@domain.com
+        cmon -rr user@domain.com
 
         # Print all the emails in the recipient database.
-        python config_manager -lr
+        cmon -lr
+
+        # Start the daemon
+        cmon start
+
+        #Stop the daemon
+        cmon stop
+
+        # Restart
+        cmon restart
+
+        # Get the status
+        cmon status
+        
         """
         self.parser.add_argument(
             "-af",
@@ -114,8 +135,15 @@ class MonitorCli:
             default=False,
             dest='list_emails',
             help=self.help_lr)
+        self.parser.add_argument("--start", action="store_true", dest="start_daemon", default=False, help=self.start)
+        self.parser.add_argument("--stop", action="store_true", dest="stop_daemon", default=False, help=self.stop)
+        self.parser.add_argument("--restart", action="store_true", dest="restart_daemon", default=False, help=self.restart)
+        self.parser.add_argument("--status", action="store_true", dest="status_daemon", default=False,  help=self.status)
+            
+        
+        
         args = self.parser.parse_args()
-
+        
 
         if args.file_add:
             print args.file_add
@@ -140,12 +168,21 @@ class MonitorCli:
         if args.list_emails:
             print "listing emails"
             self.execute(None, 6)
+        
+        if args.start_daemon:
+            self.execute(None, 7)
+        if args.stop_daemon:
+            self.execute(None, 7)
+        if args.restart_daemon:
+            self.execute(None, 7)
+        if args.status_daemon:
+            self.execute(None, 7)
+
 
 def main(args):
     cli = MonitorCli()
 
 def cli_entrypoint():
-    print("this")
     main(sys.argv[1:])
 
 
