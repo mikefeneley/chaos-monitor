@@ -29,7 +29,7 @@ class ChecksumManager:
 
     """
 
-    def __init__(self, table_name="CHECKSUM"):
+    def __init__(self, table_name="CHECKSUMS"):
         self.filename_field_length = 255
         self.checksum_field_length = 64
         self.filepath_field_length = 255
@@ -54,7 +54,7 @@ class ChecksumManager:
             else:
                 return False
         except Exception as err:
-            logger.log_generic_message(err)
+            self.logger.log_generic_message(err)
             return False
 
     def create_checksum_table(self):
@@ -70,9 +70,10 @@ class ChecksumManager:
             sql = """CREATE TABLE IF NOT EXISTS %s (filename VARCHAR(%d) NOT
             NULL PRIMARY KEY, checksum VARCHAR(%d) NOT NULL, filepath VARCHAR(%d) NOT NULL)""" % (self.table_name, self.filename_field_length, self.checksum_field_length,self.filepath_field_length)
             cursor.execute(sql)
-            #self.logger.log_generic_messsage("Table created: {}".format(self.table_name))
+            self.logger.log_generic_message("Table created: {}".format(self.table_name))
             return True
         except Exception as err:
+            print err
             self.logger.log_generic_message(err)
             return False
 
@@ -104,7 +105,7 @@ class ChecksumManager:
                 filename,checksum,filepath) VALUES ('%s','%s','%s')""" % (self.table_name, filename, checksum, filepath)
                 cursor.execute(sql)
                 self.connection.commit()
-                #self.logger.debug("Pair added: {}({})".format(filename, checksum))
+                self.logger.log_generic_message("Pair added: {}({})".format(filename, checksum))
                 return True
             except Exception as err:
                 print err
@@ -183,8 +184,26 @@ class ChecksumManager:
         else:
             return None
 
+    def delete_checksum_table(self):
+        """
+        Deletes the database table containing all recipient information.
+
+        :return: bool -- True if the table is deleted or does not exist.
+                         False otherwise
+        """
+        try:
+            cursor = self.connection.cursor()
+            sql = "DROP TABLE IF EXISTS %s" % self.table_name
+            cursor.execute(sql)
+            self.logger.log_generic_message("Table deleted: {}".format(self.table_name))
+            return True
+        except Exception as err:
+            self.logger.log_generic_message(err)
+            return False
+
 if __name__ == '__main__':
     c = ChecksumManager()
+    print c.delete_checksum_table()
     print c.create_checksum_table()
     print c.remove_checksum_pair('monitor.py')
     print c.add_checksum_pair('monitor.py')
