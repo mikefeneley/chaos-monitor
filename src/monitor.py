@@ -1,25 +1,31 @@
 import time
+import hashlib
+import os
+import sys
 from pydaemon import Daemon
 from checksum_manager import ChecksumManager
 from checksum_calculator import ChecksumCalculator
 from logger import Logger
-import hashlib
-import os
-import sys
+from notification import Notification
+from recipient_manager import RecipientManager
 
 class Monitor(Daemon):
-
+    """
+    Daemon which periodically wakes up and verifies system integrity by
+    checking to make sure the checksums stored in the database match
+    the checksums of the files as they currently exist.
+    """
 
     def setup(self):
         self.checksum_manager = ChecksumManager()
         self.calculator = ChecksumCalculator()
-        self.logger = Logger()
+        self.logger = Logger(__name__)
+        self.wakeup_time = 2
     def run(self):
         self.setup() 
-        
         while True:
+        
             pairs = self.checksum_manager.get_checksum_pairs()
-
             for pair in pairs:
                 
                 filename = pair[0]
@@ -29,12 +35,26 @@ class Monitor(Daemon):
                 
                 if current_checksum != checksum:
                     self.logger.log_checksum_mismatch(filename, current_checksum, checksum)
+                    
+                    recipient_manager = RecipientManager()
+                    recipients = recipient_manager.get_recipients()
+                    self.logger.log_generic_message(recipients)
+                    notifier = Notification()
                 else:
                     self.logger.log_checksum_match(filename, current_checksum, checksum)
-            time.sleep(1)
+            
+            time.sleep(self.wakeup_time)
 
 
 def control_monitor():
+    """
+    Control function for the checksum daemon. Provides an entry point to
+    send control commands to the daemon. The daemon this class uses was 
+    originally intended to be controlled from the command line. The
+    interface which the user uses to control the daemon is specified
+    in cli_monitor. 
+    """
+
     if '--' in sys.argv[len(sys.argv) - 1]:
         sys.argv[len(sys.argv) - 1] = sys.argv[len(sys.argv) - 1].replace("--", "")
     mon = Monitor("/tmp/chaosmonitor.pid", "Montitor")

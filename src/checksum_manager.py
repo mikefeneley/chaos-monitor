@@ -169,7 +169,7 @@ class ChecksumManager:
                 checksum_pairs.append(entry)
             return checksum_pairs
         except Exception as err:
-            self.logger.log_generic_message(err)
+            self.logger.log_generic_message(err + "HERE")
             return []
 
     def get_abspath(self, filename):
