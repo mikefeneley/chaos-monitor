@@ -124,7 +124,7 @@ class RecipientManager:
         if not self.create_recipient_table():
             return False
 
-        if not validate_email(recipient, verify=False):
+        if not validate_email(recipient, verify=True):
             return False
 
         if len(recipient) > 254:
@@ -139,6 +139,7 @@ class RecipientManager:
             self.logger.log_generic_message("Recipient added: {}".format(recipient))
             return True
         except Exception as err:
+            print err
             self.logger.log_generic_message(err)
             self.connection.rollback()
             return False
@@ -156,7 +157,7 @@ class RecipientManager:
                 print(row[0])
             return True
         except Exception as err:
-            print(err)
+            self.logger.log_generic_message(err)
             return False
 
     def remove_recipient(self, recipient):
@@ -201,7 +202,7 @@ class RecipientManager:
             cursor.execute(sql)
             results = cursor.fetchall()
             for row in results:
-                recipient_emails.append(row[0])
+                recipient_emails.append(str(row[0]))
             return recipient_emails
         except Exception as err:
             self.logger.log_generic_message(err)
@@ -209,3 +210,4 @@ class RecipientManager:
 
 if __name__ == '__main__':
     R = RecipientManager()
+    print R.add_recipient('anshul7@vt.edu')
