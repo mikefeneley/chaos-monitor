@@ -20,8 +20,13 @@ class Monitor(Daemon):
         self.checksum_manager = ChecksumManager()
         self.calculator = ChecksumCalculator()
         self.logger = Logger(__name__)
-        self.wakeup_time = 2
+        self.wakeup_time = 5 
+
     def run(self):
+        """
+        Main loop of the daemon which does the integrity checking. The program
+        should never return from this loop.
+        """
         self.setup() 
         while True:
         
@@ -35,11 +40,6 @@ class Monitor(Daemon):
                 
                 if current_checksum != checksum:
                     self.logger.log_checksum_mismatch(filename, current_checksum, checksum)
-                    
-                    recipient_manager = RecipientManager()
-                    recipients = recipient_manager.get_recipients()
-                    self.logger.log_generic_message(recipients)
-                    notifier = Notification()
                 else:
                     self.logger.log_checksum_match(filename, current_checksum, checksum)
             
