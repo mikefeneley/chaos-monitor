@@ -12,22 +12,15 @@ class ChecksumManager:
 
     Checksum Database Table
 
-    +---------+-------------+------+-----+---------+-------+
-    | Field   | Type        | Null | Key | Default | Extra |
-    +---------+-------------+------+-----+---------+-------+
-    | filename| varchar(255)| YES  |     | NULL    |       |
-    | checksum| varchar(32) | YES  |     | NULL    |       |
-    | filepath| varchar(255)| YES  |     | NULL    |       |
-    +---------+-------------+------+-----+---------+-------+
+    +----------+--------------+------+-----+---------+-------+
+    | Field    | Type         | Null | Key | Default | Extra |
+    +----------+--------------+------+-----+---------+-------+
+    | filename | varchar(255) | YES  |     | NULL    |       |
+    | checksum | varchar(32)  | YES  |     | NULL    |       |
+    | filepath | varchar(255) | YES  |     | NULL    |       |
+    +----------+--------------+------+-----+---------+-------+
 
     The filepath in the table is stored as the absolute filename.
-
-    For example a file in the home directory would be stored as:
-
-    /home/user/file.txt
-    
-    filename is just the name of the file.
-
     """
 
     def __init__(self, table_name="CHECKSUMS"):
@@ -39,6 +32,7 @@ class ChecksumManager:
         self.table_name = table_name
         self.checksum_calculator = ChecksumCalculator()
         self.logger = Logger(__name__)
+    
     def checksum_table_exists(self):
         """
         Check to see if the checksum table exists in the database.
@@ -166,11 +160,9 @@ class ChecksumManager:
                 entry.append(str(row[0]))
                 entry.append(str(row[1]))
                 entry.append(str(row[2]))
-                print entry
                 checksum_pairs.append(entry)
             return checksum_pairs
         except Exception as err:
-	    print(err)
             self.logger.log_generic_message(err)
             return []
 
@@ -207,6 +199,8 @@ class ChecksumManager:
 if __name__ == '__main__':
     c = ChecksumManager()
     if "get" in sys.argv:
-	print c.get_checksum_pairs()
+	c.get_checksum_pairs()
     if "add" in sys.argv:
-	c.add_checksum_pair(sys.argv[len(sys.argv) -1])
+	c.add_checksum_pair(sys.argv[len(sys.argv) - 1])
+    if "remove" in sys.argv:
+	c.remove_checksum_pair(sys.argv[len(sys.argv) - 1])

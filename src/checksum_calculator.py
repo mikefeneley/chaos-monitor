@@ -3,15 +3,15 @@ import hashlib
 
 
 class ChecksumCalculator:
+
     """
     Provides an interface to calculate the checksum of files
     using various hasing algorithims.
 
-    Note: Consider making functions static.
+    TODO: Get rid of class and just provide static functions the user can use.
+          Single access point, calculate_checksum, which takes the hash type
+          and filename as an argument.
     """
-
-    def __init__(self):
-        pass
 
     def calculate_checksum(self, filename):
         """
@@ -50,7 +50,7 @@ class ChecksumCalculator:
         :type filename: string
                 :return: string -- The md5 checksum if successful.
                                    None otherwise.
-         """
+        """
         if not os.path.isfile(filename):
             return ""
 
