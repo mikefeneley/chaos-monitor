@@ -19,12 +19,12 @@ class MonitorCli:
         Initialisation of Parser
         """
         self.parser = argparse.ArgumentParser()
-        self.help_af = ""
-        self.help_rf = ""
-        self.help_lf = ""
-        self.help_ar = ""
-        self.help_rr = ""
-        self.help_lr = ""
+        self.help_af = "To add a file to checksum tuple database, type: '-af <filename>'"
+        self.help_rf = "To remove a file from checksum tuple database, type: '-rf <filename>'"
+        self.help_lf = "To get all tuples from checksum tuple database, type: '-lf'"
+        self.help_ar = "To add an email to recipient database, type: '-ar <email>'"
+        self.help_rr = "To remove an email from recipient database, type: 'rr <email>'"
+        self.help_lr = "To get list of recipients from recipient database, type: 'lr'"
         self.parse_args()
         self.logger = Logger()
 
