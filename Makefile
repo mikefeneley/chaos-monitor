@@ -7,4 +7,4 @@ uninstall:
 	python setup.py uninstall
 
 test:
-	python -m unittest test_dir
+	python -m unittest discover tests
