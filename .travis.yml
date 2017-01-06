@@ -1,6 +1,13 @@
 language: python
 python:
   - "2.7"
+
+
+
+before_install:
+    sudo wget https://dev.mysql.com/get/Downloads/Connector-Python/mysql-connector-python_2.1.5-1ubuntu16.10_all.deb
+    sudo dpkg -i *.deb
+
 # command to install dependencies
 install: "pip install -r requirements"
 # command to run tests
