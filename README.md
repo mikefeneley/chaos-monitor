@@ -36,12 +36,12 @@ Automatic update of checksum with scheduled file changes
 
 **Tentative Roadmap**
 
-Version 0.0 - Anticipated Release January 15, 2017 - Initial Release<br>
-Local Database Access for Recipients and ChecksumTuples<br>
-Automatic Installation of Dependencies<br>
-Full Unit and Integration Testing Completed<br>
-Full tutorial explaining basic functionality<br>
-Notifications<br>
+Version 0.0 - Anticipated Release January 15, 2017 - Initial Release  
+Local Database Access for Recipients and ChecksumTuples  
+Automatic Installation of Dependencies  
+Full Unit and Integration Testing Completed  
+Full tutorial explaining basic functionality  
+Notifications  
 <br>
 Version 1.0 - Anticipated Release February 1, 2017 - First Serious Release<br>
 Remote Database Support<br>
