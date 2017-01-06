@@ -30,6 +30,10 @@
 
 ###################################################
 ### Dependencies:
+- MySQL Database
+- MySQL Python Connectors
+- PyDaemon
+- validate_email
 
 
 
