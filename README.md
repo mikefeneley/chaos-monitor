@@ -21,18 +21,18 @@ This tool is currently in an early development stage. The current version allows
 
 **In Progress**
 
-Remote database support
-Notifications
-Automatic deployment and configuration of database server
-Automatic system response to mismatched checksums
-Versioning of files
-Automatic addition of common static files to database server
-GUI
-Automatic install using pip
-Rebuild changed files using version control system. Par files?
-Better tutorials and documentation
-Schedule
-Analysis of the problem space and comparison to other tools.
+Remote database support  
+Notifications  
+Automatic deployment and configuration of database server  
+Automatic system response to mismatched checksums  
+Versioning of files  
+Automatic addition of common static files to database server  
+GUI  
+Automatic install using pip  
+Rebuild changed files using version control system. Par files?  
+Better tutorials and documentation  
+Schedule  
+Analysis of the problem space and comparison to other tools.  
 
 **Installation**
 
@@ -52,6 +52,12 @@ MySQL Python Connectors<br>
 PyDaemon<br>
 validate_email<br>
 pydns<br>
+
+**Misc**
+
+If you are interested in helping, email mfeneley@vt.edu. 
+
+This project is part of a larger project we are designing. The link to that project is here: 
 
 <br>
 <br>
