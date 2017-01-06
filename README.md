@@ -3,21 +3,21 @@ This is a placeholder repo. No significant work has been done on this project ye
 
 **Problem**
 
-Consider the case where the user is victim to a buffer overflow attack. An attacker is able to override the buffer and cause the stack pointer to jump to a piece of malicious code he has written. This code can then replace files on the user's system, including important binary files and dynamic link libraries which are likely to be executed by the user. The new binary code injected by the hacker can be used to wreck a user’s computer. Or more insidiously, the new binary code can replicate the code of the replaced file but with malicious side effects like sending user data back to the attacker, preventing the user from ever knowing that something is wrong.
+Consider the case where the user is victim of a buffer overflow attack. An attacker is able to override the buffer and cause the stack pointer to jump to a piece of malicious code he has written. This code can then replace files on the user's system, including important binary files and dynamic link libraries which are likely to be executed by the user. The new binary code injected by the hacker can be used to wreck a user’s computer. Or more insidiously, the new binary code can replicate the code of the replaced file but with malicious side effects like sending user data back to the attacker, preventing the user from ever knowing that something is wrong.
 
 Also consider the case where a user wants to guarantee the integrity of his data over a long period of time. How does he know that the hardware has not deteriorated, causing random bits to change? How does he know a random cosmic ray has not hit his server memory and altered a critical piece of data?
 
 **Objective**
 
-Chaos monitor is a monitoring tool that checks its users data for alterations, either malicious or otherwise.
+Chaos monitor is a monitoring tool that checks its user's data for alterations, malicious or otherwise.
 
-Chaos monitor provides an interface which allows the user to specify which files they want to have monitored. When a file is added, the chaos monitor calculates the checksum of that file, using sha1 by default. It then stores the checksum of that file alongside the filename in a remote database. 
+Chaos monitor provides an interface that allows the user to specify which files they want to have monitored. When a file is added, the chaos monitor calculates the checksum of that file, using sha1 by default. It then stores the checksum of that file alongside the filename in a remote database. 
 
 To continually verify the integrity of the data, the chaos monitor creates a daemon which periodically wakes up, gets all the checksum/filename pairs from the database, recalculates the checksum of the filename, and compares it to the checksum fetched from the database. If the checksums match, then there is no issue as the data is unchanged. If the checksums are mismatched, then the chaos monitor logs the mismatch, sends out a notification, and responds in some fashion. 
 
 **Status**
 
-This tool is currently in an early development stage. The current version allows the user to add and remove files from being tracked, add and remove emails from the list of notification recipients. It does not currently send out a notification if there is a mismatch, it only reports the error in a log file. Currently, the user is limited to using local databases to store the recipients emails and the checksum/filename pairs. 
+This tool is currently in an early development stage. The current version allows the user to add and remove files from being tracked as well as add and remove emails from the list of notification recipients. It does not currently send out a notification if there is a mismatch, it only reports the error in a log file. Currently, the user is limited to using local databases to store the recipient's emails and the checksum/filename pairs. 
 
 **In Progress**
 
@@ -26,7 +26,7 @@ Notifications
 Automatic deployment and configuration of database server  
 Automatic system response to mismatched checksums  
 Versioning of files  
-Automatic addition of common static files to database server  
+Automatic addition of common/important static files to database server  
 GUI  
 Automatic install using pip  
 Rebuild changed files using version control system. Par files?  
@@ -58,7 +58,7 @@ Versioning of files<br>
 Rebuild changed files using version control system. Par files?<br>
 
 Version 4.0 - Anticipated Release June 1, 2017<br>
-GUI - Subset of Chaos Command Center<br>
+GUI - Subset of Chaos Command Center  
 <br>
 **Installation**
 
@@ -73,10 +73,10 @@ To get options:   _cmon -h_
 **Dependencies**
 
 MySQL Database  
-MySQL Python Connectors<br>
-PyDaemon<br>
-validate_email<br>
-pydns<br>
+MySQL Python Connectors  
+PyDaemon  
+validate_email  
+pydns  
 
 **Misc**
 
@@ -86,7 +86,7 @@ If you are interested in helping with either this project or the chaos command c
 
 We don't just need people who are interested in technology, we are also looking for people who are talented writers and artists.
 
-**Design Information**
+**Design Notes**
 
 The target audience of our flagship project, the chaos command center, is your average computer user. Anything overly technical needs to be abstracted away. 
 
@@ -94,7 +94,9 @@ Form is liberating. While it is possible to add endless customization to tools, 
 
 For example, we could add functionality which would let the user change the name of the tables in the database used to store the checksum pairs. But to what end? If an attacker were to use that option to change the table name, the daemon would no longer be able to pull the checksum data it is supposed to be testing. It is an unnecessary feature that adds nothing while increasing the attack surface. 
 
-We want this tool to automatically be to set up a remote database on an EC2 server or other AWS service. Possibly using SaltStack.
+We want this tool to be capable of automatically seting up a remote database on an EC2 server or other AWS service. Possibly using SaltStack. Think about information required by the program to do this, i.e. AWS credentials and keys.
+
+More design notes/brainstorms are in stratchpad.md.
 
 <br>
 <br>
