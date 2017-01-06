@@ -31,8 +31,33 @@ GUI
 Automatic install using pip  
 Rebuild changed files using version control system. Par files?  
 Better tutorials and documentation  
-Schedule  
 Analysis of the problem space and comparison to other tools.  
+Automatic update of checksum with scheduled file changes
+
+**Tentative Roadmap**
+
+Version 0.0 - Anticipated Release January 15, 2017 - Initial Release
+Local Database Access for Recipients and ChecksumTuples
+Automatic Installation of Dependencies
+Full Unit and Integration Testing Completed
+Full tutorial explaining basic functionality
+Notifications
+
+Version 1.0 - Anticipated Release February 1, 2017 - First Serious Release
+Remote Database Support
+Automatic system response to mismatched checksums
+Automatic deployment and configuration of database server  
+
+Version 2.0 - Anticipated Release March 1, 2017
+Automatic Addition of System Files
+
+Version 3.0 - Anticipated Release May 1, 2017
+Automatic update of checksum with scheduled file changes. Note: Coordinate with package manager
+Versioning of files
+Rebuild changed files using version control system. Par files?
+
+Version 4.0 - Anticipated Release June 1, 2017
+GUI - Subset of Chaos Command Center
 
 **Installation**
 
