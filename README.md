@@ -79,9 +79,11 @@ pydns<br>
 
 **Misc**
 
-If you are interested in helping, email mfeneley@vt.edu. 
+This project is part of a larger project we are designing. The link to that project is here: https://github.com/mikefeneley/chaos-command-center
 
-This project is part of a larger project we are designing. The link to that project is here: 
+If you are interested in helping with either this project or the chaos command center, email mfeneley@vt.edu. 
+
+We don't just need people who are interested in technology, we are also looking for people who are talented writers and artists.
 
 <br>
 <br>
