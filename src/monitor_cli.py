@@ -33,41 +33,11 @@ class MonitorCli:
         self.stop = "To stop the daemon, type: 'cmon --stop'"
         self.status = "To get the status of daemon, type: 'cmon --status'"
         self.restart = "To restart the daemon, type: 'cmon --restart'"
-        self.parse_args()
+        self.build_parser()
         self.logger = Logger()
 
-    def execute(self, arg="", case=0):
-        """
-        Use the output from parse_config to execute the appropriate command.
-        """
-        if case == 1:
-            # Addition of file
-            checksum_manager = ChecksumManager()
-            print checksum_manager.add_checksum_pair(arg)
-        if case == 2:
-            # Removal of file
-            checksum_manager = ChecksumManager()
-            print checksum_manager.remove_checksum_pair(arg)
-        if case == 3:
-            # listing of checksum pairs
-            checksum_manager = ChecksumManager()
-            print checksum_manager.get_checksum_pairs()
-        if case == 4:
-            # addition of email
-            recipient_manager = RecipientManager()
-            print recipient_manager.add_recipient(arg)
-        if case == 5:
-            # removal of email
-            recipient_manager = RecipientManager()
-            print recipient_manager.remove_recipient(arg)
-        if case == 6:
-            # listing of emails
-            recipient_manager = RecipientManager()
-            print recipient_manager.get_recipients()
-        if case == 7:
-            monitor.control_monitor()
-
-    def parse_args(self):
+    
+    def build_parser(self):
         """
         Parse the configuartion arguments to determine which command to
         execute.
@@ -163,39 +133,61 @@ class MonitorCli:
             help=self.status)
 
         args = self.parser.parse_args()
+        self.parse_args(args)
 
+    def parse_args(self,args):
+        
         if args.file_add:
             print args.file_add
-            self.execute(args.file_add, 1)
+            # Addition of file
+            checksum_manager = ChecksumManager()
+            print checksum_manager.add_checksum_pair(args.file_add)
 
         if args.file_remove:
             print args.file_remove
-            self.execute(args.file_remove, 2)
+            # Removal of file
+            checksum_manager = ChecksumManager()
+            print checksum_manager.remove_checksum_pair(args.file_remove)
 
         if args.list_files:
-            print "listing files"
-            self.execute(None, 3)
+            print args.list_files
+            # listing of checksum pairs
+            checksum_manager = ChecksumManager()
+            print checksum_manager.get_checksum_pairs()
 
         if args.add_email:
             print args.add_email
-            self.execute(args.add_email, 4)
+            # addition of email
+            recipient_manager = RecipientManager()
+            print recipient_manager.add_recipient(args.add_email)
 
         if args.remove_email:
             print args.remove_email
-            self.execute(args.remove_email, 5)
+            # removal of email
+            recipient_manager = RecipientManager()
+            print recipient_manager.remove_recipient(args.remove_email)
 
         if args.list_emails:
             print "listing emails"
-            self.execute(None, 6)
+            # listing of emails
+            recipient_manager = RecipientManager()
+            print recipient_manager.get_recipients()
 
         if args.start_daemon:
-            self.execute(None, 7)
+            #startinf daemon
+            monitor.control_monitor()
+
         if args.stop_daemon:
-            self.execute(None, 7)
+            #stopping daemon
+            monitor.control_monitor()
+
         if args.restart_daemon:
-            self.execute(None, 7)
+            #restartig daemon
+            monitor.control_monitor()
+
         if args.status_daemon:
-            self.execute(None, 7)
+            #getting ths status of daemon
+            monitor.control_monitor()
 
 
 def main(args):
