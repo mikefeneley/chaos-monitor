@@ -86,6 +86,16 @@ If you are interested in helping with either this project or the chaos command c
 
 We don't just need people who are interested in technology, we are also looking for people who are talented writers and artists.
 
+**Design Information**
+
+The target audience of our flagship project, the chaos command center, is your average computer user. Anything overly technical needs to be abstracted away. 
+
+Form is liberating. While it is possible to add endless customization to tools, doing so increases the complexity of the tool and increases the risk of bugs. We reject addtional, noncritical functionality at the cost of addtional complexity and security risk.
+
+For example, we could add functionality which would let the user change the name of the tables in the database used to store the checksum pairs. But to what end? If an attacker were to use that option to change the table name, the daemon would no longer be able to pull the checksum data it is supposed to be testing. It is an unnecessary feature that adds nothing while increasing the attack surface. 
+
+We want this tool to automatically be to set up a remote database on an EC2 server or other AWS service. Possibly using SaltStack.
+
 <br>
 <br>
 <b>Contact:</b>
