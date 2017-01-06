@@ -23,16 +23,16 @@ class MonitorCli:
         Initialisation of Parser
         """
         self.parser = argparse.ArgumentParser()
-        self.help_af = ""
-        self.help_rf = ""
-        self.help_lf = ""
-        self.help_ar = ""
-        self.help_rr = ""
-        self.help_lr = ""
-        self.start = ""
-        self.stop = ""
-        self.status = ""
-        self.restart = ""
+        self.help_af = "To add a file to checksum tuple database, type: 'cmon -af <filename>'"
+        self.help_rf = "To remove a file from checksum tuple database, type: 'cmon -rf <filename>'"
+        self.help_lf = "To get all tuples from checksum tuple database, type: 'cmon -lf'"
+        self.help_ar = "To add an email to recipient database, type: 'cmon -ar <email>'"
+        self.help_rr = "To remove an email from recipient database, type: 'cmon -rr <email>'"
+        self.help_lr = "To get list of recipients from recipient database, type: 'cmon -lr'"
+        self.start = "To start the daemon, type: 'cmon --start'"
+        self.stop = "To stop the daemon, type: 'cmon --stop'"
+        self.status = "To get the status of daemon, type: 'cmon --status'"
+        self.restart = "To restart the daemon, type: 'cmon --restart'"
         self.parse_args()
         self.logger = Logger()
 
