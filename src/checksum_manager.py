@@ -90,6 +90,7 @@ class ChecksumManager:
         :type filename: string
         :return: bool -- True if added successfuly. False otherwise.
         """
+        
         if not self.create_checksum_table():
             return False
 
