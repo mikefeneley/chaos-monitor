@@ -38,13 +38,11 @@ Analysis of the problem space and comparison to other tools.
 
 All the dependencies listed have to be manually installed. Mysql 5.6 already has to be installed and running.
 
-Install with setup.py
-_python setup.py install_
+Install with setup.py:   _python setup.py install_
 
 After installation, you can control the chaos monitor through the binary file cmon. 
 
-/#List options
-_cmon -h_ 
+To get options:   _cmon -h_ 
 
 **Dependencies**
 
