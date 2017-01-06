@@ -43,6 +43,7 @@ _python setup.py install_
 
 After installation, you can control the chaos monitor through the binary file cmon. 
 
+# List options
 _cmon -h_ 
 
 **Dependencies**
