@@ -44,7 +44,6 @@ class TestChecksumCalculator(unittest.TestCase):
         checksum_test2.close()
 
     def tearDown(self): 
-        
         if os.path.isfile(self.empty_file):
             os.remove(self.empty_file)
         if os.path.isfile(self.checksum_test1):

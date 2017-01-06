@@ -7,7 +7,7 @@ class Logger:
     debug and error messages using the built in logging class.
     """
     def __init__(self, name=__name__):
-        logging.basicConfig(filename="/var/log/ChaosMonitor.log", level=logging.DEBUG)
+        logging.basicConfig(filename="ChaosMonitor.log", level=logging.DEBUG)
         self.logger = logging.getLogger(name)
 
     def log_generic_message(self, message=""):

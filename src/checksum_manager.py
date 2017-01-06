@@ -25,11 +25,17 @@ class ChecksumManager:
     The filepath in the table is stored as the absolute filename.
     """
 
-    def __init__(self, table_name="CHECKSUMS"):
+    def __init__(self, table_name="CHECKSUMS", db_connector=None):
         self.filename_field_length = 255
         self.checksum_field_length = 64
         self.filepath_field_length = 255
-        self.connector = DBConnector()
+        
+        if db_connector == None:
+            self.connector = DBConnector()
+        else:
+            self.connector = db_connector()
+
+
         self.connection = self.connector.get_connection()
         self.table_name = table_name
         self.checksum_calculator = ChecksumCalculator()

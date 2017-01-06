@@ -43,14 +43,17 @@ class RecipientManager:
     More specialized handeling of errors.
     """
 
-    def __init__(self, table_name="RECIPIENTS"):
+    def __init__(self, table_name="RECIPIENTS", db_connector=None):
         """
         Connects to the database that stores the recipient table.
 
         :param table_name: Table in the database where we will store the
                            recipient information.
         """
-        self.connector = DBConnector()
+        if db_connector == None:
+            self.connector = DBConnector()
+        else:
+            db_connector = db_connector
         self.connection = self.connector.get_connection()
         self.table_name = table_name
         self.email_field_length = 254
