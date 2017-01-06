@@ -47,6 +47,7 @@ Version 1.0 - Anticipated Release February 1, 2017 - First Serious Release<br>
 Remote Database Support<br>
 Automatic system response to mismatched checksums<br>
 Automatic deployment and configuration of database server<br>
+Development and design document to help new developers understand system.  
 
 Version 2.0 - Anticipated Release March 1, 2017<br>
 Automatic Addition of System Files<br>
@@ -71,7 +72,7 @@ To get options:   _cmon -h_
 
 **Dependencies**
 
-MySQL Database<br>
+MySQL Database  
 MySQL Python Connectors<br>
 PyDaemon<br>
 validate_email<br>
