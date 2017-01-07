@@ -14,7 +14,7 @@ before_install:
   - sudo wget https://dev.mysql.com/get/Downloads/Connector-Python/mysql-connector-python_2.1.5-1ubuntu14.04_all.deb
   - sudo dpkg -i *.deb
   
-  - "if [ \"$DB\" = \"mysql\" ]; then export IMAGEATTACH_TEST_DATABASE_URL='mysql+mysqlconnector://root@localhost/si_test'; if [ \"$PY\" = \"pypy\" ]; then pip install PyMySQL; export IMAGEATTACH_TEST_DATABASE_URL=${IMAGEATTACH_TEST_DATABASE_URL/mysqlconnector/pymysql}; else pip install --find-links=\"$MYSQL_CONNECTOR_PYTHON_URL\" --allow-all-external mysql-connector-python; fi; fi",
+  - if [ \"$DB\" = \"mysql\" ]; then export IMAGEATTACH_TEST_DATABASE_URL='mysql+mysqlconnector://root@localhost/si_test'; if [ \"$PY\" = \"pypy\" ]; then pip install PyMySQL; export IMAGEATTACH_TEST_DATABASE_URL=${IMAGEATTACH_TEST_DATABASE_URL/mysqlconnector/pymysql}; else pip install --find-links=\"$MYSQL_CONNECTOR_PYTHON_URL\" --allow-all-external mysql-connector-python; fi; fi,
 
 
 install:
