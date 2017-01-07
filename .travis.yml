@@ -8,9 +8,9 @@ services:
 before_install:
   - sudo apt-get update
   - mysql --version
-  - sudo /etc/init.d/mysql restart
- 
-
+  - sudo find / -name mysql
+  - mysql -u root
+  
 # command to install dependencies
 install:
     - mysql --version
