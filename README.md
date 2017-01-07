@@ -21,7 +21,7 @@ This tool is currently in an early development stage. The current version allows
 
 **In Progress**
 
-Remote database support  
+-Remote database support  
 Notifications  
 Automatic deployment and configuration of database server  
 Automatic system response to mismatched checksums  
@@ -69,11 +69,23 @@ Install with setup.py:   _python setup.py install_
 After installation, you can control the chaos monitor through the binary file cmon. 
 
 To get options:   _cmon -h_ 
+Options implemented so far:
+- cmon -af <filename>
+- cmon -rf <filename>
+- cmon -ar <email>
+- cmon -rr <email>
+- cmon -lr
+- cmon -lf
+- cmon --start
+- cmon --stop
+- cmon --Status
+- cmo --restart
 
 **Dependencies**
 
 MySQL Database  
-MySQL Python Connectors  
+MySQL Python Connectors
+rsfile (Required to install PyDaemon)  
 PyDaemon  
 validate_email  
 pydns  
