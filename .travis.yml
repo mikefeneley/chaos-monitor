@@ -1,22 +1,13 @@
-dist: trusty
-sudo: required
-language: generic
+#dist: trusty
+#sudo: required
+#language: generic
 
-services: 
-    - mysql
+services: mysql
     
 before_install:
-  - sudo apt-get update
   - mysql --version
-  - sudo find / -name mysql
-  - sudo find / -name mysqld
-  - sudo ls /var/run
-  - sudo mysql -e "create database IF NOT EXISTS hello_world_test;" -u root -p="";
-  - sudo service mysqld restart
-  - sudo service mysql start
-  - sudo mysql -u root --host=127.0.0.1 -e "CREATE DATABASE TEST_DB"
+  - mysql -e 'create database mysite_db;
   
-  - sudo mysql -u root --host=127.0.0.1 -p ""
 # command to install dependencies
 install:
     - mysql --version
