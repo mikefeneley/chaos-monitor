@@ -10,8 +10,8 @@ python:
 before_install:
   - mysql --version
   - mysql -e 'create database mysite_db;'
-  - wget https://dev.mysql.com/get/Downloads/Connector-Python/mysql-connector-python_2.1.5-1ubuntu14.04_all.deb
-  - dpkg -i *.deb
+  - sudo wget https://dev.mysql.com/get/Downloads/Connector-Python/mysql-connector-python_2.1.5-1ubuntu14.04_all.deb
+  - sudo dpkg -i *.deb
   
 install:
     - mysql --version
