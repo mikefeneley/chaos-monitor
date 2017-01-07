@@ -1,5 +1,5 @@
-#dist: trusty
-#sudo: required
+dist: trusty
+sudo: required
 #language: generic
 
 services: mysql
@@ -11,6 +11,6 @@ before_install:
   
 install:
     - mysql --version
-    - pip install mysql-python --use-mirrors
+    - pip install mysql-python
 # command to run tests
 script: make test
