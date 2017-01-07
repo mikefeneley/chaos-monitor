@@ -16,7 +16,7 @@ before_install:
   
   - export IMAGEATTACH_TEST_DATABASE_URL='mysql+mysqlconnector://root@localhost/si_test'
   - pip install PyMySQL 
-  - else pip install --find-links=\"$MYSQL_CONNECTOR_PYTHON_URL\" --allow-all-external mysql-connector-python
+  - pip install --find-links=\"$MYSQL_CONNECTOR_PYTHON_URL\" --allow-all-external mysql-connector-python
 
 
 install:
