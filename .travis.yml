@@ -2,7 +2,7 @@ dist: trusty
 sudo: required
 #language: generic
 env: "DB=mysql"
-  "global_env": "IMAGEATTACH_TEST_S3_NAME=sqla-imageattach-test IMAGEATTACH_TEST_S3_SANDBOX_NAME=sqla-imageattach-test2 MYSQL_CONNECTOR_PYTHON_URL='https://cdn.mysql.com/Downloads/Connector-Python/mysql-connector-python-2.1.3.zip'",
+global_env: IMAGEATTACH_TEST_S3_NAME=sqla-imageattach-test IMAGEATTACH_TEST_S3_SANDBOX_NAME=sqla-imageattach-test2 MYSQL_CONNECTOR_PYTHON_URL='https://cdn.mysql.com/Downloads/Connector-Python/mysql-connector-python-2.1.3.zip',
 services: mysql
 
 python:
