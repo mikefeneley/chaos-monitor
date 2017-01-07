@@ -53,7 +53,7 @@ class RecipientManager:
         if db_connector == None:
             self.connector = DBConnector()
         else:
-            db_connector = db_connector
+            self.connector = db_connector
         self.connection = self.connector.get_connection()
         self.table_name = table_name
         self.email_field_length = 254
@@ -130,7 +130,7 @@ class RecipientManager:
         if not self.create_recipient_table():
             return False
 
-        if not validate_email(recipient, verify=True):
+        if not validate_email(recipient, verify=False):
             return False
 
         if len(recipient) > 254:

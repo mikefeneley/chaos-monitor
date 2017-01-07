@@ -99,6 +99,15 @@ If you are interested in helping with either this project or the chaos command c
 
 We don't just need people who are interested in technology, we are also looking for people who are talented writers and artists.
 
+**Key Rules**
+
+We try to follow PEP8 style convention. We have relaxed the rules on 80 character limit because line wraps always look ugly and most people have large monitors.
+
+Test functions should be as descriptive as possible. Functions with 10+ words are totally fine as long as they describe the specific functionality they are testing.
+
+Use 4 spaces, not tabs for indents. This is important.
+
+
 **Design Notes**
 
 The target audience of our flagship project, the chaos command center, is your average computer user. Anything overly technical needs to be abstracted away. 
