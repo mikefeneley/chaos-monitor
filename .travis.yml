@@ -9,7 +9,6 @@ before_install:
   - sudo apt-get update
   - mysql --version
   - sudo find / -name mysql
-  - sudo cat ~travis/.my.cnf
   - sudo find / -name mysqld
 
   - mysql -e "create database IF NOT EXISTS hello_world_test;" -uroot;
