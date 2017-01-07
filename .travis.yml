@@ -1,22 +1,10 @@
-
-
-#before_install:
-#    -  sudo wget https://dev.mysql.com/get/Downloads/Connector-Python/mysql-connector-python_2.1.5-1ubuntu14.04_all.deb 
-#    -  sudo dpkg -i *.deb
-
-
-
-
-
-
-sudo: required
 dist: trusty
+sudo: required
 language: generic
 
 services: 
     - mysql
     
-
 before_install:
   - "sudo apt-get update"
   - "mysql --version"
