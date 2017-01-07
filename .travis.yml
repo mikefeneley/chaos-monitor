@@ -6,7 +6,7 @@ services: mysql
     
 before_install:
   - mysql --version
-  - mysql -e 'create database mysite_db;
+  - mysql -e 'create database mysite_db;'
   
 # command to install dependencies
 install:
