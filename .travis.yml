@@ -8,11 +8,10 @@ python:
   
 before_install:
   - mysql --version
-  - sudo apt-get install python-connector
+  - pip install mysql-connector-python --allow-external mysql-connector-python
 
 install:
     - mysql --version
-    - pip install mysql-python
     
 # command to run tests
 script: make test
