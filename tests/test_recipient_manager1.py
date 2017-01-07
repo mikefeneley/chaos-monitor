@@ -132,10 +132,14 @@ class TestRecipientManager(unittest.TestCase):
         be created for adds if it does not exist. After creating the table,
         The add_recipient function should return True. 
 
+        Note: I think we create the email before checking if the email is valid.
+              We need to change that to pass this test.
+
         What To Test:
             1. Assert that the table, TEST_TABLE does not exist
             2. Use recipient manager to add a normal email, user@subdomain.com
             3. Assert that the table, TEST_TABLE, now exist.
+            4. Assert that add_recipieint() returned True
             4. Query the database and assert the email, user@subdomain.com does exist in table, TEST_TABLE.
             5. Delete the table, TEST_TABLE.
             6. Assert that the table, TEST_TABLE, no longer exists.
@@ -144,11 +148,80 @@ class TestRecipientManager(unittest.TestCase):
 
     def test_add_email_with_no_domain(self):
         """
-        Add an email without a subdomain. Example: uesr.com
+        Add an email without a domain. Example: user.com
         
         Adding a new recipient with a bad email should cause add_recipient to return False.
+        
+        What To Test:
+            1. Assert that the table, TEST_TABLE does not exist.
+            2. Use recipient manager to add an email without a domain, user.com
+            3. Assert that the table, TEST_TABLE, still does not exist.
+            4. Assert that the call to add_recipient returned false.
+         """
+        pass
+
+     def test_add_email_with_no_local_name(self):
+        """
+        Add an email without a domain. Example: @domain.com   
+    
+        Adding a new recipient with a bad email should cause add_recipient to return False.
+        
+        What To Test:
+            1. Assert that the table, TEST_TABLE does not exist.
+            2. Use recipient manager to add an email without a domain, @domain.com 
+            3. Assert that the table, TEST_TABLE, still does not exist.
+            4. Assert that the call to add_recipient returned false.
+         """
+        pass
+  
+    def test_add_email_that_exceeds_maximum_length(self):
+        """
+        Add an email that exceeds the maximum length of 254 characters, Example: 'a' * 400 + "@domain.com"
+
+        Adding a new recipient with a long email should cause add_recipient to return False.
+        
+        What To Test:
+            1. Assert that the table, TEST_TABLE does not exist.
+            2. Use recipient manager to add an email that is too long.
+            3. Assert that the table, TEST_TABLE, still does not exist.
+            4. Assert that the call to add_recipient returned false.
+         """
+        pass
+
+    def test_remove_user_from_nonexistant_table(self)
+        """
+        Remove an email from a table that does not exist.        
+
+        Trying to remove a user from a table that does not exist should
+        return False. 
+
+        NOTE: I do not think this is currently implemented and needs to
+        be changed to pass the test. 
+        
+        What To Test:
+            1. Assert that the table, TEST_TABLE does not exist.
+            2. Use recipient manager to remove a normal email, user@subdomain.com
+            3. Assert that the table, TEST_TABLE, still does not exist.
+            4. Assert that the call to remove_recipient returned false.
+        """
+
+    def test_remove_user_from_table_without_user(self)
+        """
+        Remove an email from a table that does not have the users email.        
+
+        Trying to remove a user from a table without the users email should
+        return False. 
+
+        What To Test:
+            1. Assert that the table, TEST_TABLE does not exist.
+            2. Use recipient manager to remove a normal email, user@subdomain.com
+            3. Assert that the table, TEST_TABLE, still does not exist.
+            4. Assert that the call to remove_recipient returned false.
         """
         pass
+
+
+
 
 
 if __name__ == '__main__':

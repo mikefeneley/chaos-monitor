@@ -18,6 +18,7 @@ services:
     
 
 before_install:
+    - mysql -u root
     - mysql -e 'CREATE DATABASE IF NOT EXISTS test;'
 
 
