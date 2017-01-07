@@ -35,8 +35,8 @@ We also need to make a requirements.txt file.
 ### Anshul's Notes:
  - sudo required for commands.
  - Before the install, put up password for mysql in the code.
- - Help stataments for
- 
+ - Testing with different scenarios, corner test cases.
+ - No use of DBConnector in testrecipeintmanager1.py
 
 ###################################################
 ### Bugs:
