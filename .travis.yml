@@ -1,7 +1,8 @@
 dist: trusty
 sudo: required
 #language: generic
-
+env: "DB=mysql"
+  "global_env": "IMAGEATTACH_TEST_S3_NAME=sqla-imageattach-test IMAGEATTACH_TEST_S3_SANDBOX_NAME=sqla-imageattach-test2 MYSQL_CONNECTOR_PYTHON_URL='https://cdn.mysql.com/Downloads/Connector-Python/mysql-connector-python-2.1.3.zip'",
 services: mysql
 
 python:
@@ -13,6 +14,9 @@ before_install:
   - sudo wget https://dev.mysql.com/get/Downloads/Connector-Python/mysql-connector-python_2.1.5-1ubuntu14.04_all.deb
   - sudo dpkg -i *.deb
   
+  - "if [ \"$DB\" = \"mysql\" ]; then export IMAGEATTACH_TEST_DATABASE_URL='mysql+mysqlconnector://root@localhost/si_test'; if [ \"$PY\" = \"pypy\" ]; then pip install PyMySQL; export IMAGEATTACH_TEST_DATABASE_URL=${IMAGEATTACH_TEST_DATABASE_URL/mysqlconnector/pymysql}; else pip install --find-links=\"$MYSQL_CONNECTOR_PYTHON_URL\" --allow-all-external mysql-connector-python; fi; fi",
+
+
 install:
     - mysql --version
     - pip install mysql-python
