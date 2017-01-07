@@ -21,18 +21,18 @@ This tool is currently in an early development stage. The current version allows
 
 **In Progress**
 
--Remote database support  
-Notifications  
-Automatic deployment and configuration of database server  
-Automatic system response to mismatched checksums  
-Versioning of files  
-Automatic addition of common/important static files to database server  
-GUI  
-Automatic install using pip  
-Rebuild changed files using version control system. Par files?  
-Better tutorials and documentation  
-Analysis of the problem space and comparison to other tools.  
-Automatic update of checksum with scheduled file changes
+- Remote database support  
+- Notifications  
+- Automatic deployment and configuration of database server  
+- Automatic system response to mismatched checksums  
+- Versioning of files  
+- Automatic addition of common/important static files to database server  
+- GUI  
+- Automatic install using pip  
+- Rebuild changed files using version control system. Par files?  
+- Better tutorials and documentation  
+- Analysis of the problem space and comparison to other tools.  
+- Automatic update of checksum with scheduled file changes
 
 **Tentative Roadmap**
 
@@ -69,6 +69,7 @@ Install with setup.py:   _python setup.py install_
 After installation, you can control the chaos monitor through the binary file cmon. 
 
 To get options:   _cmon -h_ 
+
 Options implemented so far:
 - cmon -af <filename>
 - cmon -rf <filename>
@@ -83,12 +84,12 @@ Options implemented so far:
 
 **Dependencies**
 
-MySQL Database  
-MySQL Python Connectors
-rsfile (Required to install PyDaemon)  
-PyDaemon  
-validate_email  
-pydns  
+- MySQL Database  
+- MySQL Python Connectors
+- rsfile (Required to install PyDaemon)  
+- PyDaemon  
+- validate_email  
+- pydns  
 
 **Misc**
 
