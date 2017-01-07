@@ -8,8 +8,9 @@ before_install:
   - mysql --version
   - mysql -e 'create database mysite_db;'
   
-# command to install dependencies
+  
 install:
     - mysql --version
+    - pip install mysql-python --use-mirrors
 # command to run tests
 script: make test
