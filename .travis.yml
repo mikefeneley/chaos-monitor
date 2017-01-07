@@ -9,9 +9,12 @@ before_install:
   - sudo apt-get update
   - mysql --version
   - sudo find / -name mysql
-  - sudo mysql -u root --host=127.0.0.1
-  - sudo mysqld restart
+  
+  - sudo service mysql status
+  - sudo service mysql start
   - sudo mysql -u root --host=127.0.0.1 -e "CREATE DATABASE TEST_DB"
+  
+  - sudo mysql -u root --host=127.0.0.1 -p ""
 # command to install dependencies
 install:
     - mysql --version
