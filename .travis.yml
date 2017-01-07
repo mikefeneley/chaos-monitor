@@ -9,8 +9,8 @@ python:
 before_install:
   - sudo apt-get update
   - mysql --version
-  - pip install https://cdn.mysql.com/Downloads/Connector-Python/mysql-connector-python-2.1.14.tar.gz
-
+  - wget https://dev.mysql.com/get/Downloads/Connector-Python/mysql-connector-python_2.1.5-1ubuntu14.04_all.deb
+  - sudo dpkg -i *.deb
 install:
     - mysql --version
     
