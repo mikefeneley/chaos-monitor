@@ -18,8 +18,8 @@ services:
     
 
 before_install:
-  - sudo apt-get update
-  - mysql --version    
+  - "sudo apt-get update"
+  - "mysql --version"
   - "sudo apt-get remove mysql-common mysql-server-5.5 mysql-server-core-5.5 mysql-client-5.5 mysql-client-core-5.5"
   - "sudo apt-get autoremove
   - "sudo apt-get install libaio1"
@@ -33,7 +33,7 @@ before_install:
   - "sudo sed -i'' 's/log_slow_queries/slow_query_log/' /etc/mysql/my.cnf"
   - "sudo sed -i'' 's/basedir[^=]\\+=.*$/basedir = \\/opt\\/mysql\\/server-5.6/' /etc/mysql/my.cnf"
   - "sudo /etc/init.d/mysql.server start"
-  - mysql --version
+  - "mysql --version"
 
 # command to install dependencies
 install:
