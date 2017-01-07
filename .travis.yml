@@ -8,7 +8,7 @@ python:
   
 before_install:
   - mysql --version
-  - sudo pip install --allow-external mysql-connector-python mysql-connector-python b
+  - sudo apt-get install python-connector
 
 install:
     - mysql --version
