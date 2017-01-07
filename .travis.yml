@@ -11,7 +11,7 @@ before_install:
   - sudo find / -name mysql
   - sudo find / -name mysqld
 
-  - mysql -e "create database IF NOT EXISTS hello_world_test;" -uroot;
+  - mysql -e "create database IF NOT EXISTS hello_world_test;" -u root -p "";
   - sudo service mysqld restart
   - sudo service mysql start
   - sudo mysql -u root --host=127.0.0.1 -e "CREATE DATABASE TEST_DB"
