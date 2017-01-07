@@ -19,7 +19,8 @@ services:
 
 before_install:
     - mysql --version
-
+    - mysql test
+    - mysqlshow
 # command to install dependencies
 install: "pip install -r requirements"
 # command to run tests
