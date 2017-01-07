@@ -3,7 +3,10 @@ sudo: required
 #language: generic
 
 services: mysql
-    
+
+python:
+  - "2.7"
+  
 before_install:
   - mysql --version
   - mysql -e 'create database mysite_db;'
@@ -13,5 +16,6 @@ before_install:
 install:
     - mysql --version
     - pip install mysql-python
+    
 # command to run tests
 script: make test
