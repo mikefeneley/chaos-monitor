@@ -35,8 +35,8 @@ We also need to make a requirements.txt file.
 ### Anshul's Notes:
  - sudo required for commands.
  - Before the install, put up password for mysql in the code.
- - Help stataments for
- 
+ - Testing with different scenarios, corner test cases.
+ - No use of DBConnector in testrecipeintmanager1.py
 
 ###################################################
 ### Bugs:
@@ -44,13 +44,14 @@ We also need to make a requirements.txt file.
 
 ###################################################
 ### Features:
+    validate_email() does a comprehensive check if given email exits or not but takes a good amount of time (1-2 secs).
 
 
 ###################################################
 ### TODO:
 - Comprehensive Documentation.
 - Unit Testing.
-
+- Alternative of valid_email.
 
 ###################################################
 ### Status:
