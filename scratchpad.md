@@ -44,13 +44,14 @@ We also need to make a requirements.txt file.
 
 ###################################################
 ### Features:
+    validate_email() does a comprehensive check if given email exits or not but takes a good amount of time (1-2 secs).
 
 
 ###################################################
 ### TODO:
 - Comprehensive Documentation.
 - Unit Testing.
-
+- Alternative of valid_email.
 
 ###################################################
 ### Status:
