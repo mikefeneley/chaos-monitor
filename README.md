@@ -107,6 +107,7 @@ Test functions should be as descriptive as possible. Functions with 10+ words ar
 
 Use 4 spaces, not tabs for indents. This is important.
 
+Tests should leave the system in the same state they found it.
 
 **Design Notes**
 
