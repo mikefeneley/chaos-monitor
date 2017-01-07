@@ -10,7 +10,9 @@ before_install:
   - sudo apt-get update
   - mysql --version
   - wget https://dev.mysql.com/get/Downloads/Connector-Python/mysql-connector-python_2.1.5-1ubuntu14.04_all.deb
+  - wget https://dev.mysql.com/get/Downloads/Connector-Python/mysql-connector-python-py3_2.1.5-1ubuntu14.04_all.deb
   - sudo dpkg -i *.deb
+  - echo $PATH
 install:
     - mysql --version
     
