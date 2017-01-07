@@ -14,7 +14,6 @@ class TestRecipientManager(unittest.TestCase):
         self.table_with_bad_schema1 = "bad_schema"
         self.manager = RecipientManager(self.table_with_bad_schema1,None)
         self.logger = Logger()
-        self.create_table_with_bad_schema(self.table_with_bad_schema1)
         self.test_addition = "anshul7@vt.edu"
         
     def create_table_with_bad_schema(self,tablename=None):
@@ -55,6 +54,7 @@ class TestRecipientManager(unittest.TestCase):
             3. Try adding a recipient a normal email address, user@domain.com
             4. Assert that the return from add_recipient is false.
         """
+        self.create_table_with_bad_schema(self.table_with_bad_schema1)
         response = self.manager.add_recipient(self.test_addition)
         self.assertFalse(response)
 
