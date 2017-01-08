@@ -34,6 +34,15 @@ When using pip to install from requirements file in Travis, pip always seems to 
 
 Make regular backups of group chat. Automate to backup 1 / week.
 
+Assignments For New Developers:
+    SQL Injection Validator
+    Tuple Checksum Object
+    Test Test Test
+    Abstract Table Manager?
+    Abstract DB Connector?
+    
+Things to Look In To: Safe way to configure tool that doesn't rely on system integrity. Remote DB Config?
+
 ###################################################
 ### Anshul's Notes:
  - sudo required for commands.
