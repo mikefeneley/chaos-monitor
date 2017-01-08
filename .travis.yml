@@ -13,8 +13,8 @@ before_install:
   - sudo find / -name connector
   
 install:
-    pip install -r requirements.txt
-    pip install http://wookr.com/pydaemon/dl/pydaemon-0.2.3.tar.gz
+   - pip install -r requirements.txt
+   - pip install http://wookr.com/pydaemon/dl/pydaemon-0.2.3.tar.gz
     
 # command to run tests
 script: make -C tests test
