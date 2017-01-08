@@ -1,4 +1,3 @@
 mysql-connector
 validate_email
-http://wookr.com/pydaemon/dl/pydaemon-0.2.3.tar.gz
 rsfile
