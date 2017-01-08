@@ -127,10 +127,12 @@ class RecipientManager:
 
         :returns: bool -- True if add was successful, False otherwise
         """
-        if not self.create_recipient_table():
-            return False
+        
 
         if not validate_email(recipient, verify=False):
+            return False
+
+        if not self.create_recipient_table():
             return False
 
         if len(recipient) > 254:

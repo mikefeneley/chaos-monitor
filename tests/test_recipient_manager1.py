@@ -54,6 +54,7 @@ class TestRecipientManager(unittest.TestCase):
         self.invalid_email1 = "baduser"
         self.invalid_email2 = "@subdomain"
         self.long_email = long_email = 'a' * 254 + '@' + 'subdomain'
+        self.email_without_domian = "user.com"
 
     def tearDown(self):
         self.delete_test_db()
@@ -177,7 +178,11 @@ class TestRecipientManager(unittest.TestCase):
             3. Assert that the table, TEST_TABLE, still does not exist.
             4. Assert that the call to add_recipient returned false.
          """
-        pass
+        self.assert_table_nonexistant(self.test_table_name)
+        manager = RecipientManager(self.test_table_name,self.db_connector)
+        response = manager.add_recipient(self.email_without_domian)
+        self.assert_table_nonexistant(self.test_table_name)
+        self.assertFalse(response)
 
     def test_add_email_with_no_local_name(self):
         """
