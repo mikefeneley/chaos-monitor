@@ -13,11 +13,13 @@ Tests should leave the system in the same state they found it.
 
 No coypyleft license software can be used.
 
+Untested code is broken code. Testing is the most important task an comes before anything else.
+
 **Problem**
 
-Consider the case where the user is victim of a buffer overflow attack. An attacker is able to override the buffer and cause the stack pointer to jump to a piece of malicious code he has written. This code can then replace files on the user's system, including important binary files and dynamic link libraries which are likely to be executed by the user. The new binary code injected by the hacker can be used to wreck a user’s computer. Or more insidiously, the new binary code can replicate the code of the replaced file but with malicious side effects like sending user data back to the attacker, preventing the user from ever knowing that something is wrong.
+Consider the case where the user is victim of a buffer overflow attack. An attacker is able to override the buffer and cause the stack pointer to jump to a piece of malicious code he has written. This code can then replace files on the user's system, including important binary files and dynamic link libraries which are likely to be executed by the user. The new binary code injected by the hacker can be used to wreck a user’s computer. Or more insidiously, the new binary code can replicate the functionality of the replaced file but with malicious side effects like sending user data back to the attacker, preventing the user from ever knowing that something is wrong.
 
-Also consider the case where a user wants to guarantee the integrity of his data over a long period of time. How does he know that the hardware has not deteriorated, causing random bits to change? How does he know a random cosmic ray has not hit his server memory and altered a critical piece of data?
+Also consider the case where a user wants to guarantee the integrity of his data over a long period of time. How does he know that the hardware has not deteriorated, causing random bits to change? How does he know a random cosmic ray has not hit his server memory and altered a critical piece of data? This is less of an issue because most backup systems have RAID and parity checkers, but a stored checksum backup provides additional insurance for file integrity.
 
 **Objective**
 
@@ -83,10 +85,10 @@ After installation, you can control the chaos monitor through the binary file cm
 To get options:   _cmon -h_ 
 
 Options implemented so far:
-- cmon -af <filename>
-- cmon -rf <filename>
-- cmon -ar <email>
-- cmon -rr <email>
+- cmon -af _filename_
+- cmon -rf _filename_
+- cmon -ar _email_
+- cmon -rr _email_
 - cmon -lr
 - cmon -lf
 - cmon --start
@@ -109,8 +111,7 @@ This project is part of a larger project we are designing. The link to that proj
 
 If you are interested in helping with either this project or the chaos command center, email mfeneley@vt.edu. 
 
-We don't just need people who are interested in technology, we are also looking for people who are talented writers and artists.
-
+We don't just need people who are interested in technology, we are also looking for people who are talented writers, artists designers, or any combination of useful skills.
 
 
 **Design Notes**
