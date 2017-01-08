@@ -1,11 +1,10 @@
-import sys
+import pip
 
-print(sys.path)
-#sys.path.append('/usr/lib/python2.7/dist-packages')
-try:
-    import mysql.connector
-    print("Imported")
-except Exception as e:
-    print(e)
-    print("Not imported")
-print(sys.path)
+def install(requirements):
+    file = open(requirements, 'r')
+    for package in file:
+        pip.main(['install', package])
+
+# Example
+if __name__ == '__main__':
+    install('requirements')
