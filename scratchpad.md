@@ -28,8 +28,9 @@ I am sure there are other things, but that is a start.
 
 I think for the README, we should be as specific as possible on what we currently have implemented. For example, note that the code only uses a local database to store user and checksum data and that we are going to start writing the code to make it a remote database by default.
 
-We also need to make a requirements.txt file.
+We also need to make a requirements.txt file. DONE
 
+If you use apt-get to install a package in Travis during the build, it won't be on the path in python runtime. Have to either use pip or manually add the dest directory to the sys.path list
 
 ###################################################
 ### Anshul's Notes:
