@@ -30,7 +30,9 @@ I think for the README, we should be as specific as possible on what we currentl
 
 We also need to make a requirements.txt file. DONE
 
-If you use apt-get to install a package in Travis during the build, it won't be on the path in python runtime. Have to either use pip or manually add the dest directory to the sys.path list
+If you use apt-get to install a package in Travis during the build, it won't be on the path in python runtime. Have to either use pip or manually add the dest directory to the sys.path list DONE
+
+When using pip to install from requirements file in Travis, pip always seems to try and install hyperlink packages first. Make a separate requirements file to install after the first for hyperlink packages that depend on other packages. to install. 
 
 ###################################################
 ### Anshul's Notes:
