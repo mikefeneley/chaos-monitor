@@ -3,15 +3,7 @@ import sys
 import mysql.connector
 import inspect
 
-import os
-cwd = os.getcwd()
-print(cwd, "CWD")
-
-print(sys.path)
-
 sys.path.append('../src')
-
-print(sys.path)
 
 from recipient_manager import RecipientManager
 from db_connector import DBConnector
@@ -168,11 +160,7 @@ class TestRecipientManager(unittest.TestCase):
         manager = RecipientManager(self.test_table_name,self.db_connector)
         response = manager.add_recipient(self.valid_email1)
         self.assertTrue(response)
-        if self.valid_email1 in manager.get_recipients():
-            response = True
-        else:
-            response = False
-        self.assertTrue(True)
+        self.assertTrue(self.valid_email1 in manager.get_recipients())
         self.assertTrue(manager.delete_recipient_table())
         self.assert_table_nonexistant(self.test_table_name)
 
