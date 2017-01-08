@@ -2,7 +2,16 @@ import unittest
 import sys
 import mysql.connector
 import inspect
+
+import os
+cwd = os.getcwd()
+print(cwd, "CWD")
+
+print(sys.path)
+
 sys.path.append('../src')
+
+print(sys.path)
 
 from recipient_manager import RecipientManager
 from db_connector import DBConnector
