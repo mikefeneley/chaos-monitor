@@ -7,4 +7,4 @@ def install(requirements):
 
 # Example
 if __name__ == '__main__':
-    install('requirements')
+    install('requirements.txt')
