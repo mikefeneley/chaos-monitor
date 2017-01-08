@@ -1,6 +1,18 @@
 # chaos-monitor
 This is a placeholder repo. No significant work has been done on this project yet.
 
+**KEY NOTES**
+
+We try to follow PEP8 style convention. We have relaxed the rules on 80 character limit because line wraps always look ugly and most people have large monitors.
+
+Test functions should be as descriptive as possible. Functions with 10+ words are totally fine as long as they describe the specific functionality they are testing.
+
+Use 4 spaces, not tabs for indents. This is important.
+
+Tests should leave the system in the same state they found it.
+
+No coypyleft license software can be used.
+
 **Problem**
 
 Consider the case where the user is victim of a buffer overflow attack. An attacker is able to override the buffer and cause the stack pointer to jump to a piece of malicious code he has written. This code can then replace files on the user's system, including important binary files and dynamic link libraries which are likely to be executed by the user. The new binary code injected by the hacker can be used to wreck a user’s computer. Or more insidiously, the new binary code can replicate the code of the replaced file but with malicious side effects like sending user data back to the attacker, preventing the user from ever knowing that something is wrong.
@@ -99,15 +111,7 @@ If you are interested in helping with either this project or the chaos command c
 
 We don't just need people who are interested in technology, we are also looking for people who are talented writers and artists.
 
-**Key Rules**
 
-We try to follow PEP8 style convention. We have relaxed the rules on 80 character limit because line wraps always look ugly and most people have large monitors.
-
-Test functions should be as descriptive as possible. Functions with 10+ words are totally fine as long as they describe the specific functionality they are testing.
-
-Use 4 spaces, not tabs for indents. This is important.
-
-Tests should leave the system in the same state they found it.
 
 **Design Notes**
 
