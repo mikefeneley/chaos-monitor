@@ -153,7 +153,17 @@ class TestRecipientManager(unittest.TestCase):
             5. Delete the table, TEST_TABLE.
             6. Assert that the table, TEST_TABLE, no longer exists.
         """
-        pass
+        self.assert_table_nonexistant(self.test_table_name)
+        manager = RecipientManager(self.test_table_name,self.db_connector)
+        response = manager.add_recipient(self.valid_email1)
+        self.assertTrue(response)
+        if self.valid_email1 in manager.get_recipients():
+            response = True
+        else:
+            response = False
+        self.assertTrue(True)
+        self.assertTrue(manager.delete_recipient_table())
+        self.assert_table_nonexistant(self.test_table_name)
 
     def test_add_email_with_no_domain(self):
         """
