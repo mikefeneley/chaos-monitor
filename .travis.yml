@@ -18,7 +18,6 @@ before_install:
   - sudo apt-get install -f
   - sudo echo $PATH
   - sudo find / -name connector
-  - cd /usr/lib/python2.7/dist-packages/mysql
   - 
 install:
     - mysql --version
