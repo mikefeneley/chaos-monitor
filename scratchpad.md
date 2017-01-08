@@ -52,6 +52,7 @@ We also need to make a requirements.txt file.
 - Comprehensive Documentation.
 - Unit Testing.
 - Alternative of valid_email.
+- remove_recipient in recipien_manager.py, if table doesn't exits, what to return: True or False ? Currently, it's false and a log message.
 
 ###################################################
 ### Status:

@@ -180,7 +180,9 @@ class RecipientManager:
         :returns: bool -- True if remove was successful, False otherwise
         """
         if not self.table_exists():
-            return True
+            msg = "Table does not exist from which email is to be removed"
+            self.logger.log_generic_message(msg)
+            return False
 
         try:
             cursor = self.connector.connection.cursor()
