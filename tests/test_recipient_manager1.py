@@ -55,6 +55,7 @@ class TestRecipientManager(unittest.TestCase):
         self.invalid_email2 = "@subdomain"
         self.long_email = long_email = 'a' * 254 + '@' + 'subdomain'
         self.email_without_domian = "user.com"
+        self.email_without_local_name = "@domain.com"
 
     def tearDown(self):
         self.delete_test_db()
@@ -186,7 +187,7 @@ class TestRecipientManager(unittest.TestCase):
 
     def test_add_email_with_no_local_name(self):
         """
-        Add an email without a domain. Example: @domain.com
+        Add an email without a local name. Example: @domain.com
 
         Adding a new recipient with a bad email should cause add_recipient to return False.
 
@@ -196,7 +197,11 @@ class TestRecipientManager(unittest.TestCase):
             3. Assert that the table, TEST_TABLE, still does not exist.
             4. Assert that the call to add_recipient returned false.
          """
-        pass
+        self.assert_table_nonexistant(self.test_table_name)
+        manager = RecipientManager(self.test_table_name,self.db_connector)
+        response = manager.add_recipient(self.email_without_local_name)
+        self.assert_table_nonexistant(self.test_table_name)
+        self.assertFalse(response)
 
     def test_add_email_that_exceeds_maximum_length(self):
         """
