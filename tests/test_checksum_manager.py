@@ -138,11 +138,11 @@ class TestChecksumManager(unittest.TestCase):
         """
         pass
 
-    def test_add_checksum_tuple_wit_nonexistant_file(self):
+    def test_add_checksum_tuple_with_nonexistant_file(self):
         """
         Add an checksum_file for a file that does not exist. 
 
-        Adding a checksum_file with a missing file should return False.
+        Adding a checksum_file with a nonexistant file should return False.
 
         What To Test:
             1. Assert that the table, TEST_TABLE does not exist.
@@ -154,67 +154,71 @@ class TestChecksumManager(unittest.TestCase):
          """
         pass
     
-    
-    
     def test_add_checksum_tuple_with_empty_string_filename(self):
         """
         Add a checksum_tuple with an empty string filename
 
-        Adding a new recipient with a bad email should cause add_recipient to return False.
+        Adding a new checksum tuple with an empty string should return False.
 
         What To Test:
             1. Assert that the table, TEST_TABLE does not exist.
-            2. Use recipient manager to add an email without a domain, @domain.com
+            2. Use recipient manager to add filename that is an empty string
             3. Assert that the table, TEST_TABLE, still does not exist.
             4. Assert that the call to add_recipient returned false.
          """
         pass
 
-    def test_add_email_that_exceeds_maximum_length(self):
+    def test_add_checksum_tuple_with_file_that_exceeds_maximum_checksum_size(self):
         """
-        Add an email that exceeds the maximum length of 254 characters, Example: 'a' * 400 + "@domain.com"
+        Try calculating the checksum of a file that is longer than the maximum allowable size
+        for checksums.
 
-        Adding a new recipient with a long email should cause add_recipient to return False.
+        Adding a file that is too large to calculate a checksum should return False.
+
+        Note: This might have to be moved to a special section because it would take too long
+        to generate the exbibyte size file during testing.
 
         What To Test:
             1. Assert that the table, TEST_TABLE does not exist.
-            2. Use recipient manager to add an email that is too long.
+            2. Use checksum manager try adding the large file.
             3. Assert that the table, TEST_TABLE, still does not exist.
             4. Assert that the call to add_recipient returned false.
          """
         pass
 
-    def test_remove_user_from_nonexistant_table(self):
+    def test_add_checksum_tuple_with_filename_that_exceeds_maximum_name_size(self):
         """
-        Remove an email from a table that does not exist.
+        Add a checksum tuple with a filename greater than the limit on unix.
 
-        Trying to remove a user from a table that does not exist should
-        return False.
+        Adding a checksum tuple with a filename greater than the allowable limit
+        should return False.
 
-        NOTE: I do not think this is currently implemented and needs to
-        be changed to pass the test.
+        Note: We currently have a check for this. We probably don't neeed it
+        as the check would likely be caught by the nonexistant file check.
 
         What To Test:
             1. Assert that the table, TEST_TABLE does not exist.
-            2. Use recipient manager to remove a normal email, user@subdomain.com
+            2. Use checksum manager to add a file with a name that is too long.
             3. Assert that the table, TEST_TABLE, still does not exist.
-            4. Assert that the call to remove_recipient returned false.
         """
         pass
 
-    def test_remove_user_from_table_without_user(self):
+    def test_add_checksum_tuple_with_absolute_filename(self):
         """
-        Remove an email from a table that does not have the users email.
+        Add a checksum_tuple using the absolute filename as the argument.
 
-        Trying to remove a user from a table without the users email should
-        return False.
+        Adding a checksum tuple with the absolute filename should return True.
+        But the name of the file should be stripped from the absolute filename
+        and used as the entry key.
 
         What To Test:
             1. Assert that the table, TEST_TABLE does not exist.
-            2. Create the table using recipient_manager.
-            2. Use recipient manager to remove a normal email, user@subdomain.com
-            3. Assert that the table, TEST_TABLE, still does not exist.
-            4. Assert that the call to remove_recipient returned false.
+            2. Create the table using checksum_manager.
+            3. Use recipient manager to add an existing file using its absolute filename
+            4 Assert that the table, TEST_TABLE, exists.
+            5. Assert that the checksum tuple exists in the table, with the file of the file used as the key
+            6. Assert that the checksum is correct.
+            6. Delete the table and assert it does not exist.
         """
         pass
 
@@ -246,13 +250,16 @@ class TestChecksumManager(unittest.TestCase):
 
         What To Test:
             1. Assert that no tables currently exist in the test database.
-            2. Create a Recipient Manager with the empty table name as an argument.
+            2. Create a ChecksumManager with the empty table name as an argument.
             3. Assert that table_exists() function returns False.
             4. Try to create table and assert that the function call returns False.
             5. Assert that there are still no tables in the test database.
         """
         pass
- 
+
+##################################################################
+
+
     def test_get_users_from_nonexistant_table(self):
         """
         Try getting the users from a table that does not exist. 
