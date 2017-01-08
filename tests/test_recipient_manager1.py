@@ -54,6 +54,8 @@ class TestRecipientManager(unittest.TestCase):
         self.invalid_email1 = "baduser"
         self.invalid_email2 = "@subdomain"
         self.long_email = long_email = 'a' * 254 + '@' + 'subdomain'
+        self.email_without_domian = "user.com"
+        self.email_without_local_name = "@domain.com"
 
     def tearDown(self):
         self.delete_test_db()
@@ -153,7 +155,17 @@ class TestRecipientManager(unittest.TestCase):
             5. Delete the table, TEST_TABLE.
             6. Assert that the table, TEST_TABLE, no longer exists.
         """
-        pass
+        self.assert_table_nonexistant(self.test_table_name)
+        manager = RecipientManager(self.test_table_name,self.db_connector)
+        response = manager.add_recipient(self.valid_email1)
+        self.assertTrue(response)
+        if self.valid_email1 in manager.get_recipients():
+            response = True
+        else:
+            response = False
+        self.assertTrue(True)
+        self.assertTrue(manager.delete_recipient_table())
+        self.assert_table_nonexistant(self.test_table_name)
 
     def test_add_email_with_no_domain(self):
         """
@@ -167,11 +179,15 @@ class TestRecipientManager(unittest.TestCase):
             3. Assert that the table, TEST_TABLE, still does not exist.
             4. Assert that the call to add_recipient returned false.
          """
-        pass
+        self.assert_table_nonexistant(self.test_table_name)
+        manager = RecipientManager(self.test_table_name,self.db_connector)
+        response = manager.add_recipient(self.email_without_domian)
+        self.assert_table_nonexistant(self.test_table_name)
+        self.assertFalse(response)
 
     def test_add_email_with_no_local_name(self):
         """
-        Add an email without a domain. Example: @domain.com
+        Add an email without a local name. Example: @domain.com
 
         Adding a new recipient with a bad email should cause add_recipient to return False.
 
@@ -181,7 +197,11 @@ class TestRecipientManager(unittest.TestCase):
             3. Assert that the table, TEST_TABLE, still does not exist.
             4. Assert that the call to add_recipient returned false.
          """
-        pass
+        self.assert_table_nonexistant(self.test_table_name)
+        manager = RecipientManager(self.test_table_name,self.db_connector)
+        response = manager.add_recipient(self.email_without_local_name)
+        self.assert_table_nonexistant(self.test_table_name)
+        self.assertFalse(response)
 
     def test_add_email_that_exceeds_maximum_length(self):
         """
@@ -195,7 +215,11 @@ class TestRecipientManager(unittest.TestCase):
             3. Assert that the table, TEST_TABLE, still does not exist.
             4. Assert that the call to add_recipient returned false.
          """
-        pass
+        self.assert_table_nonexistant(self.test_table_name)
+        manager = RecipientManager(self.test_table_name,self.db_connector)
+        response = manager.add_recipient(self.long_email)
+        self.assert_table_nonexistant(self.test_table_name)
+        self.assertFalse(response)
 
     def test_remove_user_from_nonexistant_table(self):
         """
@@ -213,7 +237,12 @@ class TestRecipientManager(unittest.TestCase):
             3. Assert that the table, TEST_TABLE, still does not exist.
             4. Assert that the call to remove_recipient returned false.
         """
-        pass
+        self.assert_table_nonexistant(self.test_table_name)
+        manager = RecipientManager(self.test_table_name,self.db_connector)
+        response = manager.remove_recipient(self.valid_email1)
+        self.assertFalse(response)
+        self.assert_table_nonexistant(self.test_table_name)
+    
     def test_remove_user_from_table_without_user(self):
         """
         Remove an email from a table that does not have the users email.
@@ -223,11 +252,18 @@ class TestRecipientManager(unittest.TestCase):
 
         What To Test:
             1. Assert that the table, TEST_TABLE does not exist.
+            2. Create the table using recipient_manager.
             2. Use recipient manager to remove a normal email, user@subdomain.com
             3. Assert that the table, TEST_TABLE, still does not exist.
             4. Assert that the call to remove_recipient returned false.
         """
-        pass
+        self.assert_table_nonexistant(self.test_table_name)
+        manager = RecipientManager(self.test_table_name,self.db_connector)
+        self.assertTrue(manager.create_recipient_table())
+        response = manager.remove_recipient(self.valid_email1)
+        self.assertFalse(response)
+        self.assertTrue(manager.delete_recipient_table())
+        self.assert_table_nonexistant(self.test_table_name)
 
 
 if __name__ == '__main__':

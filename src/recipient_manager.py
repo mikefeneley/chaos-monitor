@@ -127,14 +127,17 @@ class RecipientManager:
 
         :returns: bool -- True if add was successful, False otherwise
         """
-        if not self.create_recipient_table():
-            return False
+        
 
         if not validate_email(recipient, verify=False):
             return False
 
         if len(recipient) > 254:
             return False
+        
+        if not self.create_recipient_table():
+            return False
+
 
         try:
             cursor = self.connection.cursor()
@@ -176,14 +179,18 @@ class RecipientManager:
         :type subject: string
         :returns: bool -- True if remove was successful, False otherwise
         """
+        
         if not self.table_exists():
-            return True
+            msg = "Table does not exist from which email is to be removed"
+            self.logger.log_generic_message(msg)
+            return False
 
         try:
             cursor = self.connector.connection.cursor()
             sql = "DELETE FROM %s WHERE EMAIL = '%s'" % (
                 self.table_name, recipient)
             cursor.execute(sql)
+            results = cursor.fetchall()  #: To let the system know that there are no results to fetch from and it return False
             self.connector.connection.commit()
             self.logger.log_generic_message(
                 "Recipient removed: {}".format(recipient))
