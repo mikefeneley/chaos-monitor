@@ -7,7 +7,9 @@ Undecided on line length... wrapping lots of code looks ugly enough to maybe jus
 ###################################################
 ### Michael's Notes:
 
-Make new branch for dev.
+Design Note: When deciding what to return, opt to return True if the desired state is acheived. For example, if you tried to remove an email from the list and it didn't exist in the first place, return True because we are in the desired state, one in which the email is not in the database. Think about it. 
+
+Make new branch for dev. DONE
 
 We need to create an abstract database class and a 
 mock database class to use for unittesting.

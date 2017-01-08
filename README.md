@@ -3,6 +3,8 @@ This is a placeholder repo. No significant work has been done on this project ye
 
 **KEY NOTES**
 
+Refactoring of the project is upcoming. Initial design of error code emphasis is being changed to exceptions. We are not writing critical code and this is not C/C++, there is no good reason not to use exceptions.
+
 If you run the chaos monitor, be sure to stop it shortly after or it will continually write to its log and hog resources.
 
 We try to follow PEP8 style convention. We have relaxed the rules on 80 character limit because line wraps always look ugly and most people have large monitors.

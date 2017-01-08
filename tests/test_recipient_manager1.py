@@ -17,6 +17,12 @@ class TestRecipientManager(unittest.TestCase):
     access class so the testing requires the setup of a database to check the
     impact of it's querries on the dataset.
 
+    Tests:
+        Add With No Table
+        Add With Bad Emails
+        Remove With No Table
+        Remove With Table But NonexistantRecipient
+
     Notes:
         As the number of tests increases, this test set could become a
         bottleneck and slow down overall development. Is this starts to happen
@@ -261,6 +267,150 @@ class TestRecipientManager(unittest.TestCase):
         self.assertFalse(response)
         self.assertTrue(manager.delete_recipient_table())
         self.assert_table_nonexistant(self.test_table_name)
+
+
+    def test_remove_user_from_table_with_user(self):
+        """
+        Remove an email from a table that does have the users email.
+
+        Removing a user from a table with that user returns True
+
+        What To Test:
+            1. Assert that the table, TEST_TABLE does not exist.
+            2. Create the table using recipient_manager.
+            2. Use recipient manager to add a normal email, user@subdomain.com
+            3. Assert that the table, TEST_TABLE, exists.
+            5. Assert that the call to add_recipient() returned true.
+            6. Assert that the recipient is in the database.
+            7. Use remove_recipient() to remove the email from the database.
+            8. Assert that the call to remove_reciepient() returned True.
+            9. Assert the the user is no longer in the database.
+        """
+        pass 
+
+    def test_create_database_with_empty_string_name(self):
+        """
+        Try creating a database with an emptry string as the table name.
+
+        Creating a table with an empty string causes mysql to throw
+        a syntax exception. The create function should return False.
+
+        What To Test:
+            1. Assert that no tables currently exist in the test database.
+            2. Create a Recipient Manager with the empty table name as an argument.
+            3. Assert that table_exists() function returns False.
+            4. Try to create table and assert that the function call returns False.
+            5. Assert that there are still no tables in the test database.
+        """
+        pass
+ 
+    def test_get_users_from_nonexistant_table(self):
+        """
+        Try getting the users from a table that does not exist. 
+
+        Calling get_recipients() when the table has not been created should
+        return an empty list.
+
+        What To Test:
+            1. Asset that the table, TEST_TABLE does not exist.
+            2. Assert that call to get_recipients() returns an empty list.
+            3. Assert that the table, TEST_TABLE still does not exist.
+        """
+        pass
+
+    def test_get_users_from_table_that_exists_with_no_users(self):
+        """
+        Try getting users from a table with no users.
+
+        Calling get_recipient() when the table has been created but has
+        no users should return an empty list.
+
+        What To Test:
+            1. Assert that the table, TEST_TABLE does not exist.
+            2. Create the table.
+            3. Assert the table exists.
+            4. Assert the the call to get_recipients() returns an empty list.
+        """
+        pass
+
+    def test_get_users_from_table_with_single_user(self):
+        """
+        Try getting users from a table with a single user.
+
+        Calling get_recipient() when the table has 1 user should 
+        return that one user in a list.
+
+        What To Test:
+            1. Assert that the table, TEST_TABLE does not exist.
+            2. Create the table.
+            3. Assert the table exists.
+            4. Add a user to the table. Assert the call to add_recipient returns True
+            5. Assert the the call to get_recipients() returns a list containing the recipient.
+        """
+        pass
+
+    def test_get_users_from_table_with_two_users(self):
+        """
+        Test getting users from a table with two users.
+
+        Calling get_recipient() when the table has 2 emails should 
+        return a list with both of those emails.
+
+        What To Test:
+            1. Assert that the table, TEST_TABLE does not exist.
+            2. Create the table.
+            3. Assert the table exists.
+            4. Add a user to the table. Assert the call to add_recipient returns True
+            5. Assert the the call to get_recipients() returns a list containing the recipient.
+            6. Add another user to the table with a different email. Assert the call to add_recipeint returns True
+            7. Assser that the call to get_recipients() returns a list containing both emails.
+        """
+        pass
+    
+    def test_delete_nonexistant_table(self):
+        """
+        Test deleteting a table from a database that does not exist.
+       
+        Deleting a table that does not exist should return False.
+        
+        What To Test:
+            1. Assert that the table, TEST_TABLE, does not exist.
+            2. Try to delete the table.
+            3. Assert that the delete_table response returns False.
+       
+        """
+        pass
+
+    def test_delete_existant_but_empty_table(self):
+        """
+        Test deleteing a table that exists but has no users.
+
+        Delete a table with no users should delete the table and return True
+
+        What To Test:
+            1. Assert that the table, TEST_TABLE, does not exist.
+            2. Create the table. Assert that create_table returns True
+            3. Delete the table. Assert that delete_table returns True
+        """
+        pass
+
+    def test_delete_existant_table_with_user(self):
+        """
+        Test deleteing a table that has a user in it.
+
+        Deleting a table with a user should delete the table and return True
+
+        What To Test:
+            1. Assert that the table, TEST_TABLE does not exist.
+            2. Create the table. Assert that create_table returns True
+            3. Add a user with a normal email to the table. Assert that add_recipient returns True.
+            4. Assert that the table is in the table.
+            5. Delete the table. Assert that delete_table returns True.
+        """
+        pass
+
+
+
 
 
 if __name__ == '__main__':
