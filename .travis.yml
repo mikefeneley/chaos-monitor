@@ -3,6 +3,9 @@ sudo: required
 #language: generic
 services: mysql
 
+virtualenv:
+  system_site_packages: true
+
 python:
   - "2.7"
   
@@ -15,7 +18,7 @@ before_install:
   - sudo apt-get install -f
   - sudo echo $PATH
   - sudo find / -name connector
-  - sudo cd /usr/lib/python2.7/dist-packages/mysql
+  - cd /usr/lib/python2.7/dist-packages/mysql
   - 
 install:
     - mysql --version
