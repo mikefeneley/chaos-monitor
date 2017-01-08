@@ -1,0 +1,4 @@
+mysql-connector
+validate_email
+rsfile
+http://wookr.com/pydaemon/dl/pydaemon-0.2.3.tar.gz
