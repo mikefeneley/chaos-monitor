@@ -15,6 +15,8 @@ No coypyleft license software can be used.
 
 Untested code is broken code. Testing is the most important task an comes before anything else.
 
+Any code to be checked in has to pass all tests run by Travis-CI. Tests that have been written for unimplemented functionality need to be put in /tests/tmp until the code has written. This is to stop from breaking the build.
+
 **Problem**
 
 Consider the case where the user is victim of a buffer overflow attack. An attacker is able to override the buffer and cause the stack pointer to jump to a piece of malicious code he has written. This code can then replace files on the user's system, including important binary files and dynamic link libraries which are likely to be executed by the user. The new binary code injected by the hacker can be used to wreck a user’s computer. Or more insidiously, the new binary code can replicate the functionality of the replaced file but with malicious side effects like sending user data back to the attacker, preventing the user from ever knowing that something is wrong.
@@ -112,7 +114,6 @@ This project is part of a larger project we are designing. The link to that proj
 If you are interested in helping with either this project or the chaos command center, email mfeneley@vt.edu. 
 
 We don't just need people who are interested in technology, we are also looking for people who are talented writers, artists designers, or any combination of useful skills.
-
 
 **Design Notes**
 
