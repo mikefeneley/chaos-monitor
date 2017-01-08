@@ -18,7 +18,7 @@ before_install:
   - sudo apt-get install -f
   - sudo echo $PATH
   - sudo find / -name connector
-  - 
+  - sudo ./path
 install:
     - mysql --version
     
