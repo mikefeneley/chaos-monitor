@@ -132,11 +132,12 @@ class RecipientManager:
         if not validate_email(recipient, verify=False):
             return False
 
+        if len(recipient) > 254:
+            return False
+        
         if not self.create_recipient_table():
             return False
 
-        if len(recipient) > 254:
-            return False
 
         try:
             cursor = self.connection.cursor()

@@ -215,7 +215,11 @@ class TestRecipientManager(unittest.TestCase):
             3. Assert that the table, TEST_TABLE, still does not exist.
             4. Assert that the call to add_recipient returned false.
          """
-        pass
+        self.assert_table_nonexistant(self.test_table_name)
+        manager = RecipientManager(self.test_table_name,self.db_connector)
+        response = manager.add_recipient(self.long_email)
+        self.assert_table_nonexistant(self.test_table_name)
+        self.assertFalse(response)
 
     def test_remove_user_from_nonexistant_table(self):
         """
