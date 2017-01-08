@@ -3,6 +3,8 @@ This is a placeholder repo. No significant work has been done on this project ye
 
 **KEY NOTES**
 
+If you run the chaos monitor, be sure to stop it shortly after or it will continually write to its log and hog resources.
+
 We try to follow PEP8 style convention. We have relaxed the rules on 80 character limit because line wraps always look ugly and most people have large monitors.
 
 Test functions should be as descriptive as possible. Functions with 10+ words are totally fine as long as they describe the specific functionality they are testing.
@@ -13,7 +15,7 @@ Tests should leave the system in the same state they found it.
 
 No coypyleft license software can be used.
 
-Untested code is broken code. Testing is the most important task an comes before anything else.
+Untested code is broken code. Testing is the most important task and should be done before anything else.
 
 Any code to be checked in has to pass all tests run by Travis-CI. Tests that have been written for unimplemented functionality need to be put in /tests/tmp until the code has written. This is to stop from breaking the build.
 
