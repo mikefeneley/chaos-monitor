@@ -252,11 +252,18 @@ class TestRecipientManager(unittest.TestCase):
 
         What To Test:
             1. Assert that the table, TEST_TABLE does not exist.
+            2. Create the table using recipient_manager.
             2. Use recipient manager to remove a normal email, user@subdomain.com
             3. Assert that the table, TEST_TABLE, still does not exist.
             4. Assert that the call to remove_recipient returned false.
         """
-        pass
+        self.assert_table_nonexistant(self.test_table_name)
+        manager = RecipientManager(self.test_table_name,self.db_connector)
+        self.assertTrue(manager.create_recipient_table())
+        response = manager.remove_recipient(self.valid_email1)
+        self.assertFalse(response)
+        self.assertTrue(manager.delete_recipient_table())
+        self.assert_table_nonexistant(self.test_table_name)
 
 
 if __name__ == '__main__':
