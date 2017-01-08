@@ -27,4 +27,4 @@ install:
     - mysql --version
     
 # command to run tests
-script: make test
+script: make -C tests test
