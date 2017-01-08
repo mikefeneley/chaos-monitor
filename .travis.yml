@@ -12,13 +12,13 @@ python:
 before_install:
   - sudo apt-get update
   - mysql --version
-  - wget https://dev.mysql.com/get/Downloads/Connector-Python/mysql-connector-python_2.1.5-1ubuntu14.04_all.deb
-  - wget https://dev.mysql.com/get/Downloads/Connector-Python/mysql-connector-python-py3_2.1.5-1ubuntu14.04_all.deb
-  - sudo dpkg -i *.deb
-  - sudo apt-get install -f
+#  - wget https://dev.mysql.com/get/Downloads/Connector-Python/mysql-connector-python_2.1.5-1ubuntu14.04_all.deb
+#  - wget https://dev.mysql.com/get/Downloads/Connector-Python/mysql-connector-python-py3_2.1.5-1ubuntu14.04_all.deb
+#  - sudo dpkg -i *.deb
+#  - sudo apt-get install -f
   - pip install mysql-connector
-  - sudo echo $PATH
-  - sudo find / -name connector
+#  - sudo echo $PATH
+  - sudo find / -name mysql/connector
   - sudo python test.py
   
 install:
