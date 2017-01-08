@@ -23,6 +23,11 @@ class ChecksumManager:
     +----------+--------------+------+-----+---------+-------+
 
     The filepath in the table is stored as the absolute filename.
+
+    NOTE: The checksum manager should be able to specify the absolute path
+    of the file, but the filename itself needs to be stored as the key
+    so that the user can delete it by just specifying the filename. It has to be
+    split and added as both a file and filename.
     """
 
     def __init__(self, table_name="CHECKSUMS", db_connector=None):

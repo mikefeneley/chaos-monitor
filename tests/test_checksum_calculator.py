@@ -3,9 +3,9 @@ import sys
 import hashlib
 import os
 import math
-sys.path.append('../src')
+#sys.path.append('../src')
 
-from checksum_calculator import ChecksumCalculator
+from src.checksum_calculator import ChecksumCalculator
 
 class TestChecksumCalculator(unittest.TestCase):
     
@@ -51,22 +51,54 @@ class TestChecksumCalculator(unittest.TestCase):
         if os.path.isfile(self.checksum_test2):
             os.remove(self.checksum_test2)
 
-    def test_calculate_sha1(self):
-        empty_hash = self.calculator.calculate_sha1(self.empty_file)
-        self.assertEqual(empty_hash, self.sha1_empty_correct)
-        test1 = self.calculator.calculate_sha1(self.checksum_test1)
-        self.assertEqual(test1, self.sha1_test1_correct)
-        test2 = self.calculator.calculate_sha1(self.checksum_test2)
-        self.assertEqual(test2, self.sha1_test2_correct)
+    def test_calculate_sha1_nonexistant_file(self):
+        """
+        Test calculating sha1 for file that does not exist.
 
-    def test_calculate_md5(self):
-        empty_hash = self.calculator.calculate_md5(self.empty_file)
-        self.assertEqual(empty_hash, self.md5_empty_correct)
-        test1 = self.calculator.calculate_md5(self.checksum_test1)
-        self.assertEqual(test1, self.md5_test1_correct)
-        test2 = self.calculator.calculate_md5(self.checksum_test2)
-        self.assertEqual(test2, self.md5_test2_correct)
+        Should return empty string.         
 
+        What To Test:
+            1. Assert that the file does not exist.
+            2. Assert trying to calculate checksum returns empty string.
+        """ 
+        pass
+        
+    def test_calculate_md5_nonexistant_file(self):
+        """
+        Test calculating md5 for file that does not exist.
+
+        md5 calculation on nonexistant file should return empty string.         
+
+        What To Test:
+            1. Assert that the file does not exist.
+            2. Assert trying to calculate checksum returns empty string.
+        """ 
+        pass
+
+
+    def test_calculate_md5_empty_string_filename(self):
+        """
+        Test calculating md5 for filename ""
+
+        md5 calculation on filename "" should return empty string.         
+
+        What To Test:
+            1. Assert that the file does not exist.
+            2. Assert trying to calculate checksum returns empty string.
+        """
+        pass
+
+    def test_calculate_sha1_empty_string_filename(self):
+        """
+        Test calculating sha1 for filename ""
+
+        sha1 calculation on filename "" should return empty string.         
+
+        What To Test:
+            1. Assert that the file does not exist.
+            2. Assert trying to calculate checksum returns empty string.
+        """
+        pass
 
 if __name__ == '__main__':
     unittest.main()

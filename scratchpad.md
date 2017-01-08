@@ -7,6 +7,8 @@ Undecided on line length... wrapping lots of code looks ugly enough to maybe jus
 ###################################################
 ### Michael's Notes:
 
+All three fields must be present to add entry to the checksum database.
+
 Design Note: When deciding what to return, opt to return True if the desired state is acheived. For example, if you tried to remove an email from the list and it didn't exist in the first place, return True because we are in the desired state, one in which the email is not in the database. Think about it. 
 
 Make new branch for dev. DONE
