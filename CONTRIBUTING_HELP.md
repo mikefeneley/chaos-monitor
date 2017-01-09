@@ -21,7 +21,7 @@ Getting Ready For Development:
 
 **BEGINNER**
 
-## Testing
+### Testing
 
 Testing is the best way for beginers to contribute. First, it is a great way to learn how the program works. Second, testing is the most helpful contribution in general. It helps strengthens the code base, speeds up development clarifies interface details, and forces exact defintions of function behavior. 
 
@@ -53,16 +53,16 @@ Clean up the code. Make sure it follows pep8 style guide. Note: We generally ign
 
 Check for spelling and grammar errors. Look for mismatched vocabulary. For example, when the project started, we were calling the data stored in the checksum database checksum pairs, but now we are storing three fields to so we are switching to calling them checksum tuples instead. There are many instances where the comments refer to them as checksum pairs 
 
-## Documentation/Tutorials
+### Documentation/Tutorials
 
 If you are just getting started working on the code, you have a useful perspective. It is easier for a beginer to undstand which parts of the code and documentation are confusing. If you see something that is unclear, it is helpful if you make a note and think of a way that it could be explained better.
 
-<INTERMEDIATE>
+**INTERMEDIATE**
 
 Look into unimplemented skeleton functions in the codebase. If you understand the comment description, go ahead and start working. We are putting together a system to stop overlapping work. For now, just tell someone what you are doing so someone else doesn't work on the same part.
 
 Help design tests. We don't want people to design tests for their own function, but we are ok with them implementing tests designed by someone else.
 
-<ADVANCED>
+**ADVANCED**
 
 Help with high level design/architecture. Write function stubs and definitions for new features and functionality.
