@@ -4,9 +4,9 @@ import hashlib
 import os
 import math
 
-#sys.path.append('../src')
+sys.path.append('../src')
 
-#from checksum_calculator import ChecksumCalculator
+from checksum_calculator import ChecksumCalculator
 
 class TestChecksumCalculator(unittest.TestCase):
     
