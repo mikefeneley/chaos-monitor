@@ -12,9 +12,9 @@
 
 /src/checksum_tuple.py -- Encapsulates file and checksum data.
 
-/src/db_connector -- Provides an interface for program database.
+/src/db_connector.py -- Provides an interface for program database.
 
-/src/logger -- Provides an interface for logging errors
+/src/logger.py -- Provides an interface for logging errors
 
 /src/monitor.py -- Daemon that performs integrity checks and notifications
 
@@ -24,6 +24,6 @@
 
 /src/recipient_manager.py -- Interface for managing the recipient table in database.
 
-/src/sql_validator -- Provides input validation and checking for sql injection attempts.
+/src/sql_validator.py -- Provides input validation and checking for sql injection attempts.
 
-/src/table_manager -- Abstract class that provides shared interface for managing database tables.
+/src/table_manager.py -- Abstract class that provides shared interface for managing database tables.
