@@ -21,7 +21,7 @@ Getting Ready For Development:
 
 **BEGINNER**
 
-### Testing
+_Testing_
 
 Testing is the best way for beginers to contribute. First, it is a great way to learn how the program works. Second, testing is the most helpful contribution in general. It helps strengthens the code base, speeds up development clarifies interface details, and forces exact defintions of function behavior. 
 
@@ -47,13 +47,13 @@ pass -- Test Code Needs to Go Here. Replace pass with test implementation.
 
 END EXAMPLE
 
-## Formating
+_Formating_
 
 Clean up the code. Make sure it follows pep8 style guide. Note: We generally ignore the 80 character line limit so if you use autopep8, make sure to set the line limit to >200 to make sure it doesn't improperly format long lines.
 
 Check for spelling and grammar errors. Look for mismatched vocabulary. For example, when the project started, we were calling the data stored in the checksum database checksum pairs, but now we are storing three fields to so we are switching to calling them checksum tuples instead. There are many instances where the comments refer to them as checksum pairs 
 
-### Documentation/Tutorials
+_Documentation/Tutorials_
 
 If you are just getting started working on the code, you have a useful perspective. It is easier for a beginer to undstand which parts of the code and documentation are confusing. If you see something that is unclear, it is helpful if you make a note and think of a way that it could be explained better.
 
