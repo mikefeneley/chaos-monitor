@@ -31,9 +31,9 @@ class Monitor(Daemon):
         """
         self.setup()
         while True:
-            pairs = self.checksum_manager.get_checksum_pairs()
+            tuples = self.checksum_manager.get_checksum_pairs()
 
-            for pair in pairs:
+            for tup in tuples:
 
                 filename = pair[2]
                 checksum = pair[1]
