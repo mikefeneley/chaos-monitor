@@ -5,9 +5,9 @@ from mysql.connector import errorcode
 from db_connector import DBConnector
 from checksum_calculator import ChecksumCalculator
 from logger import Logger
-
-
-class ChecksumManager:
+from table_manager import TableManager
+from checksum_tuple import ChecksumTuple
+class ChecksumManager(TableManager):
 
     """
     Provides an interface to control checksum/filename pair table.
@@ -40,13 +40,12 @@ class ChecksumManager:
         else:
             self.connector = db_connector()
 
-
         self.connection = self.connector.get_connection()
         self.table_name = table_name
         self.checksum_calculator = ChecksumCalculator()
         self.logger = Logger(__name__)
 
-    def checksum_table_exists(self):
+    def table_exists(self):
         """
         Check to see if the checksum table exists in the database.
 
@@ -65,7 +64,7 @@ class ChecksumManager:
             self.logger.log_generic_message(err)
             return False
 
-    def create_checksum_table(self):
+    def create_table(self):
         """
         Creates a new checksum table in the database with the same properties
         as described in the class documentation.
@@ -85,7 +84,7 @@ class ChecksumManager:
             self.logger.log_generic_message(err)
             return False
 
-    def add_checksum_pair(self, filename):
+    def add_element(self, filename):
         """
         Calculates the checksum of file filename and then add the new
         checksum/filename entry to the database. If the table does
@@ -102,7 +101,7 @@ class ChecksumManager:
         :return: bool -- True if added successfuly. False otherwise.
         """
         
-        if not self.create_checksum_table():
+        if not self.create_table():
             return False
 
         if len(filename) > self.filename_field_length:
@@ -129,7 +128,7 @@ class ChecksumManager:
         else:
             return False
 
-    def remove_checksum_pair(self, filename):
+    def remove_element(self, filename):
         """
         Removes the entry with filename filename in the checksum table. If
         the checksum pair does not exist in the database or was not removed,
@@ -156,7 +155,7 @@ class ChecksumManager:
             self.connector.connection.rollback()
             return False
 
-    def get_checksum_pairs(self):
+    def get_elements(self):
         """
         Returns a list of tuples formated as follows: (filename, hash, absolute filename)
 
@@ -164,7 +163,7 @@ class ChecksumManager:
                          Return an empty list if no checksum pairs exist
                          or the table/database does not exist.
         """
-        if not self.checksum_table_exists():
+        if not self.table_exists():
             return []
 
         try:
@@ -175,11 +174,8 @@ class ChecksumManager:
             cursor.execute(sql)
             results = cursor.fetchall()
             for row in results:
-                entry = []
-                entry.append(str(row[0]))
-                entry.append(str(row[1]))
-                entry.append(str(row[2]))
-                checksum_pairs.append(entry)
+                tup = ChecksumTuple(row[0], row[2], row[1])        
+                checksum_pairs.append(tup)
             return checksum_pairs
         except Exception as err:
             self.logger.log_generic_message(err)
@@ -198,7 +194,7 @@ class ChecksumManager:
         else:
             return None
 
-    def delete_checksum_table(self):
+    def delete_table(self):
         """
         Deletes the database table containing all recipient information.
 
@@ -216,11 +212,20 @@ class ChecksumManager:
             self.logger.log_generic_message(err)
             return False
 
+    def print_table(self):
+        tuples = self.get_elements()
+        for tup in tuples:
+            print("Filename: %s AbsoluteFilename: %s Checksum: %s" %(tup.filename, tup.absolute_filename, tup.checksum))
+
+
+
+                    
 if __name__ == '__main__':
     c = ChecksumManager()
+    c.print_table()
     if "get" in sys.argv:
-        print(c.get_checksum_pairs())
+        print(c.get_elements())
     if "add" in sys.argv:
-        print(c.add_checksum_pair(sys.argv[len(sys.argv) - 1]))
+        print(c.add_element(sys.argv[len(sys.argv) - 1]))
     if "remove" in sys.argv:
-        print(c.remove_checksum_pair(sys.argv[len(sys.argv) - 1]))
+        print(c.remove_element(sys.argv[len(sys.argv) - 1]))
