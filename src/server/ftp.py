@@ -1,18 +1,20 @@
 from pyftpdlib.authorizers import DummyAuthorizer
 from pyftpdlib.handlers import FTPHandler
 from pyftpdlib.servers import FTPServer
+from ftp_handler import MyHandler 
+from ftp_authenticate import MyAuthorizer
 import os
-def main():
+
+def main(password="", address="localhost", port=2121):
     # Instantiate a dummy authorizer for managing 'virtual' users
-    authorizer = DummyAuthorizer()
+    authorizer = MyAuthorizer()
 
     # Define a new user having full r/w permissions and a read-only
     # anonymous user
-    authorizer.add_user('user', '12345', '.', perm='elradfmwM')
-    authorizer.add_anonymous(os.getcwd())
+    authorizer.add("monitor", password)
 
     # Instantiate FTP handler class
-    handler = FTPHandler
+    handler = MyHandler
     handler.authorizer = authorizer
 
     # Define a customized banner (string returned when client connects)
@@ -24,7 +26,7 @@ def main():
     #handler.passive_ports = range(60000, 65535)
 
     # Instantiate FTP server class and listen on 0.0.0.0:2121
-    address = ('localhost', 2121)
+    address = (address, port)
 
     server = FTPServer(address, handler)
 

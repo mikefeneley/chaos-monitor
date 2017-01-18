@@ -6,7 +6,7 @@ from pyftpdlib.handlers import FTPHandler
 from pyftpdlib.servers import FTPServer
 from pyftpdlib.authorizers import DummyAuthorizer, AuthenticationFailed
 
-class DummyMD5Authorizer(DummyAuthorizer):
+class MyAuthorizer(DummyAuthorizer):
 
     def validate_authentication(self, username, password, handler):
         if sys.version_info >= (3, 0):
@@ -17,7 +17,10 @@ class DummyMD5Authorizer(DummyAuthorizer):
                 raise KeyError
         except KeyError:
             raise AuthenticationFailed
-
+    
+    def add(self, user, password):
+        hash = md5(password).hexdigest()
+        self.add_user(user, hash, os.getcwd(), perm="r")
 
 def main():
     # get a hash digest from a clear-text password
