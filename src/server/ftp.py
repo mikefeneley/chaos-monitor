@@ -5,7 +5,7 @@ from ftp_handler import MyHandler
 from ftp_authenticate import MyAuthorizer
 import os
 
-def main(password="", address="localhost", port=2121):
+def main(password="password", address="localhost", port=2121):
     # Instantiate a dummy authorizer for managing 'virtual' users
     authorizer = MyAuthorizer()
 

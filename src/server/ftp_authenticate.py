@@ -9,6 +9,7 @@ from pyftpdlib.authorizers import DummyAuthorizer, AuthenticationFailed
 class MyAuthorizer(DummyAuthorizer):
 
     def validate_authentication(self, username, password, handler):
+        print(password)
         if sys.version_info >= (3, 0):
             password = md5(password.encode('latin1'))
         hash = md5(password).hexdigest()
