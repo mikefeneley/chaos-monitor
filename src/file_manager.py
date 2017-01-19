@@ -1,5 +1,5 @@
 from ftplib import FTP
-
+import time
 class FileManager:
 
     def __init__(self, address="localhost", port=2121):
@@ -22,7 +22,6 @@ class FileManager:
         ftp = FTP()
         ftp.connect(self.address, self.port)
         ftp.login(username, password)
-        
         # Get files and put them in the folder named 'data'
         for afile in file_list:
             command = "RETR " + afile

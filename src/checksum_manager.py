@@ -43,7 +43,7 @@ class ChecksumManager(TableManager):
         self.connection = self.connector.get_connection()
         self.table_name = table_name
         self.checksum_calculator = ChecksumCalculator()
-        self.logger = Logger(__name__)
+        self.logger = Logger()
 
     def table_exists(self):
         """
@@ -222,10 +222,13 @@ class ChecksumManager(TableManager):
                     
 if __name__ == '__main__':
     c = ChecksumManager()
+    """
     c.print_table()
+    
     if "get" in sys.argv:
         print(c.get_elements())
     if "add" in sys.argv:
         print(c.add_element(sys.argv[len(sys.argv) - 1]))
     if "remove" in sys.argv:
         print(c.remove_element(sys.argv[len(sys.argv) - 1]))
+    """
