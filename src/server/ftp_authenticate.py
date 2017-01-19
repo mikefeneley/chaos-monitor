@@ -21,7 +21,7 @@ class MyAuthorizer(DummyAuthorizer):
     
     def add(self, user, password):
         hash = md5(password).hexdigest()
-        self.add_user(user, hash, os.getcwd(), perm="r")
+        self.add_user(user, hash, os.getcwd(), perm="wr")
 
 def main():
     # get a hash digest from a clear-text password

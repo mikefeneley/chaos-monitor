@@ -40,7 +40,8 @@ class MyHandler(FTPHandler):
             afile = tmp[len(tmp) - 1]
             os.remove(afile)
         monitored_files.close()
-
+    
+    """
     def on_file_sent(self, file):
         # do something when a file has been sent
         pass
@@ -52,8 +53,10 @@ class MyHandler(FTPHandler):
     def on_incomplete_file_sent(self, file):
         # do something when a file is partially sent
         pass
+    """
 
     def on_incomplete_file_received(self, file):
         # remove partially uploaded files
         import os
         os.remove(file)
+
