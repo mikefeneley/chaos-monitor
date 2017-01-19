@@ -35,11 +35,11 @@ class ChecksumManager(TableManager):
         self.checksum_field_length = 64
         self.filepath_field_length = 255
         
-        if db_connector == None:
+        if db_connector is None:
             self.connector = DBConnector()
         else:
             self.connector = db_connector()
-
+        
         self.connection = self.connector.get_connection()
         self.table_name = table_name
         self.checksum_calculator = ChecksumCalculator()
@@ -81,10 +81,11 @@ class ChecksumManager(TableManager):
                 "Table created: {}".format(self.table_name))
             return True
         except Exception as err:
+            print(err)
             self.logger.log_generic_message(err)
             return False
 
-    def add_element(self, filename):
+    def add_element(self, checksum_tuple):
         """
         Calculates the checksum of file filename and then add the new
         checksum/filename entry to the database. If the table does
@@ -100,9 +101,13 @@ class ChecksumManager(TableManager):
         :type filename: string
         :return: bool -- True if added successfuly. False otherwise.
         """
-        
+        print("HERE") 
         if not self.create_table():
             return False
+        print("AFTER CREATE") 
+        filename = checksum_tuple.filename
+        abspath = checksum_tuple.absolute_filename
+        checksum = checksum_tuple.checksum
 
         if len(filename) > self.filename_field_length:
             return False
@@ -222,6 +227,11 @@ class ChecksumManager(TableManager):
                     
 if __name__ == '__main__':
     c = ChecksumManager()
+    c.delete_table()
+    c.print_table()
+    check_tuple = ChecksumTuple("Filename", "Abs", "Checksum")
+    c.add_element(check_tuple)
+    c.print_table()
     """
     c.print_table()
     
