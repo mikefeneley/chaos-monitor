@@ -1,6 +1,6 @@
-
+import abc
 class TableManager:
-
+    
     """
     Abstract class that defines interface for table managers. Extended
     by RecipientManager and ChecksumManager to manager their respecive
@@ -16,5 +16,26 @@ class TableManager:
     shared interface.
     """
 
-    def __init__(self):
+    __metaclass__ = abc.ABCMeta
+
+    @abc.abstractmethod
+    def table_exists():
+        pass
+    @abc.abstractmethod
+    def create_table(self):
+        pass
+    @abc.abstractmethod
+    def delete_table(self):
+        pass
+    @abc.abstractmethod
+    def add_element(self):
+        pass
+    @abc.abstractmethod
+    def remove_element(self, key):
+        pass
+    @abc.abstractmethod
+    def get_elements(self):
+        pass
+    @abc.abstractmethod
+    def print_table(self):
         pass

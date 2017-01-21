@@ -193,7 +193,6 @@ class MonitorCli:
 def main(args):
     cli = MonitorCli()
 
-
 def cli_entrypoint():
     main(sys.argv[1:])
 

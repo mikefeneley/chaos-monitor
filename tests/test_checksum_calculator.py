@@ -3,14 +3,14 @@ import sys
 import hashlib
 import os
 import math
-#sys.path.append('../src')
 
-from src.checksum_calculator import ChecksumCalculator
+sys.path.append('../src')
+
+from checksum_calculator import ChecksumCalculator
 
 class TestChecksumCalculator(unittest.TestCase):
     
     def setUp(self):
-   
         self.calculator = ChecksumCalculator()
             
         self.empty_file = "EmptyFile.txt"
