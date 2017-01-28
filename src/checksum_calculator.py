@@ -1,6 +1,6 @@
 import os
 import hashlib
-
+from logger import Logger
 
 class ChecksumCalculator:
 
@@ -51,6 +51,7 @@ class ChecksumCalculator:
                 :return: string -- The md5 checksum if successful.
                                    None otherwise.
         """
+        
         if not os.path.isfile(filename):
             return ""
 
