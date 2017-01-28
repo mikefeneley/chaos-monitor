@@ -1,7 +1,5 @@
 from pyftpdlib.handlers import FTPHandler
 from pyftpdlib.servers import FTPServer
-#from pyftpdlib.servers import DummyAuthorizer
-
 import shutil
 import os
 import time
@@ -12,16 +10,8 @@ class MyHandler(FTPHandler):
         print "%s:%s connected" % (self.remote_ip, self.remote_port)
 
     def on_disconnect(self):
-        
-        monitored_files = open('files', 'r')
-        for line in monitored_files:
-            abspath = line.strip("\n")
-            tmp = abspath.split("/")
-            afile = tmp[len(tmp) - 1]
-            os.remove(afile)
-        monitored_files.close()
-        
-        pass 
+        pass        
+
     def on_login(self, username):
         monitored_files = open('files', 'r')
         for line in monitored_files:

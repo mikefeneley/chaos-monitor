@@ -16,7 +16,7 @@ def main(password="password", address="localhost", port=2121):
     # Instantiate FTP handler class
     handler = MyHandler
     handler.authorizer = authorizer
-
+    
     # Define a customized banner (string returned when client connects)
     handler.banner = "pyftpdlib based ftpd ready."
 

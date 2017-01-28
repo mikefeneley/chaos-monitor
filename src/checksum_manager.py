@@ -104,28 +104,31 @@ class ChecksumManager(TableManager):
         print("HERE") 
         if not self.create_table():
             return False
-        print("AFTER CREATE") 
+        print("AFTER CREATE")
+        
+
+        
         filename = checksum_tuple.filename
         abspath = checksum_tuple.absolute_filename
         checksum = checksum_tuple.checksum
 
+        print(filename, abspath, checksum)
+
         if len(filename) > self.filename_field_length:
             return False
-
-        checksum = self.checksum_calculator.calculate_checksum(filename)
-        filepath = self.get_abspath(filename)
 
         if checksum:
             try:
                 cursor = self.connection.cursor()
                 sql = """INSERT INTO %s (
-                filename,checksum,filepath) VALUES ('%s','%s','%s')""" % (self.table_name, filename, checksum, filepath)
+                filename,checksum,filepath) VALUES ('%s','%s','%s')""" % (self.table_name, filename, checksum, abspath)
                 cursor.execute(sql)
                 self.connection.commit()
                 self.logger.log_generic_message(
                     "Pair added: {}({})".format(filename, checksum))
                 return True
             except Exception as err:
+                print(err, "ERR")
                 self.logger.log_generic_message(err)
                 self.connection.rollback()
                 return False
@@ -219,6 +222,7 @@ class ChecksumManager(TableManager):
 
     def print_table(self):
         tuples = self.get_elements()
+        print(tuples)
         for tup in tuples:
             print("Filename: %s AbsoluteFilename: %s Checksum: %s" %(tup.filename, tup.absolute_filename, tup.checksum))
 
