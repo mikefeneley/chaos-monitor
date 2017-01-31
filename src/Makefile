@@ -18,3 +18,6 @@ restart:
 
 print:
 	cat ChaosMonitor.log
+
+drop:
+	mysql -u root --execute="DROP DATABASE INTEGRITY_DB"

@@ -20,7 +20,7 @@ class Comparator:
         
     def load_checksums(self, filename="files"):
         self.logger.log_generic_message("Loading initial checksums")
-        files = []
+        self.files = []
         with open (filename, 'r') as f:
             while 1:
                 afile = f.readline().strip("\n")
@@ -28,12 +28,12 @@ class Comparator:
                     break
                 else:
                     base = self.get_base(afile)
-                    files.append(base)        
-        self.f_manager.get_files(file_list = files)
+                    self.files.append(base)        
+        self.f_manager.get_files(file_list=self.files)
       
         checksum_calculator = ChecksumCalculator()
         
-        for afile in files:
+        for afile in self.files:
             checksum = checksum_calculator.calculate_checksum("./data/" + afile)
             check_tuple = ChecksumTuple(afile, afile, checksum)
         
@@ -43,7 +43,7 @@ class Comparator:
     def compare_checksums(self):
         self.logger.log_generic_message("Starting Checksum Compare") 
         elements = self.checksum_manager.get_elements()
-        self.f_manager.get_files()
+        self.f_manager.get_files(file_list=self.files)
         for check_tuple in elements:
             filename = check_tuple.filename
             old_checksum = check_tuple.checksum

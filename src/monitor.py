@@ -24,7 +24,7 @@ class Monitor(Daemon):
         self.comparator = Comparator()
         self.comparator.load_checksums()
         self.wakeup_time = 5
-        """        
+                        
         self.logger.log_generic_message("Finished daemon setup")
         self.logger.log_generic_message("Daemon Run Start")
         while True:
@@ -32,7 +32,7 @@ class Monitor(Daemon):
             self.comparator.compare_checksums()
             self.logger.log_generic_message("Daemon sleeping")
             time.sleep(self.wakeup_time)
-        """        
+        
     def run(self):
         """
         Main loop of the daemon which does the integrity checking. The program

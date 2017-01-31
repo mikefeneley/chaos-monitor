@@ -1,8 +1,8 @@
 from key_manager import KeyManager
 from ftplib import FTP
+from logger import Logger
 import time
-
-
+import os
 
 class FileManager:
 
@@ -11,7 +11,7 @@ class FileManager:
         self.port = port
         self.username = username
         self.password = password
-
+        self.logger = Logger()
         # This should eventually be used to store password credentials ot prevent 
         # the program from keeping them in memory that is vulnerable to being sniffed
         # using ptrace. Still working on keyring backend...
@@ -33,11 +33,18 @@ class FileManager:
         ftp = FTP()
         ftp.connect(self.address, self.port)
         ftp.login(self.username, self.password)
-
-# Get files and put them in the folder named 'data'
+        
+        # Get files and put them in the folder named 'data'
         for afile in file_list:
             command = "RETR " + afile
-            ftp.retrbinary(command, open("./data/" + afile, 'wb').write)
+            filename = "./data/" + afile
+            try:
+                os.remove(filename)
+                self.logger.log_generic_message("Removed " + filename)
+            except Exception as err:
+                self.logger.log_generic_message(err)
+            
+            ftp.retrbinary(command, open(filename, 'wb').write)
 
 if __name__ == '__main__':
     getter = FileManager()

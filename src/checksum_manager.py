@@ -101,12 +101,8 @@ class ChecksumManager(TableManager):
         :type filename: string
         :return: bool -- True if added successfuly. False otherwise.
         """
-        print("HERE") 
         if not self.create_table():
             return False
-        print("AFTER CREATE")
-        
-
         
         filename = checksum_tuple.filename
         abspath = checksum_tuple.absolute_filename
