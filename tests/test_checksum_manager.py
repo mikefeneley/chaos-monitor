@@ -3,7 +3,7 @@ import sys
 import mysql.connector
 import inspect
 
-sys.path.append('../src')
+sys.path.append('src')
 
 from checksum_manager import ChecksumManager
 from db_connector import DBConnector

@@ -7,10 +7,17 @@ stop:
 	python monitor_cli.py --stop
 
 start:
-	python monitor_cli.py --start
-
+	-rm ChaosMonitor.log
+	-python monitor_cli.py --start
+	-cat ChaosMonitor.log
 status:
 	python monitor_cli.py --status
 
 restart:
 	python monitor_cli.py --restart
+
+print:
+	cat ChaosMonitor.log
+
+drop:
+	mysql -u root --execute="DROP DATABASE INTEGRITY_DB"

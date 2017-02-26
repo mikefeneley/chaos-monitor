@@ -3,9 +3,9 @@ from mysql.connector import errorcode
 from db_connector import DBConnector
 from validate_email import validate_email
 from logger import Logger
+from table_manager import TableManager
 
-
-class RecipientManager:
+class RecipientManager(TableManager):
 
     """
     RecipientManager provides an interface that allows the user to manage
@@ -59,7 +59,7 @@ class RecipientManager:
         self.email_field_length = 254
         self.logger = Logger()
 
-    def create_recipient_table(self):
+    def create_table(self):
         """
         Creates a table if it doesn't exits in database to hold recipients.
 
@@ -71,14 +71,13 @@ class RecipientManager:
             sql = """CREATE TABLE IF NOT EXISTS %s (EMAIL VARCHAR(%d) NOT
             NULL PRIMARY KEY)""" % (self.table_name, self.email_field_length)
             cursor.execute(sql)
-            self.logger.log_generic_message(
-                "Table created: {}".format(self.table_name))
+            self.logger.log_generic_message("Table created: {}".format(self.table_name))
             return True
         except Exception as err:
             self.logger.log_generic_message(err)
             return False
 
-    def delete_recipient_table(self):
+    def delete_table(self):
         """
         Deletes the database table containing all recipient information.
 
@@ -89,8 +88,7 @@ class RecipientManager:
             cursor = self.connection.cursor()
             sql = "DROP TABLE IF EXISTS %s" % self.table_name
             cursor.execute(sql)
-            self.logger.log_generic_message(
-                "Table deleted: {}".format(self.table_name))
+            self.logger.log_generic_message("Table deleted: {}".format(self.table_name))
             return True
         except Exception as err:
             self.logger.log_generic_message(err)
@@ -116,7 +114,7 @@ class RecipientManager:
             self.logger.log_generic_message(err)
             return False
 
-    def add_recipient(self, recipient):
+    def add_element(self, recipient):
         """
         Adds a new recipient to the database of users who recieve an email
         when notifications are sent
@@ -135,7 +133,7 @@ class RecipientManager:
         if len(recipient) > 254:
             return False
         
-        if not self.create_recipient_table():
+        if not self.create_table():
             return False
 
 
@@ -170,7 +168,7 @@ class RecipientManager:
             self.logger.log_generic_message(err)
             return False
 
-    def remove_recipient(self, recipient):
+    def remove_element(self, recipient):
         """
         Removes emails from the list of recipients that matches the
         string 'recipient'
@@ -200,7 +198,7 @@ class RecipientManager:
             self.connector.connection.rollback()
             return False
 
-    def get_recipients(self):
+    def get_elements(self):
         """
         Get a list of emails contained in the recipient list.
 
@@ -225,4 +223,4 @@ class RecipientManager:
 
 if __name__ == '__main__':
     R = RecipientManager()
-    print R.add_recipient('anshul7@vt.edu')
+    print R.add_element('anshul7@vt.edu')

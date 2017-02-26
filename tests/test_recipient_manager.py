@@ -3,8 +3,7 @@ import sys
 import mysql.connector
 import inspect
 
-sys.path.append("../src")
-
+sys.path.append('src')
 
 from recipient_manager import RecipientManager
 from db_connector import DBConnector
@@ -132,13 +131,13 @@ class TestRecipientManager(unittest.TestCase):
             1. Assert that the table initially does not exist.
             2. Use external database connection to create database with 1 field that is called BAD_SCHEMA_FIELD instead of email.
             3. Try adding a recipient a normal email address, user@domain.com
-            4. Assert that the return from add_recipient is false.
+            4. Assert that the return from add_element is false.
         """
         self.assert_table_nonexistant(self.bad_schema_table)
         self.create_table_with_bad_schema(self.bad_schema_table)
         self.assert_table_exists(self.bad_schema_table)
         manager = RecipientManager(self.bad_schema_table, self.db_connector)
-        response = manager.add_recipient(self.valid_email1)
+        response = manager.add_element(self.valid_email1)
         self.assertFalse(response)
         self.delete_table(self.bad_schema_table)
         self.assert_table_nonexistant(self.bad_schema_table)
@@ -149,7 +148,7 @@ class TestRecipientManager(unittest.TestCase):
 
         The defined behavior of the recipient manager requires a new table
         be created for adds if it does not exist. After creating the table,
-        The add_recipient function should return True.
+        The add_element function should return True.
 
         Note: I think we create the email before checking if the email is valid.
               We need to change that to pass this test.
@@ -165,27 +164,27 @@ class TestRecipientManager(unittest.TestCase):
         """
         self.assert_table_nonexistant(self.test_table_name)
         manager = RecipientManager(self.test_table_name,self.db_connector)
-        response = manager.add_recipient(self.valid_email1)
+        response = manager.add_element(self.valid_email1)
         self.assertTrue(response)
-        self.assertTrue(self.valid_email1 in manager.get_recipients())
-        self.assertTrue(manager.delete_recipient_table())
+        self.assertTrue(self.valid_email1 in manager.get_elements())
+        self.assertTrue(manager.delete_table())
         self.assert_table_nonexistant(self.test_table_name)
 
     def test_add_email_with_no_domain(self):
         """
         Add an email without a domain. Example: user.com
 
-        Adding a new recipient with a bad email should cause add_recipient to return False.
+        Adding a new recipient with a bad email should cause add_element to return False.
 
         What To Test:
             1. Assert that the table, TEST_TABLE does not exist.
             2. Use recipient manager to add an email without a domain, user.com
             3. Assert that the table, TEST_TABLE, still does not exist.
-            4. Assert that the call to add_recipient returned false.
+            4. Assert that the call to add_element returned false.
          """
         self.assert_table_nonexistant(self.test_table_name)
         manager = RecipientManager(self.test_table_name,self.db_connector)
-        response = manager.add_recipient(self.email_without_domian)
+        response = manager.add_element(self.email_without_domian)
         self.assert_table_nonexistant(self.test_table_name)
         self.assertFalse(response)
 
@@ -193,17 +192,17 @@ class TestRecipientManager(unittest.TestCase):
         """
         Add an email without a local name. Example: @domain.com
 
-        Adding a new recipient with a bad email should cause add_recipient to return False.
+        Adding a new recipient with a bad email should cause add_element to return False.
 
         What To Test:
             1. Assert that the table, TEST_TABLE does not exist.
             2. Use recipient manager to add an email without a domain, @domain.com
             3. Assert that the table, TEST_TABLE, still does not exist.
-            4. Assert that the call to add_recipient returned false.
+            4. Assert that the call to add_element returned false.
          """
         self.assert_table_nonexistant(self.test_table_name)
         manager = RecipientManager(self.test_table_name,self.db_connector)
-        response = manager.add_recipient(self.email_without_local_name)
+        response = manager.add_element(self.email_without_local_name)
         self.assert_table_nonexistant(self.test_table_name)
         self.assertFalse(response)
 
@@ -211,17 +210,17 @@ class TestRecipientManager(unittest.TestCase):
         """
         Add an email that exceeds the maximum length of 254 characters, Example: 'a' * 400 + "@domain.com"
 
-        Adding a new recipient with a long email should cause add_recipient to return False.
+        Adding a new recipient with a long email should cause add_element to return False.
 
         What To Test:
             1. Assert that the table, TEST_TABLE does not exist.
             2. Use recipient manager to add an email that is too long.
             3. Assert that the table, TEST_TABLE, still does not exist.
-            4. Assert that the call to add_recipient returned false.
+            4. Assert that the call to add_element returned false.
          """
         self.assert_table_nonexistant(self.test_table_name)
         manager = RecipientManager(self.test_table_name,self.db_connector)
-        response = manager.add_recipient(self.long_email)
+        response = manager.add_element(self.long_email)
         self.assert_table_nonexistant(self.test_table_name)
         self.assertFalse(response)
 
@@ -239,11 +238,11 @@ class TestRecipientManager(unittest.TestCase):
             1. Assert that the table, TEST_TABLE does not exist.
             2. Use recipient manager to remove a normal email, user@subdomain.com
             3. Assert that the table, TEST_TABLE, still does not exist.
-            4. Assert that the call to remove_recipient returned false.
+            4. Assert that the call to remove_element returned false.
         """
         self.assert_table_nonexistant(self.test_table_name)
         manager = RecipientManager(self.test_table_name,self.db_connector)
-        response = manager.remove_recipient(self.valid_email1)
+        response = manager.remove_element(self.valid_email1)
         self.assertFalse(response)
         self.assert_table_nonexistant(self.test_table_name)
     
@@ -259,14 +258,14 @@ class TestRecipientManager(unittest.TestCase):
             2. Create the table using recipient_manager.
             2. Use recipient manager to remove a normal email, user@subdomain.com
             3. Assert that the table, TEST_TABLE, still does not exist.
-            4. Assert that the call to remove_recipient returned false.
+            4. Assert that the call to remove_element returned false.
         """
         self.assert_table_nonexistant(self.test_table_name)
         manager = RecipientManager(self.test_table_name,self.db_connector)
-        self.assertTrue(manager.create_recipient_table())
-        response = manager.remove_recipient(self.valid_email1)
+        self.assertTrue(manager.create_table())
+        response = manager.remove_element(self.valid_email1)
         self.assertFalse(response)
-        self.assertTrue(manager.delete_recipient_table())
+        self.assertTrue(manager.delete_table())
         self.assert_table_nonexistant(self.test_table_name)
 
 
@@ -281,9 +280,9 @@ class TestRecipientManager(unittest.TestCase):
             2. Create the table using recipient_manager.
             2. Use recipient manager to add a normal email, user@subdomain.com
             3. Assert that the table, TEST_TABLE, exists.
-            5. Assert that the call to add_recipient() returned true.
+            5. Assert that the call to add_element() returned true.
             6. Assert that the recipient is in the database.
-            7. Use remove_recipient() to remove the email from the database.
+            7. Use remove_element() to remove the email from the database.
             8. Assert that the call to remove_reciepient() returned True.
             9. Assert the the user is no longer in the database.
         """
@@ -309,12 +308,12 @@ class TestRecipientManager(unittest.TestCase):
         """
         Try getting the users from a table that does not exist. 
 
-        Calling get_recipients() when the table has not been created should
+        Calling get_elements() when the table has not been created should
         return an empty list.
 
         What To Test:
             1. Asset that the table, TEST_TABLE does not exist.
-            2. Assert that call to get_recipients() returns an empty list.
+            2. Assert that call to get_elements() returns an empty list.
             3. Assert that the table, TEST_TABLE still does not exist.
         """
         pass
@@ -330,7 +329,7 @@ class TestRecipientManager(unittest.TestCase):
             1. Assert that the table, TEST_TABLE does not exist.
             2. Create the table.
             3. Assert the table exists.
-            4. Assert the the call to get_recipients() returns an empty list.
+            4. Assert the the call to get_elements() returns an empty list.
         """
         pass
 
@@ -345,8 +344,8 @@ class TestRecipientManager(unittest.TestCase):
             1. Assert that the table, TEST_TABLE does not exist.
             2. Create the table.
             3. Assert the table exists.
-            4. Add a user to the table. Assert the call to add_recipient returns True
-            5. Assert the the call to get_recipients() returns a list containing the recipient.
+            4. Add a user to the table. Assert the call to add_element returns True
+            5. Assert the the call to get_elements() returns a list containing the recipient.
         """
         pass
 
@@ -361,10 +360,10 @@ class TestRecipientManager(unittest.TestCase):
             1. Assert that the table, TEST_TABLE does not exist.
             2. Create the table.
             3. Assert the table exists.
-            4. Add a user to the table. Assert the call to add_recipient returns True
-            5. Assert the the call to get_recipients() returns a list containing the recipient.
+            4. Add a user to the table. Assert the call to add_element returns True
+            5. Assert the the call to get_elements() returns a list containing the recipient.
             6. Add another user to the table with a different email. Assert the call to add_recipeint returns True
-            7. Assser that the call to get_recipients() returns a list containing both emails.
+            7. Assser that the call to get_elements() returns a list containing both emails.
         """
         pass
     
@@ -404,7 +403,7 @@ class TestRecipientManager(unittest.TestCase):
         What To Test:
             1. Assert that the table, TEST_TABLE does not exist.
             2. Create the table. Assert that create_table returns True
-            3. Add a user with a normal email to the table. Assert that add_recipient returns True.
+            3. Add a user with a normal email to the table. Assert that add_element returns True.
             4. Assert that the table is in the table.
             5. Delete the table. Assert that delete_table returns True.
         """
