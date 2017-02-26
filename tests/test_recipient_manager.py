@@ -3,8 +3,7 @@ import sys
 import mysql.connector
 import inspect
 
-sys.path.append("../src")
-
+sys.path.append('src')
 
 from recipient_manager import RecipientManager
 from db_connector import DBConnector
